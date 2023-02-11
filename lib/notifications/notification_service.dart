@@ -3,6 +3,7 @@
 import 'dart:developer';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_lucid_bell/bell/bell_logic.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -38,6 +39,25 @@ class CustomNotificationService {
               UILocalNotificationDateInterpretation.absoluteTime);
     } catch (e) {
       log(e.toString());
+    }
+  }
+
+  Future<void> cancelNotifications() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
+  }
+
+  Stream<Bell> bellListener(Bell bell) async* {
+    print(
+        'started listed inner bell {$bell.hashcode},\n now : {$bell.running}');
+    //create shall copy
+    Bell innerBell = Bell.clone(bell);
+    while (true) {
+      await Future.delayed(const Duration(seconds: 1));
+      if (innerBell != bell) {
+        Bell innerBell = Bell.clone(bell);
+
+        yield innerBell;
+      }
     }
   }
 }

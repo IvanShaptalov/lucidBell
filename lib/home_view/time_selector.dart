@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/bell/bell_logic.dart';
+import 'package:flutter_lucid_bell/main.dart';
 
 // ignore: must_be_immutable
 class TimeSelector extends StatefulWidget {
@@ -24,6 +25,8 @@ class _TimeSelectorState extends State<TimeSelector> {
               setState(() {
                 widget.callback();
                 widget.bell.switchStartEveryHour(value);
+                InitServices.notificationStack.clear();
+                InitServices.notificationService.cancelNotifications();
               });
             })),
       ],

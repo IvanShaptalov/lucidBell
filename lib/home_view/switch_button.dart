@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/bell/bell_logic.dart';
+import 'package:flutter_lucid_bell/main.dart';
 
+// ignore: must_be_immutable
 class SwitchBell extends StatefulWidget {
   Bell bell;
   Function callback;
@@ -23,6 +25,8 @@ class _SwitchBellState extends State<SwitchBell> {
               setState(() {
                 widget.callback();
                 widget.bell.switchRun(value);
+                InitServices.notificationStack.clear();
+                InitServices.notificationService.cancelNotifications();
               });
             })),
       ],
