@@ -3,6 +3,7 @@
 import 'dart:developer';
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_lucid_bell/bell/bell_logic.dart';
 import 'package:flutter_lucid_bell/main.dart';
@@ -26,7 +27,7 @@ class CustomNotificationService {
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
-  Future<void> scheduleNotifications({id, title, body, time}) async {
+  Future<bool> scheduleNotifications({id, title, body, time}) async {
     try {
       await flutterLocalNotificationsPlugin.zonedSchedule(
           id,
@@ -40,9 +41,11 @@ class CustomNotificationService {
           androidAllowWhileIdle: true,
           uiLocalNotificationDateInterpretation:
               UILocalNotificationDateInterpretation.absoluteTime);
+      return true; //notification delivered
     } catch (e) {
       // ignore: avoid_print
       print(e);
+      return false; // error
     }
   }
 
@@ -65,14 +68,18 @@ class CustomNotificationService {
     }
   }
 
-  void clearNotifications({bool onlyStack = false}) {
-    if (!onlyStack) {
-      cancelNotifications();
-    }
+  void clearNotifications() async {
+    await cancelNotifications();
     notificationStack.clear();
   }
 
-  void circleNotification(Bell innerBell, Function nextBellCallback) {
+  Future<bool> isNotificationsShowed() async {
+    return (await flutterLocalNotificationsPlugin.pendingNotificationRequests())
+        .isEmpty;
+  }
+
+  void circleNotification(Bell innerBell, Function nextBellCallback) async {
+    assert(notificationStack.length <= 1);  // notification stack always contain one or not contains notifications;
     // NOTIFICATION SCHEDULING LOGIC HERE
     if (innerBell.running) {
       // SERVICE STARTED
@@ -84,15 +91,21 @@ class CustomNotificationService {
       } else {
         dt = DateTime.now().add(innerBell.interval);
       }
-
+      print(notificationStack.length);
+      print(notificationStack);
+      print(
+          (await flutterLocalNotificationsPlugin.pendingNotificationRequests())
+              .length);
       // ADD SCHEDULE TO NOTIFICATION STACK
       if (notificationStack.isEmpty) {
-        scheduleNotifications(
+        bool success = await scheduleNotifications(
             title: 'notification',
             time: dt,
             body: 'some text',
             id: Random().nextInt(1000000));
-        notificationStack.add(dt);
+        if (success) {
+          notificationStack.add(dt);  // add notification to stack if scheduled
+        }
         print('next bell on $dt');
         nextBellCallback('next bell on $dt');
       }
@@ -100,9 +113,9 @@ class CustomNotificationService {
       else {
         var notificationDate = notificationStack.first;
         // CLEAR NOTIFICATIONS STACK
-        if (DateTime.now().isAfter(notificationDate)) {
+        if (DateTime.now().isAfter(notificationDate.add(Duration(seconds: 15)))) {
           print('***************notification played');
-          notificationStack.clear();
+          clearNotifications();
         }
       }
     } else {

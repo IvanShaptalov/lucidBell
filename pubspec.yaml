@@ -18,6 +18,7 @@ dependencies:
   package_info_plus: ^3.0.3
   syncfusion_flutter_sliders: ^20.4.49
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

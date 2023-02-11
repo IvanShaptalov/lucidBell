@@ -33,7 +33,7 @@ class _SliderIntervalSelectorState extends State<SliderIntervalSelector> {
                       // update notifications
 
                       InitServices.notificationService
-                          .clearNotifications(onlyStack: true);
+                          .clearNotifications();
                     });
                   }),
             ],
