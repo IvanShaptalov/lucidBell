@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'home_view/home_screen.dart';
 
+// ignore: must_be_immutable
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  HomeScreen homeScreen =  HomeScreen(title: 'Lucid Bell Simplest');
 
   // This widget is the root of your application.
   @override
@@ -13,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomeScreen(title: 'Lucid Bell Simplest'),
+      home: homeScreen,
     );
   }
 }

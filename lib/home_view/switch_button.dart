@@ -25,8 +25,7 @@ class _SwitchBellState extends State<SwitchBell> {
               setState(() {
                 widget.callback();
                 widget.bell.switchRun(value);
-                InitServices.notificationStack.clear();
-                InitServices.notificationService.cancelNotifications();
+                InitServices.notificationService.clearNotifications();
               });
             })),
       ],

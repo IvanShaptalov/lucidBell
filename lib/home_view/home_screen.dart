@@ -5,15 +5,28 @@ import 'package:flutter_lucid_bell/home_view/time_selector.dart';
 import 'package:flutter_lucid_bell/main.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.title});
+  HomeScreen({super.key, required this.title});
 
   final String title;
 
+  var homeScreenState = _HomeScreenState();
+
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  // ignore: no_logic_in_create_state
+  State<HomeScreen> createState() => homeScreenState;
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String _nextBellString = '1';
+  String nextBellCallback(String newInfo) {
+    // callback to update nextBell info
+
+    setState(() {
+      _nextBellString = newInfo;
+    });
+    return newInfo;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,6 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            InitServices.bell.running
+                ? Text(_nextBellString)
+                : const SizedBox.shrink(),
             // show TimeSelector if bell is running
             InitServices.bell.running
                 ? TimeSelector(
@@ -33,8 +49,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 : const SizedBox.shrink(),
             SwitchBell(bell: InitServices.bell, callback: callback),
             SliderIntervalSelector(bell: InitServices.bell),
-
-            
           ],
         ),
       ),

@@ -25,8 +25,7 @@ class _TimeSelectorState extends State<TimeSelector> {
               setState(() {
                 widget.callback();
                 widget.bell.switchStartEveryHour(value);
-                InitServices.notificationStack.clear();
-                InitServices.notificationService.cancelNotifications();
+                InitServices.notificationService.clearNotifications();
               });
             })),
       ],
