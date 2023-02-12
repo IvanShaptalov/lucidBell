@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart';
 import 'package:flutter_lucid_bell/bell/bell_logic.dart';
+import 'package:flutter_lucid_bell/main.dart';
 import 'package:flutter_test/flutter_test.dart';
 // ignore: depend_on_referenced_packages
 
@@ -19,6 +20,16 @@ void main() {
       await LocalPathProvider.init();
       expect(await File(LocalPathProvider.cashLocalPath!).exists(), true);
     });
+
+     test('bell initialized', () async {
+      // test check that music real loading from path, expect string
+      await InitServices.initCashThenBell();
+      expect(await File(LocalPathProvider.cashLocalPath!).exists(), true);
+      expect(InitServices.bell is Bell, true);
+
+    });
+
+    
 
     test('test bell serialize', () async {
       // test check that music real loading from path, expect string

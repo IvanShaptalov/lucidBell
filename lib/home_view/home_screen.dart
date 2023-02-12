@@ -37,18 +37,18 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            InitServices.bell.running
+            InitServices.bell!.running
                 ? Text(_nextBellString)
                 : const SizedBox.shrink(),
             // show TimeSelector if bell is running
-            InitServices.bell.running
+            InitServices.bell!.running
                 ? TimeSelector(
-                    bell: InitServices.bell,
+                    bell: InitServices.bell!,
                     callback: callback,
                   )
                 : const SizedBox.shrink(),
-            SwitchBell(bell: InitServices.bell, callback: callback),
-            SliderIntervalSelector(bell: InitServices.bell),
+            SwitchBell(bell: InitServices.bell!, callback: callback),
+            SliderIntervalSelector(bell: InitServices.bell!),
           ],
         ),
       ),
