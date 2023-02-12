@@ -5,6 +5,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart';
 import 'package:flutter_lucid_bell/bell/bell_logic.dart';
 import 'package:flutter_lucid_bell/main.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -50,27 +51,38 @@ class CustomNotificationService {
   }
 
   Future<void> cancelNotifications() async {
-    await flutterLocalNotificationsPlugin.cancelAll();
+    if ((await flutterLocalNotificationsPlugin.pendingNotificationRequests())
+        .isNotEmpty) {
+      await flutterLocalNotificationsPlugin.cancelAll();
+      print('Notifications cleared!');
+    }
   }
 
   Stream<Bell> bellListener(Bell bell) async* {
     print(
         'started listed inner bell {$bell.hashcode},\n now : {$bell.running}');
     //create shall copy
-    Bell innerBell = Bell.clone(bell);
+    Bell innerBell = Bell(
+        interval: Duration(days: 1), running: false, startEveryHour: false);
     while (true) {
       await Future.delayed(const Duration(seconds: 1));
       if (innerBell != bell) {
+        // UPDATE AND SAVE BELL
         Bell innerBell = Bell.clone(bell);
 
+        LocalPathProvider.saveBell(bell.toJson());
         yield innerBell;
       }
     }
   }
 
   void clearNotifications() async {
+    if (notificationStack.isNotEmpty) {
+      notificationStack.clear();
+      print('stack created');
+    }
+
     await cancelNotifications();
-    notificationStack.clear();
   }
 
   Future<bool> isNotificationsShowed() async {
@@ -79,7 +91,8 @@ class CustomNotificationService {
   }
 
   void circleNotification(Bell innerBell, Function nextBellCallback) async {
-    assert(notificationStack.length <= 1);  // notification stack always contain one or not contains notifications;
+    assert(notificationStack.length <=
+        1); // notification stack always contain one or not contains notifications;
     // NOTIFICATION SCHEDULING LOGIC HERE
     if (innerBell.running) {
       // SERVICE STARTED
@@ -104,7 +117,7 @@ class CustomNotificationService {
             body: 'some text',
             id: Random().nextInt(1000000));
         if (success) {
-          notificationStack.add(dt);  // add notification to stack if scheduled
+          notificationStack.add(dt); // add notification to stack if scheduled
         }
         print('next bell on $dt');
         nextBellCallback('next bell on $dt');
@@ -113,7 +126,8 @@ class CustomNotificationService {
       else {
         var notificationDate = notificationStack.first;
         // CLEAR NOTIFICATIONS STACK
-        if (DateTime.now().isAfter(notificationDate.add(Duration(seconds: 15)))) {
+        if (DateTime.now()
+            .isAfter(notificationDate.add(Duration(seconds: 15)))) {
           print('***************notification played');
           clearNotifications();
         }

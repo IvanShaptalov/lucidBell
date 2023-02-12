@@ -23,7 +23,7 @@ void main() {
 
      test('bell initialized', () async {
       // test check that music real loading from path, expect string
-      await InitServices.initCashThenBell();
+      await InitServices.initCash();
       expect(await File(LocalPathProvider.cashLocalPath!).exists(), true);
       expect(InitServices.bell is Bell, true);
 

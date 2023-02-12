@@ -7,27 +7,22 @@ import 'package:flutter_lucid_bell/notifications/notification_service.dart';
 
 import 'app.dart';
 
-///Use awaitinitCashThenBell] then await[init] to correct work
 class InitServices {
   static CustomNotificationService notificationService =
       CustomNotificationService();
-  static Bell? bell;
+  static Bell bell = Bell(
+      running: false,
+      interval: const Duration(minutes: 5),
+      startEveryHour: false);
 
-  static Future<Bell> initCashThenBell() async {
+  static Future<void> initCash() async {
     /// INIT BELL FIRST
     await LocalPathProvider.init();
     print('local path initialized');
+  }
 
-    bell = await Bell.loadLocalSettings();
-
-    bell ??= Bell(
-        running: false,
-        interval: const Duration(minutes: 5),
-        startEveryHour: false);
-
-    // save bell to json
-    assert(await LocalPathProvider.saveBell(bell!.toJson()), true);
-    return bell!;
+  static Future<Bell?> tryLoadBellFromFiles() async {
+    return await Bell.loadLocalSettings();
   }
 
   static StreamSubscription? bellListenerSub;
@@ -36,11 +31,25 @@ class InitServices {
     //LOAD BELL FIRST
     await notificationService.init();
     print('notification initialized');
-    bellListenerSub = notificationService.bellListener(bell!).listen((event) {
+    bellListenerSub = notificationService.bellListener(bell).listen((event) {
       notificationService.circleNotification(
-          bell!, app.homeScreen.homeScreenState.nextBellCallback);
+          bell, app.homeScreen.homeScreenState.nextBellCallback);
     });
+    notificationService.clearNotifications();
+    var cashedBell = await Bell.loadLocalSettings();
+    
+    updateBellManually(cashedBell);
     return true;
+  }
+
+  static void updateBellManually(Bell? newBell) {
+    if (newBell != null) {
+      bell.interval = newBell.interval;
+      bell.running = newBell.running;
+      bell.startEveryHour = newBell.startEveryHour;
+      print('bell updated');
+    }
+    print('bell NOT UPDATED');
   }
 }
 
@@ -48,7 +57,7 @@ void main() async {
   // load widgets firstry
   WidgetsFlutterBinding.ensureInitialized();
 
-  await InitServices.initCashThenBell();
+  await InitServices.initCash();
   var myApp = MyApp();
   // init services
   print('************************************start init');
