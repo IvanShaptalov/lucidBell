@@ -5,6 +5,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_lucid_bell/background_processes/background_processes.dart';
 import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart';
 import 'package:flutter_lucid_bell/bell/bell_logic.dart';
 import 'package:flutter_lucid_bell/main.dart';
@@ -63,7 +64,7 @@ class CustomNotificationService {
         'started listed inner bell {$bell.hashcode},\n now : {$bell.running}');
     //create shall copy
     Bell innerBell = Bell(
-        interval: Duration(days: 1), running: false, startEveryHour: false);
+        interval: const Duration(days: 1), running: false, startEveryHour: false);
     while (true) {
       await Future.delayed(const Duration(seconds: 1));
       if (innerBell != bell) {
@@ -95,6 +96,7 @@ class CustomNotificationService {
         1); // notification stack always contain one or not contains notifications;
     // NOTIFICATION SCHEDULING LOGIC HERE
     if (innerBell.running) {
+      
       // SERVICE STARTED
       DateTime dt;
       if (innerBell.startEveryHour) {

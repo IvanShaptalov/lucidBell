@@ -1,12 +1,11 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart';
 
 class Bell {
   bool running;
   Duration interval; // duration in minutes
-  double intervalLowerBound = 1;
+  double intervalLowerBound = 15;
   double intervalUpperBound = 180;
   bool startEveryHour;
   Duration? nextBellOn;
@@ -28,7 +27,7 @@ class Bell {
     int minutesLeft = bellInterval.inMinutes - (totalHours * 60);
 
     if (totalHours == 0) {
-      return '$minutesLeft Minute';
+      return '$minutesLeft Minutes';
     } else if (minutesLeft == 0) {
       return '$totalHours Hours';
     } else {

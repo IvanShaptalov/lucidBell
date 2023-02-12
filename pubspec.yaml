@@ -17,6 +17,7 @@ dependencies:
   path_provider: ^2.0.12
   package_info_plus: ^3.0.3
   syncfusion_flutter_sliders: ^20.4.49
+  workmanager: ^0.5.1
 
 
 dev_dependencies:
