@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 // ignore: depend_on_referenced_packages
 import 'package:flutter/foundation.dart';
@@ -12,7 +13,7 @@ class LocalPathProvider {
   static String?
       cashLocalPath; // use createAppDirAsync to set cashLocalPath to string path
 
-  static Future<void> init() async {
+  static Future<bool> init() async {
     Directory appDir = await getApplicationSupportDirectory();
 
     appDocPath = await _createAppDir(appDir.path).then((dir) => dir.path);
@@ -23,6 +24,8 @@ class LocalPathProvider {
     if (kDebugMode) {
       print(' localpath: ${LocalPathProvider.appDocPath}');
     }
+
+    return true;
     
   }
 
@@ -37,14 +40,24 @@ class LocalPathProvider {
     return !await dir.exists();
   }
 
-  static Future<bool> saveDirPath(String path) async { 
+  static Future<String?> getBellJson() async{
+    assert(cashLocalPath != null);
+    var file = File(cashLocalPath!);
+    if (await file.exists()){
+      return await file.readAsString();
+    }
+    return null;
+  }
+
+  static Future<bool> saveBell(String jsonBell) async { 
+
     //create cash file if not exists
     await _createCashLocal();
     assert(cashLocalPath is String);
     // ensure that file exists
     var file = File(cashLocalPath!);
     if (await file.exists()) {
-      await file.writeAsString(path);
+      await file.writeAsString(jsonBell);
       // file saved
       return true;
     }

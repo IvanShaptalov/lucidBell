@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/background_processes/background_processes.dart';
 import 'package:flutter_lucid_bell/bell/bell_logic.dart';
-import 'package:flutter_lucid_bell/bell/local_path_provider.dart';
+import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart';
 import 'package:flutter_lucid_bell/home_view/home_screen.dart';
 import 'package:flutter_lucid_bell/notifications/notification_service.dart';
 

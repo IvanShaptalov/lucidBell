@@ -1,3 +1,8 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart';
+
 class Bell {
   bool running;
   Duration interval; // duration in minutes
@@ -5,6 +10,18 @@ class Bell {
   double intervalUpperBound = 180;
   bool startEveryHour;
   Duration? nextBellOn;
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return "${super.toString()} $interval $startEveryHour ${nextBellOn.toString()}";
+  }
+
+  @override
+  bool operator ==(other) => other is Bell && toString() == other.toString();
+
+  @override
+  int get hashCode => toString().hashCode;
 
   String convertFromMinutesToH(Duration bellInterval) {
     int totalHours = bellInterval.inHours;
@@ -41,8 +58,35 @@ class Bell {
         startEveryHour: source.startEveryHour);
   }
 
-  // Bell loadLocalSettings() async {
-  //   return
-  // }
+  factory Bell.fromJson(String json) {
+    Map<String, dynamic> map = jsonDecode(json);
+    return Bell(
+        running: map['running'],
+        interval: Duration(seconds: map['interval']),
+        startEveryHour: map['startEveryHour']);
+  }
 
+  String toJson() {
+    Map<String, dynamic> map = <String, dynamic>{
+      'running': running,
+      'interval': interval.inSeconds,
+      'startEveryHour': startEveryHour
+    };
+    return jsonEncode(map);
+  }
+
+  static Future<Bell?> loadLocalSettings() async {
+    try {
+      Bell bell;
+      var jsonBell = await LocalPathProvider.getBellJson();
+      if (jsonBell is String) {
+        bell = Bell.fromJson(jsonBell);
+        return bell;
+      }
+      return null; // return null if bell not exists
+    } catch (e) {
+      print(e);
+      return null; //same
+    }
+  }
 }
