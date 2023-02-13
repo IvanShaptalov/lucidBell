@@ -16,22 +16,19 @@ class BackgroundWorker {
     log('started');
     try {
       Bell? bell;
+      log('try to load bell');
       var bellJson = await LocalPathProvider.getBellJson();
       if (bellJson != null) {
         bell = Bell.fromJson(bellJson);
       }
+      
 
-      if (bell != null && bell.running == false) {
-        bgManager.executeTask((task, inputData) async {
-          bool success = await InitServices.notificationService
-              .scheduleNotifications(
-                  title: 'notification background',
-                  time: DateTime.now().add(Duration(seconds: 10)),
-                  body: 'some text',
-                  id: math.Random().nextInt(1000000));
-          return Future.value(true);
-        });
-      }
+      // if (bell != null && bell.running == false) {
+      //   bgManager.executeTask((task, inputData) async {
+      //     InitServices.notificationService.scheduleNotifications(bell!.interval);
+      //     return Future.value(true);
+      //   });
+      // }
     } catch (e) {
       log(e.toString());
     }

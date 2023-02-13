@@ -13,11 +13,11 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  flutter_local_notifications: ^13.0.0
   path_provider: ^2.0.12
   package_info_plus: ^3.0.3
   syncfusion_flutter_sliders: ^20.4.49
   workmanager: ^0.5.1
+  assets_audio_player: ^3.0.6
 
 
 dev_dependencies:
