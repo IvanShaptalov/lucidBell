@@ -29,7 +29,7 @@ void main() {
       // ignore: unnecessary_null_comparison
       expect(InitServices.notificationService != null, true);
       // ignore: unnecessary_null_comparison
-      expect(InitServices.notificationService.notificationStack != null, true);
+      expect(InitServices.bell.notificationStack!= null, true);
     });
 
     testWidgets('initialization listener', (tester) async {

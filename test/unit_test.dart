@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart';
 import 'package:flutter_lucid_bell/bell/bell_logic.dart';
+import 'package:flutter_lucid_bell/main.dart';
 import 'package:flutter_test/flutter_test.dart';
 // ignore: depend_on_referenced_packages
 
@@ -22,10 +23,7 @@ void main() {
 
     test('test bell serialize', () async {
       // test check that music real loading from path, expect string
-      Bell bell = Bell(
-          running: true,
-          interval: const Duration(hours: 1),
-          startEveryHour: false);
+      Bell bell = InitServices.mockBell();
 
       var jsonBell = bell.toJson();
 
@@ -43,10 +41,7 @@ void main() {
     test('test bell saving in file', () async {
       await LocalPathProvider.init();
       // test check that music real loading from path, expect string
-      Bell bell = Bell(
-          running: true,
-          interval: const Duration(hours: 1),
-          startEveryHour: false);
+      Bell bell = InitServices.mockBell();
 
       var jsonBell = bell.toJson();
 

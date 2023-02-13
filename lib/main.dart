@@ -13,7 +13,7 @@ class InitServices {
       CustomNotificationService();
 
   static Bell bell = mockBell();
-  static Bell mockBell() => Bell(running: false,interval: const Duration(minutes: 1),startEveryHour: false);
+  static Bell mockBell() => Bell(running: false,interval: const Duration(minutes: 1),startEveryHour: false, notificationStack: []);
 
   static var myApp = MyApp();
 
@@ -37,7 +37,7 @@ class InitServices {
       notificationService.circleNotification(
           bell, myApp.homeScreen.homeScreenState.nextBellCallback);
     });
-    notificationService.clearNotifications();
+    // notification clearing here
   }
 
 }

@@ -34,8 +34,7 @@ class _SliderIntervalSelectorState extends State<SliderIntervalSelector> {
                       widget.bell.interval = Duration(minutes: value.round());
                       // update notifications
 
-                      InitServices.notificationService
-                          .clearNotifications();
+                      InitServices.bell.clearNotifications();
                     });
                   }),
             ],

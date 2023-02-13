@@ -8,10 +8,18 @@ class Bell {
   double intervalLowerBound = 1;
   double intervalUpperBound = 180;
   bool startEveryHour;
+  List notificationStack = [];
+
+  void clearNotifications() async {
+    if (notificationStack.isNotEmpty) {
+      notificationStack.clear();
+    }
+    //todo change notification flag
+  }
 
   @override
   String toString() {
-    return "${super.toString()} $interval $startEveryHour $running";
+    return "${super.toString()} $interval $startEveryHour $running $notificationStack";
   }
 
   @override
@@ -46,28 +54,32 @@ class Bell {
   Bell(
       {required this.running,
       required this.interval,
-      required this.startEveryHour});
+      required this.startEveryHour,
+      required this.notificationStack});
 
   factory Bell.clone(Bell source) {
     return Bell(
         running: source.running,
         interval: source.interval,
-        startEveryHour: source.startEveryHour);
+        startEveryHour: source.startEveryHour,
+        notificationStack: source.notificationStack);
   }
 
-  factory Bell.fromJson(String json) {
-    Map<String, dynamic> map = jsonDecode(json);
+  factory Bell.fromJson(String jsonString) {
+    Map<String, dynamic> map = jsonDecode(jsonString);
     return Bell(
         running: map['running'],
         interval: Duration(seconds: map['interval']),
-        startEveryHour: map['startEveryHour']);
+        startEveryHour: map['startEveryHour'],
+        notificationStack: map['notificationStack'].map((jsonDatetime) {return DateTime.parse(jsonDatetime);}).toList());
   }
 
   String toJson() {
     Map<String, dynamic> map = <String, dynamic>{
       'running': running,
       'interval': interval.inSeconds,
-      'startEveryHour': startEveryHour
+      'startEveryHour': startEveryHour,
+      'notificationStack': notificationStack.map((datetime) {return datetime.toString();}).toList(),
     };
     return jsonEncode(map);
   }
