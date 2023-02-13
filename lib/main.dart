@@ -21,7 +21,6 @@ class InitServices {
   static Future<bool> init() async {
     await LocalPathProvider.init();
     print('local path initialized');
-    //LOAD BELL FIRST
     await notificationService.init();
     print('notification initialized');
     print('bell registered');
@@ -33,7 +32,7 @@ class InitServices {
   }
 
   static void registerBellListener() {
-    bellListenerSub = notificationService.bellListener(bell).listen((event) {
+    bellListenerSub = notificationService.bellListener().listen((event) {
       notificationService.circleNotification(
           bell, myApp.homeScreen.homeScreenState.nextBellCallback);
     });

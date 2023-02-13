@@ -1,33 +1,49 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'dart:math';
+
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart';
 import 'package:flutter_lucid_bell/bell/bell_logic.dart';
 import 'package:flutter_lucid_bell/config.dart';
+import 'package:flutter_lucid_bell/main.dart';
 
 class CustomNotificationService {
   List<DateTime> notificationStack = [];
-
+  int currentId = 0;
+  Random rand = Random();
   Future<void> init() async {
     //Initialization Settings for Android
   }
-
-  void scheduleNotifications(Duration delayDuration) async {
+  //id to identify new notification
+  void scheduleNotifications(Duration delayDuration, int id) async {
     try {
+      // chack that notification is not changed, if changed: ignore;
+      print("$currentId");
+      currentId = id;
+      print('current id $currentId id $id');
+
       print('delayed to $delayDuration');
-      Future.delayed(delayDuration).then((value) async=> await NotificationPlayer.playSound());
-      
+      Future.delayed(delayDuration).then((value) async {
+        if (currentId == id) {
+          print('play');
+          return await NotificationPlayer.playSound();
+        }
+        else{
+          print('different ids ignore it');
+        }
+      });
+
       print('delayed and played');
-      
     } catch (e) {
       // ignore: avoid_print
       print(e);
     }
   }
 
-  Stream<Bell> bellListener(Bell bell) async* {
+  Stream<Bell> bellListener() async* {
     print(
-        'started listed inner bell {$bell.hashcode},\n now : {$bell.running}');
+        'started listed inner bell {$InitServices.bell.hashcode},\n now : {$InitServices.bell.running}');
     //create shall copy
     Bell innerBell = Bell(
         interval: const Duration(days: 1),
@@ -35,20 +51,21 @@ class CustomNotificationService {
         startEveryHour: false);
     while (true) {
       await Future.delayed(const Duration(seconds: 1));
-      if (innerBell != bell) {
+      if (innerBell != InitServices.bell) {
         // UPDATE AND SAVE BELL
-        Bell innerBell = Bell.clone(bell);
-
-        LocalPathProvider.saveBell(bell.toJson());
+        innerBell = Bell.clone(InitServices.bell);
+        await LocalPathProvider.saveBell(innerBell.toJson());
+        print('bell saved ${innerBell.toJson()}');
         yield innerBell;
       }
     }
   }
 
   void clearNotifications() async {
-    if(notificationStack.isNotEmpty){
+    if (notificationStack.isNotEmpty) {
       notificationStack.clear();
     }
+    //todo change notification flag
   }
 
   Future<bool> isNotificationsShowed() async {
@@ -73,9 +90,9 @@ class CustomNotificationService {
       print(notificationStack.length);
       print(notificationStack);
       dt = DateTime.now().add(duration);
-      // ADD SCHEDULE TO NOTIFICATION STACK
+      // ADD SCHEDULE TO NOTIFICATION STACK and uniq id to notification
       if (notificationStack.isEmpty) {
-        scheduleNotifications(duration);
+        scheduleNotifications(duration, rand.nextInt(1000000));
         notificationStack.add(dt); // add notification to stack if scheduled
         print('next bell on $dt');
         nextBellCallback('next bell on $dt');
@@ -98,8 +115,10 @@ class CustomNotificationService {
 
 class NotificationPlayer {
   static final assetsAudioPlayer = AssetsAudioPlayer();
+  static Audio audio = Audio(Config.bellPath);
 
-  static Future<void> playSound() async{
-    await assetsAudioPlayer.open(Audio(Config.bellPath));
+  static Future<void> playSound() async {
+    await assetsAudioPlayer.open(audio);
+    print('played****************************************8');
   }
 }

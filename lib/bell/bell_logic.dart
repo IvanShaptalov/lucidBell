@@ -8,12 +8,10 @@ class Bell {
   double intervalLowerBound = 1;
   double intervalUpperBound = 180;
   bool startEveryHour;
-  Duration? nextBellOn;
 
   @override
   String toString() {
-    // TODO: implement toString
-    return "${super.toString()} $interval $startEveryHour ${nextBellOn.toString()}";
+    return "${super.toString()} $interval $startEveryHour $running";
   }
 
   @override
