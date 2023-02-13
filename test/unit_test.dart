@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter_lucid_bell/background_processes/background_processes.dart';
 import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart';
 import 'package:flutter_lucid_bell/bell/bell_logic.dart';
 import 'package:flutter_lucid_bell/main.dart';
@@ -20,7 +21,6 @@ void main() {
       await LocalPathProvider.init();
       expect(await File(LocalPathProvider.cashLocalPath!).exists(), true);
     });
-   
 
     test('test bell serialize', () async {
       // test check that music real loading from path, expect string
@@ -41,7 +41,6 @@ void main() {
     });
 
     test('test bell saving in file', () async {
-
       await LocalPathProvider.init();
       // test check that music real loading from path, expect string
       Bell bell = Bell(
@@ -58,7 +57,6 @@ void main() {
       Bell newBell = (await Bell.loadLocalSettings())!;
       // ignore: unnecessary_null_comparison
       expect(newBell != null, true);
-
 
       //CHECK IDENTITY
       expect(bell.interval.compareTo(newBell.interval), 0);

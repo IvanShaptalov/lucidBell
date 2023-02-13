@@ -25,11 +25,14 @@ class CustomNotificationService {
 
       print('delayed to $delayDuration');
       Future.delayed(delayDuration).then((value) async {
-        if (currentId == id) {
+        if (currentId == id && InitServices.bell.running) {
           print('play');
+
+          // Clear notification stack
+          notificationStack.clear();
           return await NotificationPlayer.playSound();
-        }
-        else{
+
+        } else {
           print('different ids ignore it');
         }
       });
@@ -58,6 +61,12 @@ class CustomNotificationService {
         print('bell saved ${innerBell.toJson()}');
         yield innerBell;
       }
+      // YIELD IF NOTIFICATION STACK IS EMPTY
+      if (InitServices.notificationService.notificationStack.isEmpty){
+        await LocalPathProvider.saveBell(innerBell.toJson());
+        print('bell saved ${innerBell.toJson()}');
+        yield innerBell;
+      }
     }
   }
 
@@ -72,40 +81,48 @@ class CustomNotificationService {
     return Future.value(true);
   }
 
+  /// select corresponding to start on every hour or using interval
+  Duration _selectIntervalModeDuration(Bell innerBell) {
+    Duration duration;
+    if (innerBell.startEveryHour) {
+      // IF START ON EVERY HOUR: ADD new schedule
+      int minutesToAdd = 60 - DateTime.now().minute;
+      duration = Duration(minutes: minutesToAdd);
+    } else {
+      duration = innerBell.interval;
+    }
+
+    return duration;
+  }
+
+  DateTime _convertDurationToDatetime(Duration duration) {
+    return DateTime.now().add(duration);
+  }
+
   void circleNotification(Bell innerBell, Function nextBellCallback) async {
+    // NOTIFICATION STACK ALWAYS CONTAIN ONE OR NOT CONTAINS NOTIFICATIONS;
     assert(notificationStack.length <=
-        1); // notification stack always contain one or not contains notifications;
+        1); 
     // NOTIFICATION SCHEDULING LOGIC HERE
     if (innerBell.running) {
       // SERVICE STARTED
-      Duration duration;
-      DateTime dt;
-      if (innerBell.startEveryHour) {
-        // IF START ON EVERY HOUR: ADD new schedule
-        int minutesToAdd = 60 - DateTime.now().minute;
-        duration = Duration(minutes: minutesToAdd);
-      } else {
-        duration = innerBell.interval;
-      }
-      print(notificationStack.length);
-      print(notificationStack);
-      dt = DateTime.now().add(duration);
+      Duration duration = _selectIntervalModeDuration(innerBell);
+      DateTime dt = _convertDurationToDatetime(duration);
+
+      print('try add notification');
       // ADD SCHEDULE TO NOTIFICATION STACK and uniq id to notification
       if (notificationStack.isEmpty) {
         scheduleNotifications(duration, rand.nextInt(1000000));
         notificationStack.add(dt); // add notification to stack if scheduled
         print('next bell on $dt');
+        // SET NEXTBELL ON TEXT
         nextBellCallback('next bell on $dt');
       }
       // IF SCHEDULE ALREADY EXIST DELETE IT WHEN TIME COME
       else {
-        var notificationDate = notificationStack.first;
         // CLEAR NOTIFICATIONS STACK
-        if (DateTime.now()
-            .isAfter(notificationDate.add(Duration(seconds: 15)))) {
-          print('***************notification played');
-          clearNotifications();
-        }
+        print('***************notification played');
+        clearNotifications();
       }
     } else {
       clearNotifications();
