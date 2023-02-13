@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'dart:developer';
 import 'dart:math' as math;
 
@@ -23,12 +25,12 @@ class BackgroundWorker {
       }
       
 
-      // if (bell != null && bell.running == false) {
-      //   bgManager.executeTask((task, inputData) async {
-      //     InitServices.notificationService.scheduleNotifications(bell!.interval);
-      //     return Future.value(true);
-      //   });
-      // }
+      if (bell != null && bell.running == false) {
+        bgManager.executeTask((task, inputData) async {
+          InitServices.notificationService.scheduleNotifications(bell!.interval,math.Random().nextInt(100000));
+          return Future.value(true);
+        });
+      }
     } catch (e) {
       log(e.toString());
     }

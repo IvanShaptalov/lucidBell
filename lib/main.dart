@@ -12,7 +12,8 @@ class InitServices {
   static CustomNotificationService notificationService =
       CustomNotificationService();
 
-  static Bell bell = Bell(running: false,interval: const Duration(minutes: 1),startEveryHour: false);
+  static Bell bell = mockBell();
+  static Bell mockBell() => Bell(running: false,interval: const Duration(minutes: 1),startEveryHour: false);
 
   static var myApp = MyApp();
 

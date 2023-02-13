@@ -1,8 +1,6 @@
 import 'dart:io';
-import 'package:flutter_lucid_bell/background_processes/background_processes.dart';
 import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart';
 import 'package:flutter_lucid_bell/bell/bell_logic.dart';
-import 'package:flutter_lucid_bell/main.dart';
 import 'package:flutter_test/flutter_test.dart';
 // ignore: depend_on_referenced_packages
 
@@ -25,7 +23,9 @@ void main() {
     test('test bell serialize', () async {
       // test check that music real loading from path, expect string
       Bell bell = Bell(
-          running: true, interval: Duration(hours: 1), startEveryHour: false);
+          running: true,
+          interval: const Duration(hours: 1),
+          startEveryHour: false);
 
       var jsonBell = bell.toJson();
 
@@ -44,13 +44,14 @@ void main() {
       await LocalPathProvider.init();
       // test check that music real loading from path, expect string
       Bell bell = Bell(
-          running: true, interval: Duration(hours: 1), startEveryHour: false);
+          running: true,
+          interval: const Duration(hours: 1),
+          startEveryHour: false);
 
       var jsonBell = bell.toJson();
 
       //SAVE TO FILE
       LocalPathProvider.saveBell(jsonBell);
-      var newJsonBell = await LocalPathProvider.getBellJson();
 
       //LOAD BELL FROM FILE
       //EXPECTED TO BE NULL
