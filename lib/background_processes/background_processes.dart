@@ -19,7 +19,7 @@ class BackgroundWorker {
     try {
       Bell? bell;
       log('try to load bell');
-      var bellJson = await LocalPathProvider.getBellJson();
+      var bellJson = await LocalPathProvider.getBellJsonAsync();
       if (bellJson != null) {
         bell = Bell.fromJson(bellJson);
       }

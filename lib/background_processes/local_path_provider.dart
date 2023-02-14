@@ -39,7 +39,7 @@ class LocalPathProvider {
     return !await dir.exists();
   }
 
-  static Future<String?> getBellJson() async{
+  static Future<String?> getBellJsonAsync() async{
     assert(cashLocalPath != null);
     var file = File(cashLocalPath!);
     if (await file.exists()){

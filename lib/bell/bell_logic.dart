@@ -87,7 +87,7 @@ class Bell {
   static Future<Bell?> loadLocalSettings() async {
     try {
       Bell bell;
-      var jsonBell = await LocalPathProvider.getBellJson();
+      var jsonBell = await LocalPathProvider.getBellJsonAsync();
       if (jsonBell is String) {
         bell = Bell.fromJson(jsonBell);
         return bell;
