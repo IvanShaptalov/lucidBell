@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart';
 import 'package:flutter_lucid_bell/home_view/slider_interval_selector.dart';
 import 'package:flutter_lucid_bell/home_view/switch_button.dart';
 import 'package:flutter_lucid_bell/home_view/time_selector.dart';
@@ -39,6 +40,11 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            TextButton(
+                onPressed: () async {
+                  print('BGLOG::::::::::::::::::;${await LocalPathProvider.getBackgroundLogAsync()}');
+                },
+                child: Text('log')),
             InitServices.bell.running
                 ? Text(_nextBellString)
                 : const SizedBox.shrink(),

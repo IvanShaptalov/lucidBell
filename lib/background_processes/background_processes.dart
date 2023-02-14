@@ -15,7 +15,7 @@ class BackgroundWorker {
   @pragma(
       'vm:entry-point') // Mandatory if the App is obfuscated or using Flutter 3.1+
   static void bgCallbackDispatcher() async {
-    log('started');
+    LocalPathProvider.logBackground('start bg CallbackDispatcher');
     try {
       Bell? bell;
       log('try to load bell');
@@ -42,11 +42,13 @@ class BackgroundWorker {
   }
 
   static void init(MyApp app) {
+    LocalPathProvider.logBackground('start background');
     bgManager.initialize(
         bgCallbackDispatcher, // The top level function, aka callbackDispatcher
         isInDebugMode:
             false // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
         );
+
     bgManager.registerPeriodicTask(
       "periodic-task-identifier",
       "simplePeriodicTask",

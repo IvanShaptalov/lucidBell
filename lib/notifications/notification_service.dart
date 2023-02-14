@@ -36,7 +36,7 @@ class CustomNotificationService {
         }
       });
 
-      print('delayed and played');
+      print('delayed ');
     } catch (e) {
       // ignore: avoid_print
       print(e);
@@ -128,11 +128,15 @@ class CustomNotificationService {
         assert(!duration.isNegative);
         scheduleNotifications(duration, rand.nextInt(1000000));
 
-        // if notification cashed, we don't update it
+        // if notification cashed, we don't update it, and then disable cashed flag
         if (!_notificationCashedFlag) {
           InitServices.bell.notificationStack.add(dt);
           print('bell saved ${innerBell.toJson()}');
           await LocalPathProvider.saveBell(innerBell.toJson());
+        }
+        else{
+          _notificationCashedFlag = false;
+
         }
 
         // add notification to stack if scheduled

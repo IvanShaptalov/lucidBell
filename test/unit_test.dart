@@ -21,6 +21,12 @@ void main() {
       expect(await File(LocalPathProvider.cashLocalPath!).exists(), true);
     });
 
+    test('cash log created. path exists', () async {
+      // test check that music real loading from path, expect string
+      await LocalPathProvider.init();
+      expect(await File(LocalPathProvider.logPath!).exists(), true);
+    });
+
     test('test bell serialize', () async {
       // test check that music real loading from path, expect string
       Bell bell = InitServices.mockBell();

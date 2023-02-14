@@ -12,6 +12,9 @@ class LocalPathProvider {
   static String?
       cashLocalPath; // use createAppDirAsync to set cashLocalPath to string path
 
+  static String?
+      logPath;
+
   static Future<bool> init() async {
     Directory appDir = await getApplicationSupportDirectory();
 
@@ -19,6 +22,7 @@ class LocalPathProvider {
     
     // create local file to store data
     await _createCashLocal();
+    await _createLogFile();
 
     if (kDebugMode) {
       print(' localpath: ${LocalPathProvider.appDocPath}');
@@ -52,6 +56,7 @@ class LocalPathProvider {
 
     //create cash file if not exists
     await _createCashLocal();
+    
     assert(cashLocalPath is String);
     // ensure that file exists
     var file = File(cashLocalPath!);
@@ -89,5 +94,43 @@ class LocalPathProvider {
     if (!await File(path).exists()) {
       await File(path).create();
     }
+  }
+
+  static Future<void> _createLogFile() async {
+    // appDocPath directory must be created, use
+    assert(appDocPath is String);
+    String path = p.join(appDocPath!, 'backLog.txt');
+    logPath = path;
+
+    // create if not exists
+    if (!await File(logPath!).exists()) {
+      await File(logPath!).create();
+    }
+  }
+
+  static Future<bool> logBackground(String log) async { 
+
+    //create log file if not exists
+    await _createLogFile();
+    
+    assert(logPath is String);
+    // ensure that file exists
+    var file = File(logPath!);
+    if (await file.exists()) {
+      await file.writeAsString("$log \n", mode: FileMode.append);
+      // file saved
+      return true;
+    }
+    // file not exists
+    return false;
+  }
+
+  static Future<String?> getBackgroundLogAsync() async{
+    assert(logPath != null);
+    var file = File(logPath!);
+    if (await file.exists()){
+      return await file.readAsString();
+    }
+    return '';
   }
 }
