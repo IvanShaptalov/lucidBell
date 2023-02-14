@@ -16,27 +16,28 @@ class CustomNotificationService {
     //Initialization Settings for Android
   }
   //id to identify new notification
-  void scheduleNotifications(Duration delayDuration, int id) async {
+  Future<void> scheduleNotifications(/*Duration delayDuration, int id*/) async {
     try {
+      await NotificationPlayer.playSound();
       // chack that notification is not changed, if changed: ignore;
-      print("$currentId");
-      currentId = id;
-      print('current id $currentId id $id');
+      // print("$currentId");
+      // currentId = id;
+      // print('current id $currentId id $id');
 
-      print('delayed to $delayDuration');
-      Future.delayed(delayDuration).then((value) async {
-        if (currentId == id && InitServices.bell.running) {
-          print('play');
+      // print('delayed to $delayDuration');
+      // Future.delayed(delayDuration).then((value) async {
+      //   if (currentId == id && InitServices.bell.running) {
+      //     print('play');
 
-          // Clear notification stack
-          InitServices.bell.notificationStack.clear();
-          return await NotificationPlayer.playSound();
-        } else {
-          print('different ids ignore it');
-        }
-      });
+      //     // Clear notification stack
+      //     InitServices.bell.notificationStack.clear();
+      //     return await NotificationPlayer.playSound();
+      //   } else {
+      //     print('different ids ignore it');
+      //   }
+      // });
 
-      print('delayed ');
+      // print('delayed ');
     } catch (e) {
       // ignore: avoid_print
       print(e);
@@ -126,7 +127,7 @@ class CustomNotificationService {
               _notificationCashedFlag)) {
         // assert, duration MUST BE POSITIVE ;p
         assert(!duration.isNegative);
-        scheduleNotifications(duration, rand.nextInt(1000000));
+        scheduleNotifications(/*duration, rand.nextInt(1000000)*/);
 
         // if notification cashed, we don't update it, and then disable cashed flag
         if (!_notificationCashedFlag) {

@@ -40,11 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextButton(
-                onPressed: () async {
-                  print('BGLOG::::::::::::::::::;${await LocalPathProvider.getBackgroundLogAsync()}');
-                },
-                child: Text('log')),
             InitServices.bell.running
                 ? Text(_nextBellString)
                 : const SizedBox.shrink(),

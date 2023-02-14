@@ -4,5 +4,5 @@ class AppLocales {
 }
 
 class Config {
-  static String bellPath = 'assets/sound/chill_bell.wav';
+  static String bellPath = 'assets/sound/chill_bell.mp3';
 }
