@@ -18,6 +18,7 @@ dependencies:
   syncfusion_flutter_sliders: ^20.4.49
   workmanager: ^0.5.1
   assets_audio_player: ^3.0.6
+  flutter_local_notifications: ^9.5.3+1
 
 
 dev_dependencies:

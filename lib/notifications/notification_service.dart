@@ -3,22 +3,83 @@
 import 'dart:math';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart';
 import 'package:flutter_lucid_bell/bell/bell_logic.dart';
 import 'package:flutter_lucid_bell/config.dart';
 import 'package:flutter_lucid_bell/main.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tzData;
 
 class CustomNotificationService {
   int currentId = 0;
   Random rand = Random();
   bool _notificationCashedFlag = false;
+  final _localNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
   Future<void> init() async {
-    //Initialization Settings for Android
+    // #1
+    const androidSetting = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const iosSetting = IOSInitializationSettings();
+
+    // #2
+    const initSettings =
+        InitializationSettings(android: androidSetting, iOS: iosSetting);
+
+    // #3
+    await _localNotificationsPlugin.initialize(initSettings).then((_) {
+      debugPrint('setupPlugin: setup success');
+    }).catchError((Object error) {
+      debugPrint('Error: $error');
+    });
   }
+
+  Future<void> playSound(
+    title,
+    body,
+    endTime,
+    channel,
+  ) async {
+    // #1
+    tzData.initializeTimeZones();
+    final scheduleTime =
+        tz.TZDateTime.fromMillisecondsSinceEpoch(tz.local, endTime);
+
+// #2
+    final androidDetail = AndroidNotificationDetails(
+        channel, // channel Id
+        channel // channel Name
+        );
+
+    final iosDetail = IOSNotificationDetails();
+
+    final noticeDetail = NotificationDetails(
+      iOS: iosDetail,
+      android: androidDetail,
+    );
+
+// #3
+    final id = 0;
+
+// #4
+    await _localNotificationsPlugin.zonedSchedule(
+      id,
+      title,
+      body,
+      scheduleTime,
+      noticeDetail,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      androidAllowWhileIdle: true,
+    );
+  }
+
   //id to identify new notification
   Future<void> scheduleNotifications(/*Duration delayDuration, int id*/) async {
     try {
-      await NotificationPlayer.playSound();
+      await playSound('Notification Title', 'Notification Body',
+          DateTime.now().millisecondsSinceEpoch + 1000, 'testing');
       // chack that notification is not changed, if changed: ignore;
       // print("$currentId");
       // currentId = id;
@@ -134,10 +195,8 @@ class CustomNotificationService {
           InitServices.bell.notificationStack.add(dt);
           print('bell saved ${innerBell.toJson()}');
           await LocalPathProvider.saveBell(innerBell.toJson());
-        }
-        else{
+        } else {
           _notificationCashedFlag = false;
-
         }
 
         // add notification to stack if scheduled
@@ -154,15 +213,5 @@ class CustomNotificationService {
     } else {
       InitServices.bell.clearNotifications();
     }
-  }
-}
-
-class NotificationPlayer {
-  static final assetsAudioPlayer = AssetsAudioPlayer();
-  static Audio audio = Audio(Config.bellPath);
-
-  static Future<void> playSound() async {
-    await assetsAudioPlayer.open(audio);
-    print('played****************************************8');
   }
 }

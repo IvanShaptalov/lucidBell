@@ -9,8 +9,12 @@ import 'package:workmanager/workmanager.dart';
 import 'app.dart';
 
 void callbackDispatcher() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   Workmanager().executeTask((task, inputData) async {
     try {
+      WidgetsFlutterBinding.ensureInitialized();
+
       await Future.delayed(Duration(seconds: 15)).then((value) async {
         print('play after 15 sec &&&&&&&&&&&&&&&&&&&&&&&&&&&&7');
         return await InitServices.notificationService.scheduleNotifications();
@@ -71,10 +75,11 @@ void main() async {
   print('************************************start init');
 
   await InitServices.init();
+
   Workmanager().initialize(
       callbackDispatcher, // The top level function, aka callbackDispatcher
       isInDebugMode:
-          true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
+          false // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
       );
   Workmanager().registerOneOffTask("task-identifier", "simpleTask");
   runApp(InitServices.myApp);
