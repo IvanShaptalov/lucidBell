@@ -32,6 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            IconButton(onPressed: () async {await InitServices.notificationService.playSound(
+          'test', 'test', DateTime.now().millisecondsSinceEpoch + 1000, 'testing');}, icon: Icon(Icons.ac_unit)),
             // show TimeSelector if bell is running
             InitServices.bell.running
                 ? TimeSelector(

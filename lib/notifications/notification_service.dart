@@ -2,11 +2,9 @@
 
 import 'dart:math';
 
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart';
 import 'package:flutter_lucid_bell/bell/bell_logic.dart';
-import 'package:flutter_lucid_bell/config.dart';
 import 'package:flutter_lucid_bell/main.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -22,11 +20,8 @@ class CustomNotificationService {
   Future<void> init() async {
     // #1
     const androidSetting = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const iosSetting = IOSInitializationSettings();
 
-    // #2
-    const initSettings =
-        InitializationSettings(android: androidSetting, iOS: iosSetting);
+    const initSettings = InitializationSettings(android: androidSetting);
 
     // #3
     await _localNotificationsPlugin.initialize(initSettings).then((_) {
@@ -53,10 +48,7 @@ class CustomNotificationService {
         channel // channel Name
         );
 
-    final iosDetail = IOSNotificationDetails();
-
     final noticeDetail = NotificationDetails(
-      iOS: iosDetail,
       android: androidDetail,
     );
 
@@ -153,7 +145,6 @@ class CustomNotificationService {
     if (innerBell.running) {
       Duration duration = _selectIntervalModeDuration(innerBell);
       DateTime dt = _convertDurationToDatetime(duration);
-
 
       print('try add notification');
       if (innerBell.startEveryHour) {

@@ -9,7 +9,7 @@ import 'package:workmanager/workmanager.dart';
 import 'app.dart';
 
 void callbackDispatcher() {
-  WidgetsFlutterBinding.ensureInitialized();
+  // WidgetsFlutterBinding.ensureInitialized();
 
   Workmanager().executeTask((task, inputData) async {
     try {
@@ -28,7 +28,7 @@ void callbackDispatcher() {
         nextBellOn += ', next bell on ${DateTime.now().add(bell.interval)}';
       }
 
-      await InitServices.notificationService
+      InitServices.notificationService
           .scheduleNotifications('bell notification', nextBellOn);
 
       print(
@@ -91,7 +91,8 @@ void main() async {
   Workmanager().initialize(
       callbackDispatcher, // The top level function, aka callbackDispatcher
       isInDebugMode:
-          false // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
+          true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
       );
+  
   runApp(InitServices.myApp);
 }
