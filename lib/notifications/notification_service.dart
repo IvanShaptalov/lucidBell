@@ -21,7 +21,8 @@ class CustomNotificationService {
     // #1
     const androidSetting = AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    const initSettings = InitializationSettings(android: androidSetting);
+    const initSettings =
+        InitializationSettings(android: androidSetting);
 
     // #3
     await _localNotificationsPlugin.initialize(initSettings).then((_) {
@@ -38,6 +39,7 @@ class CustomNotificationService {
     channel,
   ) async {
     // #1
+    
     tzData.initializeTimeZones();
     final scheduleTime =
         tz.TZDateTime.fromMillisecondsSinceEpoch(tz.local, endTime);
@@ -47,6 +49,7 @@ class CustomNotificationService {
         channel, // channel Id
         channel // channel Name
         );
+
 
     final noticeDetail = NotificationDetails(
       android: androidDetail,
@@ -145,6 +148,7 @@ class CustomNotificationService {
     if (innerBell.running) {
       Duration duration = _selectIntervalModeDuration(innerBell);
       DateTime dt = _convertDurationToDatetime(duration);
+
 
       print('try add notification');
       if (innerBell.startEveryHour) {

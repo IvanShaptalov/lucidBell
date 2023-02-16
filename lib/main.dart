@@ -8,6 +8,8 @@ import 'package:workmanager/workmanager.dart';
 
 import 'app.dart';
 
+
+@pragma('vm:entry-point')
 void callbackDispatcher() {
   // WidgetsFlutterBinding.ensureInitialized();
 
@@ -27,6 +29,7 @@ void callbackDispatcher() {
       if (bell != null) {
         nextBellOn += ', next bell on ${DateTime.now().add(bell.interval)}';
       }
+      
 
       InitServices.notificationService
           .scheduleNotifications('bell notification', nextBellOn);
