@@ -15,17 +15,29 @@ void callbackDispatcher() {
     try {
       WidgetsFlutterBinding.ensureInitialized();
 
-      await Future.delayed(Duration(seconds: 15)).then((value) async {
-        print('play after 15 sec &&&&&&&&&&&&&&&&&&&&&&&&&&&&7');
-        return await InitServices.notificationService.scheduleNotifications();
-      });
+      await LocalPathProvider.init();
+      print('play after 15 sec &&&&&&&&&&&&&&&&&&&&&&&&&&&&7');
+      String? bellJson = await LocalPathProvider.getBellJsonAsync();
+      Bell? bell;
+      if (bellJson != null) {
+        bell = Bell.fromJson(bellJson);
+      }
+      String nextBellOn = 'Reminder';
+
+      if (bell != null) {
+        nextBellOn += ', next bell on ${DateTime.now().add(bell.interval)}';
+      }
+
+      await InitServices.notificationService
+          .scheduleNotifications('bell notification', nextBellOn);
+
       print(
           "Native called background task: $task"); //simpleTask will be emitted here.
 
       return Future.value(true);
     } catch (e) {
       print(e.toString());
-      return Future.error('lala');
+      return Future.error(e.toString());
     }
   });
 }
@@ -37,7 +49,7 @@ class InitServices {
   static Bell bell = mockBell();
   static Bell mockBell() => Bell(
       running: false,
-      interval: const Duration(minutes: 1),
+      interval: const Duration(minutes: 15),
       startEveryHour: false,
       notificationStack: []);
 
@@ -61,7 +73,7 @@ class InitServices {
   static void registerBellListener() {
     bellListenerSub = notificationService.bellListener().listen((event) {
       notificationService.circleNotification(
-          bell, myApp.homeScreen.homeScreenState.nextBellCallback);
+          bell);
     });
     // notification clearing here
   }
@@ -81,6 +93,5 @@ void main() async {
       isInDebugMode:
           false // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
       );
-  Workmanager().registerOneOffTask("task-identifier", "simpleTask");
   runApp(InitServices.myApp);
 }

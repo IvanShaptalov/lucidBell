@@ -5,7 +5,7 @@ import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart
 class Bell {
   bool running;
   Duration interval; // duration in minutes
-  double intervalLowerBound = 1;
+  double intervalLowerBound = 15;
   double intervalUpperBound = 180;
   bool startEveryHour;
   List notificationStack = [];

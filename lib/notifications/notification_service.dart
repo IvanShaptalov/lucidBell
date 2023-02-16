@@ -11,6 +11,7 @@ import 'package:flutter_lucid_bell/main.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tzData;
+import 'package:workmanager/workmanager.dart';
 
 class CustomNotificationService {
   int currentId = 0;
@@ -76,29 +77,10 @@ class CustomNotificationService {
   }
 
   //id to identify new notification
-  Future<void> scheduleNotifications(/*Duration delayDuration, int id*/) async {
+  Future<void> scheduleNotifications(String title, String body) async {
     try {
-      await playSound('Notification Title', 'Notification Body',
-          DateTime.now().millisecondsSinceEpoch + 1000, 'testing');
-      // chack that notification is not changed, if changed: ignore;
-      // print("$currentId");
-      // currentId = id;
-      // print('current id $currentId id $id');
-
-      // print('delayed to $delayDuration');
-      // Future.delayed(delayDuration).then((value) async {
-      //   if (currentId == id && InitServices.bell.running) {
-      //     print('play');
-
-      //     // Clear notification stack
-      //     InitServices.bell.notificationStack.clear();
-      //     return await NotificationPlayer.playSound();
-      //   } else {
-      //     print('different ids ignore it');
-      //   }
-      // });
-
-      // print('delayed ');
+      await playSound(
+          title, body, DateTime.now().millisecondsSinceEpoch + 1000, 'testing');
     } catch (e) {
       // ignore: avoid_print
       print(e);
@@ -122,10 +104,6 @@ class CustomNotificationService {
         print('bell saved ${innerBell.toJson()}');
         await LocalPathProvider.saveBell(innerBell.toJson());
 
-        yield innerBell;
-      }
-      // YIELD IF NOTIFICATION STACK IS EMPTY
-      if (InitServices.bell.notificationStack.isEmpty) {
         yield innerBell;
       }
     }
@@ -168,50 +146,31 @@ class CustomNotificationService {
     return DateTime.now().add(duration);
   }
 
-  void circleNotification(Bell innerBell, Function nextBellCallback) async {
+  void circleNotification(Bell innerBell) async {
     // NOTIFICATION STACK ALWAYS CONTAIN ONE OR NOT CONTAINS NOTIFICATIONS;
-    assert(InitServices.bell.notificationStack.length <= 1);
 
     // NOTIFICATION SCHEDULING LOGIC HERE
     if (innerBell.running) {
-      // SERVICE STARTED
-      // ADD CONDITION IF NOTIFICATION EXISTS IN STACK, ADD CUSTOM DURATION
       Duration duration = _selectIntervalModeDuration(innerBell);
       DateTime dt = _convertDurationToDatetime(duration);
 
+
       print('try add notification');
+      if (innerBell.startEveryHour) {
+        // cancel all tasks
 
-      // ADD SCHEDULE TO NOTIFICATION STACK and uniq id to notification if
-      // Stack empty or notification flag
-      if (InitServices.bell.notificationStack.isEmpty ||
-          (InitServices.bell.notificationStack.isNotEmpty &&
-              _notificationCashedFlag)) {
-        // assert, duration MUST BE POSITIVE ;p
-        assert(!duration.isNegative);
-        scheduleNotifications(/*duration, rand.nextInt(1000000)*/);
-
-        // if notification cashed, we don't update it, and then disable cashed flag
-        if (!_notificationCashedFlag) {
-          InitServices.bell.notificationStack.add(dt);
-          print('bell saved ${innerBell.toJson()}');
-          await LocalPathProvider.saveBell(innerBell.toJson());
-        } else {
-          _notificationCashedFlag = false;
-        }
-
-        // add notification to stack if scheduled
-        print('next bell on $dt');
-        // SET NEXTBELL ON TEXT
-        nextBellCallback('next bell on $dt');
-      }
-      // IF SCHEDULE ALREADY EXIST DELETE IT WHEN TIME COME
-      else {
-        // CLEAR NOTIFICATIONS STACK
-        print('***************notification played');
-        InitServices.bell.clearNotifications();
+        Workmanager().cancelAll();
+        Workmanager().registerPeriodicTask("task-identifier", "simpleTask",
+            frequency: Duration(hours: 1), initialDelay: duration);
+      } else {
+        // add new task
+        Workmanager().cancelAll();
+        Workmanager().registerPeriodicTask("task-identifier", "simpleTask",
+            frequency: InitServices.bell.interval);
       }
     } else {
       InitServices.bell.clearNotifications();
+      Workmanager().cancelAll();
     }
   }
 }

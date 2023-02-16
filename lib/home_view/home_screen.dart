@@ -20,15 +20,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String _nextBellString = '1';
-  String nextBellCallback(String newInfo) {
-    // callback to update nextBell info
-
-    setState(() {
-      _nextBellString = newInfo;
-    });
-    return newInfo;
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            InitServices.bell.running
-                ? Text(_nextBellString)
-                : const SizedBox.shrink(),
             // show TimeSelector if bell is running
             InitServices.bell.running
                 ? TimeSelector(
