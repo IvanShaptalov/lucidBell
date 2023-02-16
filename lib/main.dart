@@ -8,30 +8,32 @@ import 'package:workmanager/workmanager.dart';
 
 import 'app.dart';
 
-
 @pragma('vm:entry-point')
 void callbackDispatcher() {
   // WidgetsFlutterBinding.ensureInitialized();
 
   Workmanager().executeTask((task, inputData) async {
     try {
-      WidgetsFlutterBinding.ensureInitialized();
-
       await LocalPathProvider.init();
       print('play after 15 sec &&&&&&&&&&&&&&&&&&&&&&&&&&&&7');
       String? bellJson = await LocalPathProvider.getBellJsonAsync();
       Bell? bell;
+
       if (bellJson != null) {
         bell = Bell.fromJson(bellJson);
       }
+
       String nextBellOn = 'Reminder';
 
       if (bell != null) {
         nextBellOn += ', next bell on ${DateTime.now().add(bell.interval)}';
       }
-      
+      if (inputData != null) {
+        nextBellOn =
+            ', next bell on ${DateTime.now().add(Duration(seconds: inputData['next_in_seconds']))}';
+      }
 
-      InitServices.notificationService
+      await InitServices.notificationService
           .scheduleNotifications('bell notification', nextBellOn);
 
       print(
@@ -75,8 +77,7 @@ class InitServices {
 
   static void registerBellListener() {
     bellListenerSub = notificationService.bellListener().listen((event) {
-      notificationService.circleNotification(
-          bell);
+      notificationService.circleNotification(bell);
     });
     // notification clearing here
   }
@@ -96,6 +97,6 @@ void main() async {
       isInDebugMode:
           true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
       );
-  
+
   runApp(InitServices.myApp);
 }

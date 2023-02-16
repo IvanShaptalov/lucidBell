@@ -149,18 +149,22 @@ class CustomNotificationService {
       Duration duration = _selectIntervalModeDuration(innerBell);
       DateTime dt = _convertDurationToDatetime(duration);
 
-
+    
       print('try add notification');
       if (innerBell.startEveryHour) {
         // cancel all tasks
 
         Workmanager().cancelAll();
-        Workmanager().registerPeriodicTask("task-identifier", "simpleTask",
-            frequency: Duration(hours: 1), initialDelay: duration);
+        print('period hour');
+        Workmanager().registerPeriodicTask("one-hour-task", "simpleOnHourTask",
+            frequency: const Duration(hours: 1), initialDelay: duration);
+
+        print('one task');
+        Workmanager().registerOneOffTask("one-hour-notification", "simpleOnHourNotificationTask", inputData: <String, dynamic>{'next_in_seconds': duration.inSeconds});
       } else {
         // add new task
         Workmanager().cancelAll();
-        Workmanager().registerPeriodicTask("task-identifier", "simpleTask",
+        Workmanager().registerPeriodicTask("interval-task", "simpleIntervalTask",
             frequency: InitServices.bell.interval);
       }
     } else {
