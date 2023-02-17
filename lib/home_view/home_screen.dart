@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int toNextBellInSeconds = 0;
 
   int lastToNextBell() {
-    if (InitServices.bell.notificationStack.isEmpty) {
+    if (InitServices.bell.notificationStack.isEmpty || toNextBellInSeconds <= 0) {
       Future.sync(() async {
         print('updated');
         var jsonBell = await LocalPathProvider.getBellJsonAsync();
