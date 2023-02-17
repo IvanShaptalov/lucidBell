@@ -16,7 +16,7 @@ class SliderIntervalSelector extends StatefulWidget {
 class _SliderIntervalSelectorState extends State<SliderIntervalSelector> {
   @override
   Widget build(BuildContext context) {
-    return widget.bell.startEveryHour || !widget.bell.running
+    return !widget.bell.running
         ? const SizedBox.shrink()
         : Column(
             children: [

@@ -42,36 +42,6 @@ void callbackDispatcher() {
               .scheduleNotifications('bell notification', nextBellOn);
 
           break;
-        // ONE HOUR NOTIFICATION TASK
-        case Config.oneHourNotificationTask:
-          assert(inputData != null);
-          var duration = Duration(seconds: inputData!['next_in_seconds']);
-          nextBellOn += ', next bell on ${DateTime.now().add(duration)}';
-
-          await InitServices.notificationService
-              .scheduleNotifications('bell notification', nextBellOn);
-
-          break;
-        // ONE HOUR PERIODIC TASK
-        case Config.oneHourPeriodicTask:
-          assert(bell!.interval.inMinutes == 60);
-          assert(inputData != null);
-
-          var duration = Duration(seconds: inputData!['next_in_seconds']);
-          if (duration.inSeconds != 0) {
-            await Future.delayed(duration).then((value) async {
-              await InitServices.notificationService
-                  .scheduleNotifications('bell notification', nextBellOn);
-            });
-            print('clear next in seconds');
-            inputData['next_in_seconds'] = 0;
-          } else {
-            assert (duration.inSeconds == 0);
-            await InitServices.notificationService
-                .scheduleNotifications('bell notification', nextBellOn);
-          }
-
-          break;
       }
 
       return Future.value(true);
@@ -90,7 +60,6 @@ class InitServices {
   static Bell mockBell() => Bell(
       running: false,
       interval: const Duration(minutes: 15),
-      startEveryHour: false,
       notificationStack: []);
 
   static var myApp = MyApp();

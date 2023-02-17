@@ -88,7 +88,6 @@ class CustomNotificationService {
     Bell innerBell = Bell(
         interval: const Duration(days: 1),
         running: false,
-        startEveryHour: false,
         notificationStack: []);
     while (true) {
       await Future.delayed(const Duration(seconds: 1));
@@ -108,7 +107,7 @@ class CustomNotificationService {
   }
 
   /// select corresponding to start on every hour or using interval
-  Duration _selectIntervalModeDuration(Bell innerBell) {
+  Duration selectIntervalModeDuration(Bell innerBell) {
     Duration duration;
 
     // if notification stack not empty and date not expired, calculate time to it
@@ -125,13 +124,8 @@ class CustomNotificationService {
         return duration;
       }
     }
-    if (innerBell.startEveryHour) {
-      // IF START ON EVERY HOUR: ADD new schedule
-      int minutesToAdd = 60 - DateTime.now().minute;
-      duration = Duration(minutes: minutesToAdd);
-    } else {
-      duration = innerBell.interval;
-    }
+
+    duration = innerBell.interval;
 
     return duration;
   }
@@ -149,39 +143,16 @@ class CustomNotificationService {
 
     // NOTIFICATION SCHEDULING LOGIC HERE
     if (innerBell.running) {
-      Duration duration = _selectIntervalModeDuration(innerBell);
+      Duration duration = selectIntervalModeDuration(innerBell);
 
       print('try add notification');
-      if (innerBell.startEveryHour) {
-        // cancel all tasks
 
-        await InitServices.bell.clearNotifications();
+      // add new task
+      await InitServices.bell.clearNotifications();
 
-        InitServices.bell.interval = Duration(minutes: 60);
-        print('one task');
-
-        await Workmanager().registerOneOffTask(
-            Config.oneHourNotificationTask, Config.oneHourNotificationTask,
-            inputData: <String, dynamic>{
-              'next_in_seconds': duration.inSeconds
-            });
-
-        await Workmanager().registerPeriodicTask(
-            Config.oneHourPeriodicTask, Config.oneHourPeriodicTask,
-            frequency: const Duration(hours: 1),
-            inputData: <String, dynamic>{
-              'next_in_seconds': duration.inSeconds
-            });
-
-        print('period task');
-      } else {
-        // add new task
-        await InitServices.bell.clearNotifications();
-
-        await Workmanager().registerPeriodicTask(
-            Config.intervalTask, Config.intervalTask,
-            frequency: InitServices.bell.interval);
-      }
+      await Workmanager().registerPeriodicTask(
+          Config.intervalTask, Config.intervalTask,
+          frequency: InitServices.bell.interval);
     } else {
       await InitServices.bell.clearNotifications();
     }

@@ -39,8 +39,6 @@ void main() {
 
       expect(bell.running == newBell.running, true);
 
-      expect(bell.startEveryHour == newBell.startEveryHour, true);
-
       expect(bell == newBell, true);
     });
 
@@ -64,8 +62,6 @@ void main() {
       expect(bell.interval.compareTo(newBell.interval), 0);
 
       expect(bell.running == newBell.running, true);
-
-      expect(bell.startEveryHour == newBell.startEveryHour, true);
 
       expect(bell == newBell, true);
     });

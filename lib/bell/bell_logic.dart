@@ -9,7 +9,6 @@ class Bell {
   Duration interval; // duration in minutes
   double intervalLowerBound = 15;
   double intervalUpperBound = 180;
-  bool startEveryHour;
   List notificationStack = [];
 
   Future<void> clearNotifications() async {
@@ -23,7 +22,7 @@ class Bell {
 
   @override
   String toString() {
-    return "${super.toString()} $interval $startEveryHour $running $notificationStack";
+    return "${super.toString()} $interval $running $notificationStack";
   }
 
   @override
@@ -50,22 +49,17 @@ class Bell {
     print('running changed to: $running');
   }
 
-  void switchStartEveryHour(value) {
-    startEveryHour = value;
-    print('every hour changed to: $value');
-  }
+
 
   Bell(
       {required this.running,
       required this.interval,
-      required this.startEveryHour,
       required this.notificationStack});
 
   factory Bell.clone(Bell source) {
     return Bell(
         running: source.running,
         interval: source.interval,
-        startEveryHour: source.startEveryHour,
         notificationStack: source.notificationStack);
   }
 
@@ -74,7 +68,6 @@ class Bell {
     return Bell(
         running: map['running'],
         interval: Duration(seconds: map['interval']),
-        startEveryHour: map['startEveryHour'],
         notificationStack: map['notificationStack'].map((jsonDatetime) {
           return DateTime.parse(jsonDatetime);
         }).toList());
@@ -84,7 +77,6 @@ class Bell {
     Map<String, dynamic> map = <String, dynamic>{
       'running': running,
       'interval': interval.inSeconds,
-      'startEveryHour': startEveryHour,
       'notificationStack': notificationStack.map((datetime) {
         return datetime.toString();
       }).toList(),

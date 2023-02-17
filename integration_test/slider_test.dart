@@ -15,7 +15,6 @@ void main() {
       await tester.pumpAndSettle();
       InitServices.bell = InitServices.mockBell();
       InitServices.bell.running = true;
-      InitServices.bell.startEveryHour = true;
 
       await tester.pumpAndSettle(const Duration(seconds: 3));
       // Trigger a frame.
