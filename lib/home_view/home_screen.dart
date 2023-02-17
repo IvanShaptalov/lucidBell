@@ -42,6 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
           .difference(DateTime.now())
           .inSeconds;
       print(seconds);
+      if (seconds < 0){
+        return 0;
+      }
       return seconds;
     } else {
       return 0;
