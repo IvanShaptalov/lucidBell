@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart';
 import 'package:flutter_lucid_bell/bell/bell_logic.dart';
+import 'package:flutter_lucid_bell/config.dart';
 import 'package:flutter_lucid_bell/main.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -21,8 +22,7 @@ class CustomNotificationService {
     // #1
     const androidSetting = AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    const initSettings =
-        InitializationSettings(android: androidSetting);
+    const initSettings = InitializationSettings(android: androidSetting);
 
     // #3
     await _localNotificationsPlugin.initialize(initSettings).then((_) {
@@ -39,7 +39,7 @@ class CustomNotificationService {
     channel,
   ) async {
     // #1
-    
+
     tzData.initializeTimeZones();
     final scheduleTime =
         tz.TZDateTime.fromMillisecondsSinceEpoch(tz.local, endTime);
@@ -49,7 +49,6 @@ class CustomNotificationService {
         channel, // channel Id
         channel // channel Name
         );
-
 
     final noticeDetail = NotificationDetails(
       android: androidDetail,
@@ -141,35 +140,50 @@ class CustomNotificationService {
     return DateTime.now().add(duration);
   }
 
+  Future<void> clearNotifications() async {
+    await _localNotificationsPlugin.cancelAll();
+  }
+
   void circleNotification(Bell innerBell) async {
     // NOTIFICATION STACK ALWAYS CONTAIN ONE OR NOT CONTAINS NOTIFICATIONS;
 
     // NOTIFICATION SCHEDULING LOGIC HERE
     if (innerBell.running) {
       Duration duration = _selectIntervalModeDuration(innerBell);
-      DateTime dt = _convertDurationToDatetime(duration);
 
-    
       print('try add notification');
       if (innerBell.startEveryHour) {
         // cancel all tasks
 
-        Workmanager().cancelAll();
-        print('period hour');
-        Workmanager().registerPeriodicTask("one-hour-task", "simpleOnHourTask",
-            frequency: const Duration(hours: 1), initialDelay: duration);
+        await InitServices.bell.clearNotifications();
 
+        InitServices.bell.interval = Duration(minutes: 60);
         print('one task');
-        Workmanager().registerOneOffTask("one-hour-notification", "simpleOnHourNotificationTask", inputData: <String, dynamic>{'next_in_seconds': duration.inSeconds});
+
+        await Workmanager().registerOneOffTask(
+            Config.oneHourNotificationTask, Config.oneHourNotificationTask,
+            inputData: <String, dynamic>{
+              'next_in_seconds': duration.inSeconds
+            });
+
+        await Workmanager().registerPeriodicTask(
+            Config.oneHourPeriodicTask, Config.oneHourPeriodicTask,
+            frequency: const Duration(hours: 1),
+            inputData: <String, dynamic>{
+              'next_in_seconds': duration.inSeconds
+            });
+
+        print('period task');
       } else {
         // add new task
-        Workmanager().cancelAll();
-        Workmanager().registerPeriodicTask("interval-task", "simpleIntervalTask",
+        await InitServices.bell.clearNotifications();
+
+        await Workmanager().registerPeriodicTask(
+            Config.intervalTask, Config.intervalTask,
             frequency: InitServices.bell.interval);
       }
     } else {
-      InitServices.bell.clearNotifications();
-      Workmanager().cancelAll();
+      await InitServices.bell.clearNotifications();
     }
   }
 }

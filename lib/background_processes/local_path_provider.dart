@@ -12,14 +12,23 @@ class LocalPathProvider {
   static String?
       cashLocalPath; // use createAppDirAsync to set cashLocalPath to string path
 
-  static String?
-      logPath;
+  static String? logPath;
+
+  static bool get notInitialized {
+    return LocalPathProvider.appDocPath == null ||
+        LocalPathProvider.cashLocalPath == null ||
+        LocalPathProvider.logPath == null;
+  }
+
+  static bool get initialized {
+    return !notInitialized;
+  }
 
   static Future<bool> init() async {
     Directory appDir = await getApplicationSupportDirectory();
 
     appDocPath = await _createAppDir(appDir.path).then((dir) => dir.path);
-    
+
     // create local file to store data
     await _createCashLocal();
     await _createLogFile();
@@ -29,34 +38,32 @@ class LocalPathProvider {
     }
 
     return true;
-    
   }
 
-  static Future<bool> deleteAppFolder() async{
+  static Future<bool> deleteAppFolder() async {
     // return true if deleted
     assert(appDocPath is String, true);
     assert(cashLocalPath is String, true);
     var dir = Directory(appDocPath!);
-    if (await dir.exists()){
+    if (await dir.exists()) {
       await dir.delete(recursive: true);
     }
     return !await dir.exists();
   }
 
-  static Future<String?> getBellJsonAsync() async{
+  static Future<String?> getBellJsonAsync() async {
     assert(cashLocalPath != null);
     var file = File(cashLocalPath!);
-    if (await file.exists()){
+    if (await file.exists()) {
       return await file.readAsString();
     }
     return null;
   }
 
-  static Future<bool> saveBell(String jsonBell) async { 
-
+  static Future<bool> saveBell(String jsonBell) async {
     //create cash file if not exists
     await _createCashLocal();
-    
+
     assert(cashLocalPath is String);
     // ensure that file exists
     var file = File(cashLocalPath!);
@@ -77,8 +84,6 @@ class LocalPathProvider {
     // if dir not exists, create it
     if (!await Directory(appDirPath).exists()) {
       dir = await Directory(appDirPath).create(recursive: true);
-
-      
     }
     assert(await dir.exists());
     return dir;
@@ -108,11 +113,10 @@ class LocalPathProvider {
     }
   }
 
-  static Future<bool> logBackground(String log) async { 
-
+  static Future<bool> logBackground(String log) async {
     //create log file if not exists
     await _createLogFile();
-    
+
     assert(logPath is String);
     // ensure that file exists
     var file = File(logPath!);
@@ -125,10 +129,10 @@ class LocalPathProvider {
     return false;
   }
 
-  static Future<String?> getBackgroundLogAsync() async{
+  static Future<String?> getBackgroundLogAsync() async {
     assert(logPath != null);
     var file = File(logPath!);
-    if (await file.exists()){
+    if (await file.exists()) {
       return await file.readAsString();
     }
     return '';

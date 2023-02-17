@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/bell/bell_logic.dart';
 import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart';
+import 'package:flutter_lucid_bell/config.dart';
 import 'package:flutter_lucid_bell/notifications/notification_service.dart';
 import 'package:workmanager/workmanager.dart';
 
@@ -13,31 +14,65 @@ void callbackDispatcher() {
   // WidgetsFlutterBinding.ensureInitialized();
 
   Workmanager().executeTask((task, inputData) async {
-    try {
+    // NESSESARY INITIALIZATION
+
+    if (LocalPathProvider.notInitialized) {
       await LocalPathProvider.init();
-      print('play after 15 sec &&&&&&&&&&&&&&&&&&&&&&&&&&&&7');
-      String? bellJson = await LocalPathProvider.getBellJsonAsync();
-      Bell? bell;
+    }
+    assert(LocalPathProvider.initialized);
 
-      if (bellJson != null) {
-        bell = Bell.fromJson(bellJson);
+    String? bellJson = await LocalPathProvider.getBellJsonAsync();
+    Bell? bell;
+
+    if (bellJson != null) {
+      bell = Bell.fromJson(bellJson);
+    }
+
+    String nextBellOn = 'Reminder';
+
+    //FIND OUT TASK
+    try {
+      switch (task) {
+        case Config.intervalTask:
+          assert(bell != null);
+
+          nextBellOn += ', next bell on ${DateTime.now().add(bell!.interval)}';
+
+          await InitServices.notificationService
+              .scheduleNotifications('bell notification', nextBellOn);
+
+          break;
+        // ONE HOUR NOTIFICATION TASK
+        case Config.oneHourNotificationTask:
+          assert(inputData != null);
+          var duration = Duration(seconds: inputData!['next_in_seconds']);
+          nextBellOn += ', next bell on ${DateTime.now().add(duration)}';
+
+          await InitServices.notificationService
+              .scheduleNotifications('bell notification', nextBellOn);
+
+          break;
+        // ONE HOUR PERIODIC TASK
+        case Config.oneHourPeriodicTask:
+          assert(bell!.interval.inMinutes == 60);
+          assert(inputData != null);
+
+          var duration = Duration(seconds: inputData!['next_in_seconds']);
+          if (duration.inSeconds != 0) {
+            await Future.delayed(duration).then((value) async {
+              await InitServices.notificationService
+                  .scheduleNotifications('bell notification', nextBellOn);
+            });
+            print('clear next in seconds');
+            inputData['next_in_seconds'] = 0;
+          } else {
+            assert (duration.inSeconds == 0);
+            await InitServices.notificationService
+                .scheduleNotifications('bell notification', nextBellOn);
+          }
+
+          break;
       }
-
-      String nextBellOn = 'Reminder';
-
-      if (bell != null) {
-        nextBellOn += ', next bell on ${DateTime.now().add(bell.interval)}';
-      }
-      if (inputData != null) {
-        nextBellOn =
-            ', next bell on ${DateTime.now().add(Duration(seconds: inputData['next_in_seconds']))}';
-      }
-
-      await InitServices.notificationService
-          .scheduleNotifications('bell notification', nextBellOn);
-
-      print(
-          "Native called background task: $task"); //simpleTask will be emitted here.
 
       return Future.value(true);
     } catch (e) {

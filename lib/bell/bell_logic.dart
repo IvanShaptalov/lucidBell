@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart';
+import 'package:flutter_lucid_bell/main.dart';
+import 'package:workmanager/workmanager.dart';
 
 class Bell {
   bool running;
@@ -10,10 +12,12 @@ class Bell {
   bool startEveryHour;
   List notificationStack = [];
 
-  void clearNotifications() async {
+  Future<void> clearNotifications() async {
     if (notificationStack.isNotEmpty) {
       notificationStack.clear();
     }
+    await Workmanager().cancelAll();
+    await InitServices.notificationService.clearNotifications();
     //todo change notification flag
   }
 
@@ -71,7 +75,9 @@ class Bell {
         running: map['running'],
         interval: Duration(seconds: map['interval']),
         startEveryHour: map['startEveryHour'],
-        notificationStack: map['notificationStack'].map((jsonDatetime) {return DateTime.parse(jsonDatetime);}).toList());
+        notificationStack: map['notificationStack'].map((jsonDatetime) {
+          return DateTime.parse(jsonDatetime);
+        }).toList());
   }
 
   String toJson() {
@@ -79,7 +85,9 @@ class Bell {
       'running': running,
       'interval': interval.inSeconds,
       'startEveryHour': startEveryHour,
-      'notificationStack': notificationStack.map((datetime) {return datetime.toString();}).toList(),
+      'notificationStack': notificationStack.map((datetime) {
+        return datetime.toString();
+      }).toList(),
     };
     return jsonEncode(map);
   }
