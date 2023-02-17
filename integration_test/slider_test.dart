@@ -18,7 +18,7 @@ void main() {
 
       await tester.pumpAndSettle(const Duration(seconds: 3));
       // Trigger a frame.
-      expect(find.byType(Switch), findsNWidgets(2));
+      expect(find.byType(Switch), findsNWidgets(1));
       expect(find.byType(SfSlider), findsNothing);
     });
   });

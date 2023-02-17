@@ -35,12 +35,14 @@ void callbackDispatcher() {
       switch (task) {
         case Config.intervalTask:
           assert(bell != null);
-
-          nextBellOn += ', next bell on ${DateTime.now().add(bell!.interval)}';
+          DateTime nextBell = DateTime.now().add(bell!.interval);
+          bell.notificationStack = [nextBell];
+          LocalPathProvider.saveBell(bell.toJson());
+          nextBellOn += ', next bell on $nextBell';
 
           await InitServices.notificationService
               .scheduleNotifications('bell notification', nextBellOn);
-
+          
           break;
       }
 

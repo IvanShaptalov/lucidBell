@@ -15,7 +15,6 @@ import 'package:workmanager/workmanager.dart';
 class CustomNotificationService {
   int currentId = 0;
   Random rand = Random();
-  bool _notificationCashedFlag = false;
   final _localNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   Future<void> init() async {
@@ -107,28 +106,6 @@ class CustomNotificationService {
   }
 
   /// select corresponding to start on every hour or using interval
-  Duration selectIntervalModeDuration(Bell innerBell) {
-    Duration duration;
-
-    // if notification stack not empty and date not expired, calculate time to it
-    if (innerBell.notificationStack.isNotEmpty) {
-      DateTime cashedNotification = innerBell.notificationStack.first;
-      // not empty and not expired
-      if (cashedNotification.isAfter(DateTime.now())) {
-        print('cashed notification is not expired');
-        // assert, cashed must not be EXPIRED
-        assert(cashedNotification.isAfter(DateTime.now()));
-        duration = cashedNotification.difference(DateTime.now());
-        //set flag that notification come from cash
-        _notificationCashedFlag = true;
-        return duration;
-      }
-    }
-
-    duration = innerBell.interval;
-
-    return duration;
-  }
 
   DateTime _convertDurationToDatetime(Duration duration) {
     return DateTime.now().add(duration);
@@ -143,16 +120,16 @@ class CustomNotificationService {
 
     // NOTIFICATION SCHEDULING LOGIC HERE
     if (innerBell.running) {
-      Duration duration = selectIntervalModeDuration(innerBell);
-
       print('try add notification');
 
       // add new task
-      await InitServices.bell.clearNotifications();
+      if (InitServices.bell.notificationStack.isEmpty) {
+        await InitServices.bell.clearNotifications();
 
-      await Workmanager().registerPeriodicTask(
-          Config.intervalTask, Config.intervalTask,
-          frequency: InitServices.bell.interval);
+        await Workmanager().registerPeriodicTask(
+            Config.intervalTask, Config.intervalTask,
+            frequency: InitServices.bell.interval);
+      }
     } else {
       await InitServices.bell.clearNotifications();
     }

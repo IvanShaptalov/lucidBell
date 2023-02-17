@@ -17,6 +17,7 @@ class Bell {
     }
     await Workmanager().cancelAll();
     await InitServices.notificationService.clearNotifications();
+    LocalPathProvider.saveBell(toJson());
     //todo change notification flag
   }
 
