@@ -7,7 +7,10 @@ import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class SliderIntervalSelector extends StatefulWidget {
   Bell bell;
-  SliderIntervalSelector({super.key, required this.bell});
+  /// true while slider is change, false if not change
+  Function callBackIsChanged;
+  SliderIntervalSelector(
+      {super.key, required this.bell, required this.callBackIsChanged});
 
   @override
   State<SliderIntervalSelector> createState() => _SliderIntervalSelectorState();
@@ -36,7 +39,14 @@ class _SliderIntervalSelectorState extends State<SliderIntervalSelector> {
 
                       InitServices.bell.clearNotifications();
                     });
-                  }),
+                  },
+                  onChangeStart: (value) {
+
+                    widget.callBackIsChanged(true);
+                  },
+                  onChangeEnd: (value) {
+                    widget.callBackIsChanged(false);
+                  },),
             ],
           );
   }

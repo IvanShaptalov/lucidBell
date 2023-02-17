@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucid_bell/theme/theme_setting.dart';
 
 import 'home_view/home_screen.dart';
 
@@ -6,17 +7,15 @@ import 'home_view/home_screen.dart';
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
-  HomeScreen homeScreen =  HomeScreen(title: 'Lucid Bell Simplest');
+  HomeScreen homeScreen = HomeScreen(title: 'Lucid Bell Simplest');
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      title: 'Lucid Bell Simplest',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeSetting.loadTheme(),
       home: homeScreen,
     );
   }
