@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart';
@@ -56,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (isSliderChange()) {
+      if (InitServices.isSliderChanging) {
         print('paused');
       } else {
         print('i work');
@@ -70,9 +71,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   /// return false by default by default
-  bool isSliderChange({bool now = false}) {
-    return now;
-  }
 
   @override
   void dispose() {
@@ -81,79 +79,119 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget selectCountDownWidget() {
-    if (InitServices.bell.running) {
-      if (toNextBellInSeconds == 0) {
-        return const Text('loading bell ...');
-      } else {
-        return Text('to next $toNextBellInSeconds');
-      }
+    if (toNextBellInSeconds == 0) {
+      return AnimatedOpacity(
+          // If the widget is visible, animate to 0.0 (invisible).
+          // If the widget is hidden, animate to 1.0 (fully visible).
+          opacity: InitServices.bell.running ? 1 : 0,
+          duration: const Duration(milliseconds: 500),
+          // The green box must be a child of the AnimatedOpacity widget.
+          child: Text('loading bell ...'));
     } else {
-      return const SizedBox.shrink();
+      return AnimatedOpacity(
+          // If the widget is visible, animate to 0.0 (invisible).
+          // If the widget is hidden, animate to 1.0 (fully visible).
+          opacity: InitServices.bell.running ? 1 : 0,
+          duration: const Duration(milliseconds: 500),
+          // The green box must be a child of the AnimatedOpacity widget.
+          child: Text('to next $toNextBellInSeconds'));
     }
+  }
+
+  Random rand = Random();
+
+  int randRGB(min, max) {
+    return min + rand.nextInt(max - min);
+  }
+
+  double randOpacity(double min, double max) {
+    return randRGB((min * 10).round(), (max * 10).round()) / 10;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight, // #380036 > #0CBABA
-              colors: [
-            Color.fromARGB(203, 71, 167, 167),
-            Color.fromARGB(54, 11, 85, 38)
-          ])),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                  height: SizeConfig.getMediaHeight(context) / 3, // 30%
-                  width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width
-                  child: Center(
+    return AnimatedOpacity(
+        // If the widget is visible, animate to 0.0 (invisible).
+        // If the widget is hidden, animate to 1.0 (fully visible).
+        opacity: randOpacity(0.7, 1),
+        duration: const Duration(milliseconds: 10000),
+        child: Container(
+          decoration: BoxDecoration(
+              gradient: InitServices.bell.running // active
+                  ? const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight, // #380036 > #0CBABA
+                      colors: [
+                          Color.fromARGB(198, 68, 233, 131),
+                          Color.fromARGB(180, 14, 14, 126)
+                        ])
+                  : const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight, // #380036 > #0CBABA
+                      colors: [
+                          Color.fromARGB(203, 71, 167, 167),
+                          Color.fromARGB(54, 11, 85, 38)
+                        ])),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                      height: SizeConfig.getMediaHeight(context) / 3, // 30%
+                      width:
+                          SizeConfig.getMediaWidth(context) * 0.75, // 75% width
+                      child: Center(
+                        child: AnimatedOpacity(
+                          // If the widget is visible, animate to 0.0 (invisible).
+                          // If the widget is hidden, animate to 1.0 (fully visible).
+                          opacity: InitServices.bell.running ? 1 : 0,
+                          duration: const Duration(milliseconds: 500),
+                          // The green box must be a child of the AnimatedOpacity widget.
+                          child: selectCountDownWidget(),
+                        ),
+                      )),
+
+                  // show TimeSelector if bell is running
+
+                  SizedBox(
+                    height: SizeConfig.getMediaHeight(context) / 3, // 30%
+                    width:
+                        SizeConfig.getMediaWidth(context) * 0.75, // 75% width
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AnimatedOpacity(
+                          // If the widget is visible, animate to 0.0 (invisible).
+                          // If the widget is hidden, animate to 1.0 (fully visible).
+                          opacity: InitServices.bell.running ? 0.65 : 0.4,
+                          duration: const Duration(milliseconds: 500),
+                          // The green box must be a child of the AnimatedOpacity widget.
+                          child: SwitchBell(
+                              bell: InitServices.bell, callback: callback),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.getMediaHeight(context) / 3, // 30%
+                    width:
+                        SizeConfig.getMediaWidth(context) * 0.75, // 75% width
                     child: AnimatedOpacity(
                       // If the widget is visible, animate to 0.0 (invisible).
                       // If the widget is hidden, animate to 1.0 (fully visible).
                       opacity: InitServices.bell.running ? 1 : 0,
                       duration: const Duration(milliseconds: 500),
                       // The green box must be a child of the AnimatedOpacity widget.
-                      child: selectCountDownWidget(),
+                      child: SliderIntervalSelector(bell: InitServices.bell),
                     ),
-                  )),
-
-              // show TimeSelector if bell is running
-
-              SizedBox(
-                height: SizeConfig.getMediaHeight(context) / 3, // 30%
-                width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SwitchBell(bell: InitServices.bell, callback: callback),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              SizedBox(
-                height: SizeConfig.getMediaHeight(context) / 3, // 30%
-                width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width
-                child: AnimatedOpacity(
-                  // If the widget is visible, animate to 0.0 (invisible).
-                  // If the widget is hidden, animate to 1.0 (fully visible).
-                  opacity: InitServices.bell.running ? 1 : 0,
-                  duration: const Duration(milliseconds: 500),
-                  // The green box must be a child of the AnimatedOpacity widget.
-                  child: SliderIntervalSelector(
-                      bell: InitServices.bell,
-                      callBackIsChanged: isSliderChange),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   void callback() {

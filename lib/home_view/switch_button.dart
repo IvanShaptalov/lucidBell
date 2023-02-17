@@ -24,21 +24,13 @@ class _SwitchBellState extends State<SwitchBell> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              widget.bell.running
-                  ? const AnimatedOpacity(
-                      // If the widget is visible, animate to 0.0 (invisible).
-                      // If the widget is hidden, animate to 1.0 (fully visible).
-                      opacity: 1,
-                      duration: Duration(milliseconds: 500),
-                      // The green box must be a child of the AnimatedOpacity widget.
-                      child: Text('running'))
-                  : const AnimatedOpacity(
-                      // If the widget is visible, animate to 0.0 (invisible).
-                      // If the widget is hidden, animate to 1.0 (fully visible).
-                      opacity: 0,
-                      duration: Duration(milliseconds: 500),
-                      // The green box must be a child of the AnimatedOpacity widget.
-                      child: SizedBox.shrink()),
+              AnimatedOpacity(
+                  // If the widget is visible, animate to 0.0 (invisible).
+                  // If the widget is hidden, animate to 1.0 (fully visible).
+                  opacity: widget.bell.running ? 1 : 0,
+                  duration: Duration(milliseconds: 500),
+                  // The green box must be a child of the AnimatedOpacity widget.
+                  child: Text('running')),
               Switch(
                   value: widget.bell.running,
                   onChanged: ((value) {

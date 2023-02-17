@@ -78,9 +78,9 @@ class Bell {
     Map<String, dynamic> map = <String, dynamic>{
       'running': running,
       'interval': interval.inSeconds,
-      'notificationStack': notificationStack.map((datetime) {
+      'notificationStack': notificationStack.isNotEmpty?notificationStack.map((datetime) {
         return datetime.toString();
-      }).toList(),
+      }).toList(): [],
     };
     return jsonEncode(map);
   }

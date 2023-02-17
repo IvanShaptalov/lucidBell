@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucid_bell/main.dart';
 import 'package:flutter_lucid_bell/theme/theme_setting.dart';
 
 import 'home_view/home_screen.dart';
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Lucid Bell Simplest',
       debugShowCheckedModeBanner: false,
-      theme: ThemeSetting.loadTheme(),
+      theme: ThemeSetting.loadCalmTheme(),
       home: homeScreen,
     );
   }

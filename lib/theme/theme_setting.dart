@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ThemeSetting {
-  static dynamic loadTheme() {
+  static  loadCalmTheme() {
     return ThemeData(
       // Define the default brightness and colors.
       brightness: Brightness.dark,

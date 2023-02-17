@@ -57,7 +57,7 @@ void callbackDispatcher() {
 class InitServices {
   static CustomNotificationService notificationService =
       CustomNotificationService();
-
+  static bool isSliderChanging = false;
   static Bell bell = mockBell();
   static Bell mockBell() => Bell(
       running: false,
