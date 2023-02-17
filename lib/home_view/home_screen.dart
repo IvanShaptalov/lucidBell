@@ -26,11 +26,11 @@ class _HomeScreenState extends State<HomeScreen> {
   int toNextBellInSeconds = 0;
 
   int lastToNextBell() {
-    if (InitServices.bell.notificationStack.isEmpty){
+    if (InitServices.bell.notificationStack.isEmpty) {
       Future.sync(() async {
         print('updated');
         var jsonBell = await LocalPathProvider.getBellJsonAsync();
-        if (jsonBell != null){
+        if (jsonBell != null) {
           InitServices.bell = Bell.fromJson(jsonBell);
           return true;
         }
@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
           .difference(DateTime.now())
           .inSeconds;
       print(seconds);
-      if (seconds < 0){
+      if (seconds < 0) {
         return 0;
       }
       return seconds;
@@ -69,6 +69,18 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
+  Widget selectCountDownWidget() {
+    if (InitServices.bell.running) {
+      if (toNextBellInSeconds == 0) {
+        return Text('loading bell ...');
+      } else {
+        return Text('to next $toNextBellInSeconds');
+      }
+    } else {
+      return SizedBox.shrink();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('to next bell in seconds: $toNextBellInSeconds'),
+            selectCountDownWidget(),
             IconButton(
                 onPressed: () async {
                   await InitServices.notificationService.playSound(
