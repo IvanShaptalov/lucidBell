@@ -25,13 +25,27 @@ class _HomeScreenState extends State<HomeScreen> {
   late Timer timer;
   int toNextBellInSeconds = 0;
 
-  int get lastToNextBell {
-    if (InitServices.bell.notificationStack.isNotEmpty) {
-      return DateTime.now()
-          .difference(DateTime.now().add(InitServices.bell.interval))
-          .inSeconds;
+  int lastToNextBell() {
+    if (InitServices.bell.notificationStack.isEmpty){
+      Future.sync(() async {
+        print('updated');
+        var jsonBell = await LocalPathProvider.getBellJsonAsync();
+        if (jsonBell != null){
+          InitServices.bell = Bell.fromJson(jsonBell);
+          return true;
+        }
+        return false;
+      });
     }
-    return 0;
+    if (InitServices.bell.notificationStack.isNotEmpty) {
+      int seconds = InitServices.bell.notificationStack.first
+          .difference(DateTime.now())
+          .inSeconds;
+      print(seconds);
+      return seconds;
+    } else {
+      return 0;
+    }
   }
 
   @override
@@ -39,10 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       print('i work');
       setState(() {
-        toNextBellInSeconds = lastToNextBell;
+        toNextBellInSeconds = lastToNextBell();
       });
-      
-
     });
 
     super.initState();
@@ -63,7 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text('to next bell in seconds: $toNextBellInSeconds'),
+          children: [
+            Text('to next bell in seconds: $toNextBellInSeconds'),
             IconButton(
                 onPressed: () async {
                   await InitServices.notificationService.playSound(
