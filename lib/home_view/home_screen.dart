@@ -72,12 +72,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget selectCountDownWidget() {
     if (InitServices.bell.running) {
       if (toNextBellInSeconds == 0) {
-        return Text('loading bell ...');
+        return const Text('loading bell ...');
       } else {
         return Text('to next $toNextBellInSeconds');
       }
     } else {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
   }
 
