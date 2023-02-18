@@ -31,7 +31,7 @@ class _SliderIntervalSelectorState extends State<SliderIntervalSelector> {
               // update notifications
             });
             InitServices.bell.setInterval = Duration(minutes: value.round());
-            // InitServices.bell.clearNotifications();
+            InitServices.bell.clearNotifications();
             assert(InitServices.bell.notificationStack.isEmpty);// need to be empty
           },
           onChangeStart: (value) async {
