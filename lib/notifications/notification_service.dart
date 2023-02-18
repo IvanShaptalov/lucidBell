@@ -9,7 +9,7 @@ import 'package:flutter_lucid_bell/config.dart';
 import 'package:flutter_lucid_bell/main.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
-import 'package:timezone/data/latest.dart' as tzData;
+import 'package:timezone/data/latest.dart' as tz_data;
 import 'package:workmanager/workmanager.dart';
 
 class CustomNotificationService {
@@ -39,7 +39,7 @@ class CustomNotificationService {
   ) async {
     // #1
 
-    tzData.initializeTimeZones();
+    tz_data.initializeTimeZones();
     final scheduleTime =
         tz.TZDateTime.fromMillisecondsSinceEpoch(tz.local, endTime);
 

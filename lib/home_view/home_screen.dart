@@ -1,11 +1,7 @@
 // ignore_for_file: must_be_immutable
 
-import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart';
-import 'package:flutter_lucid_bell/bell/bell_logic.dart';
 import 'package:flutter_lucid_bell/config.dart';
 import 'package:flutter_lucid_bell/home_view/bell_info.dart';
 import 'package:flutter_lucid_bell/home_view/slider_interval_selector.dart';
@@ -53,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                   height: SizeConfig.getMediaHeight(context) / 3, // 30%
                   width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width
-                  child: Center(child: BellInfo())),
+                  child: const Center(child: BellInfo())),
 
               // show TimeSelector if bell is running
 
@@ -83,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   opacity: InitServices.bell.running ? 1 : 0,
                   duration: const Duration(milliseconds: 300),
                   // The green box must be a child of the AnimatedOpacity widget.
-                  child: SliderIntervalSelector(),
+                  child: const SliderIntervalSelector(),
                 ),
               ),
             ],

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_lucid_bell/bell/bell_logic.dart';
 import 'package:flutter_lucid_bell/config.dart';
 import 'package:flutter_lucid_bell/main.dart';
 
@@ -27,9 +26,9 @@ class _SwitchBellState extends State<SwitchBell> {
                   // If the widget is visible, animate to 0.0 (invisible).
                   // If the widget is hidden, animate to 1.0 (fully visible).
                   opacity: InitServices.bell.running ? 1 : 0,
-                  duration: Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 500),
                   // The green box must be a child of the AnimatedOpacity widget.
-                  child: Text('running')),
+                  child: const Text('running')),
               Switch(
                   value: InitServices.bell.running,
                   onChanged: ((value) {

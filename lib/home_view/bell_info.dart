@@ -50,6 +50,9 @@ class _BellInfoState extends State<BellInfo> {
       // NOT UPDATE IF SLIDER  CHANGING OR BELL NOT RUN
       if (!InitServices.bell.running) {
         print('paused');
+        setState(() {
+          
+        });
       } else {
         print('i work');
         setState(() {

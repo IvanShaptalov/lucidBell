@@ -39,6 +39,7 @@ void callbackDispatcher() {
         case Config.intervalTask:
           assert(bell != null);
           
+          // ignore: unnecessary_null_comparison
           assert(bell!.getInterval != null);
           // interval must exist!
           DateTime nextBell = DateTime.now().add(bell!.getInterval);

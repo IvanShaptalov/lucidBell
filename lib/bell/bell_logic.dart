@@ -61,7 +61,7 @@ class Bell {
   }
 
   Bell(this.running, this.notificationStack, Duration interval) {
-    this.setInterval = interval;
+    setInterval = interval;
   }
 
   factory Bell.clone(Bell source) {
