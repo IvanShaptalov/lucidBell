@@ -7,6 +7,7 @@ import 'package:flutter_lucid_bell/config.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
+
 class LocalPathProvider {
   static String?
       appDocPath; //use createAppDirAsync to set appDocPath to string path

@@ -63,5 +63,28 @@ void main() {
 
       expect(bell == newBell, true);
     });
+
+    test('test empty notification bell saving in file', () async {
+      await LocalPathProvider.init();
+      // test check that music real loading from path, expect string
+      Bell bell = InitServices.mockBell();
+      bell.setInterval = const Duration(hours: 2);
+      bell.notificationStack = [DateTime.now().add(const Duration(hours: 4))];
+      //SAVE TO FILE
+      LocalPathProvider.saveBell(bell);
+
+      //LOAD BELL FROM FILE
+      //EXPECTED TO BE NULL
+      Bell newBell = (await Bell.loadLocalSettings())!;
+      // ignore: unnecessary_null_comparison
+      expect(newBell != null, true);
+
+      //CHECK IDENTITY
+      expect(bell.getInterval.compareTo(newBell.getInterval), 0);
+
+      expect(bell.running == newBell.running, true);
+
+      expect(bell == newBell, true);
+    });
   });
 }

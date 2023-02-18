@@ -106,7 +106,7 @@ class _BellInfoState extends State<BellInfo> {
                             !InitServices.isSliderChanging
                         ? 1
                         : 0,
-                    duration: const Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 300),
                     child: Text(snapshot.data.toString(),
                         style: const TextStyle(
                             color: Color.fromARGB(255, 255, 255, 255),
@@ -123,7 +123,7 @@ class _BellInfoState extends State<BellInfo> {
                     InitServices.bell.running && !InitServices.isSliderChanging
                         ? 1
                         : 0,
-                duration: const Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 300),
                 child: Text(lastLoadedData.toString(),
                     style: const TextStyle(
                         color: Color.fromARGB(255, 255, 255, 255),

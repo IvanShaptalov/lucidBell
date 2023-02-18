@@ -46,15 +46,18 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                  height: SizeConfig.getMediaHeight(context) / 3, // 30%
-                  width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width
-                  child: const Center(child: BellInfo())),
+              Padding(
+                padding: EdgeInsets.only(top: SizeConfig.getMediaHeight(context) /10), //10% height
+                child: SizedBox(
+                    height: SizeConfig.getMediaHeight(context) *0.25, // 25% height
+                    width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width
+                    child: const Center(child: BellInfo())),
+              ),
 
               // show TimeSelector if bell is running
 
               SizedBox(
-                height: SizeConfig.getMediaHeight(context) / 3, // 30%
+                height: SizeConfig.getMediaHeight(context) * 0.3, // 30% height
                 width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -71,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(
-                height: SizeConfig.getMediaHeight(context) / 3, // 30%
+                height: SizeConfig.getMediaHeight(context) * 0.3, // 30% height
                 width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width
                 child: AnimatedOpacity(
                   // If the widget is visible, animate to 0.0 (invisible).

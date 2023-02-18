@@ -35,8 +35,7 @@ class _SliderIntervalSelectorState extends State<SliderIntervalSelector> {
           },
           onChangeStart: (value) async {
             InitServices.isSliderChanging = true;
-            assert(InitServices
-                .bell.notificationStack.isEmpty); // need to be empty
+          
             // widget.callBackIsChanged(true);
           },
           onChangeEnd: (value) async {

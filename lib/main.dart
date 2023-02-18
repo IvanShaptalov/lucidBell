@@ -6,6 +6,7 @@ import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart
 import 'package:flutter_lucid_bell/config.dart';
 import 'package:flutter_lucid_bell/notifications/notification_service.dart';
 import 'package:workmanager/workmanager.dart';
+import 'package:intl/intl.dart';
 
 import 'app.dart';
 
@@ -27,7 +28,6 @@ void callbackDispatcher() {
     // LocalPathProvider must be initialized!
 
     Bell? bell = await Bell.loadLocalSettings();
-  
 
     String nextBellOn = 'Reminder';
     assert(bell != null);
@@ -38,25 +38,25 @@ void callbackDispatcher() {
       switch (task) {
         case Config.intervalTask:
           assert(bell != null);
-          
+
           // ignore: unnecessary_null_comparison
           assert(bell!.getInterval != null);
           // interval must exist!
           DateTime nextBell = DateTime.now().add(bell!.getInterval);
-          
-          nextBellOn += ', next bell on $nextBell';
+
+          nextBellOn +=
+              ', next bell on ${DateFormat('h:mm:ss a').format(nextBell)}';
 
           bell.notificationStack = [nextBell];
 
           // new delay must be after now date
           assert(DateTime.now().isBefore(bell.notificationStack.first));
-          
+
           await InitServices.notificationService
               .scheduleNotifications('bell notification', nextBellOn);
 
           // WAIT FOR NOTIFICATION
           await Future.delayed(const Duration(seconds: 5));
-
 
           LocalPathProvider.saveBell(bell);
 
@@ -89,6 +89,8 @@ class InitServices {
     print('notification initialized');
     print('bell registered');
     Bell? cashedBell = await Bell.loadLocalSettings();
+    print('cashed');
+    print(cashedBell);
     if (cashedBell != null) {
       InitServices.bell = cashedBell;
     }

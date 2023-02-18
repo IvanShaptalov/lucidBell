@@ -96,9 +96,14 @@ class CustomNotificationService {
     Bell innerBell = InitServices.mockBell();
     while (true) {
       await Future.delayed(const Duration(seconds: 1));
-      if (innerBell != InitServices.bell) {
+      if (innerBell !=
+          InitServices.bell /* && !InitServices.isSliderChanging*/) {
         // UPDATE AND SAVE BELL
         innerBell = Bell.clone(InitServices.bell);
+        LocalPathProvider.saveBell(InitServices.bell);
+        yield innerBell;
+      } else if (InitServices.bell.notificationStack
+          .isEmpty /* && !InitServices.isSliderChanging*/) {
         yield innerBell;
       }
     }
