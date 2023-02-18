@@ -14,6 +14,7 @@ class BellInfo extends StatefulWidget {
 class _BellInfoState extends State<BellInfo> {
   late Timer timer;
   Future<int>? toNextBellInSeconds;
+  int lastLoadedData = 0;
 
   Future<int> lastToNextBell() async {
     if (InitServices.bell.notificationStack.isNotEmpty) {
@@ -79,30 +80,15 @@ class _BellInfoState extends State<BellInfo> {
         BuildContext context,
         AsyncSnapshot<int> snapshot,
       ) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return AnimatedOpacity(
-              // If the widget is visible, animate to 0.0 (invisible).
-              // If the widget is hidden, animate to 1.0 (fully visible).
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasData && snapshot.data != 0) {
+            int? newData = snapshot.data;
+            if (newData != null && newData != 0) {
+              lastLoadedData = newData;
+            }
+            print('last loaded');
 
-              opacity:
-                  InitServices.bell.running && !InitServices.isSliderChanging
-                      ? 1
-                      : 0,
-              duration: const Duration(milliseconds: 1000),
-              child: Text('bell loading...',
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 36)));
-        } else if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasError) {
-            return AnimatedOpacity(
-                // If the widget is visible, animate to 0.0 (invisible).
-                // If the widget is hidden, animate to 1.0 (fully visible).
-
-                opacity: InitServices.bell.running ? 1 : 0,
-                duration: const Duration(milliseconds: 1000),
-                child: const Text('Error'));
-          } else if (snapshot.hasData) {
+            print(lastLoadedData);
             return AnimatedOpacity(
                 // If the widget is visible, animate to 0.0 (invisible).
                 // If the widget is hidden, animate to 1.0 (fully visible).
@@ -111,35 +97,26 @@ class _BellInfoState extends State<BellInfo> {
                     InitServices.bell.running && !InitServices.isSliderChanging
                         ? 1
                         : 0,
-                duration: const Duration(milliseconds: 1000),
+                duration: const Duration(milliseconds: 500),
                 child: Text(snapshot.data.toString(),
                     style: const TextStyle(
                         color: Color.fromARGB(255, 255, 255, 255),
                         fontSize: 36)));
-          } else {
-            return AnimatedOpacity(
-                // If the widget is visible, animate to 0.0 (invisible).
-                // If the widget is hidden, animate to 1.0 (fully visible).
-
-                opacity:
-                    InitServices.bell.running && !InitServices.isSliderChanging
-                        ? 1
-                        : 0,
-                duration: const Duration(milliseconds: 1000),
-                child: const Text('Empty data'));
           }
-        } else {
-          return AnimatedOpacity(
-              // If the widget is visible, animate to 0.0 (invisible).
-              // If the widget is hidden, animate to 1.0 (fully visible).
-
-              opacity:
-                  InitServices.bell.running && !InitServices.isSliderChanging
-                      ? 1
-                      : 0,
-              duration: const Duration(milliseconds: 1000),
-              child: Text('State: ${snapshot.connectionState}'));
         }
+        print('last loaded');
+        print(lastLoadedData);
+        return AnimatedOpacity(
+            // If the widget is visible, animate to 0.0 (invisible).
+            // If the widge t is hidden, animate to 1.0 (fully visible).
+
+            opacity: InitServices.bell.running && !InitServices.isSliderChanging
+                ? 1
+                : 0,
+            duration: const Duration(milliseconds: 500),
+            child: Text(lastLoadedData.toString(),
+                style: const TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255), fontSize: 36)));
       },
     );
   }

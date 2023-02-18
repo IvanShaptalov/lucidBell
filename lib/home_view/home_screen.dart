@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       // If the widget is visible, animate to 0.0 (invisible).
                       // If the widget is hidden, animate to 1.0 (fully visible).
                       opacity: InitServices.bell.running ? 0.65 : 0.4,
-                      duration: const Duration(milliseconds: 500),
+                      duration: const Duration(milliseconds: 600),
                       // The green box must be a child of the AnimatedOpacity widget.
                       child: SwitchBell(
                           bell: InitServices.bell, callback: callback),
@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   // If the widget is visible, animate to 0.0 (invisible).
                   // If the widget is hidden, animate to 1.0 (fully visible).
                   opacity: InitServices.bell.running ? 1 : 0,
-                  duration: const Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 300),
                   // The green box must be a child of the AnimatedOpacity widget.
                   child: SliderIntervalSelector(bell: InitServices.bell),
                 ),

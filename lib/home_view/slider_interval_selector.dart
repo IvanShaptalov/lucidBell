@@ -35,11 +35,14 @@ class _SliderIntervalSelectorState extends State<SliderIntervalSelector> {
 
             InitServices.bell.clearNotifications();
           },
-          onChangeStart: (value) {
+          onChangeStart: (value) async {
+            await Future.delayed(Duration(milliseconds: 300));
             InitServices.isSliderChanging = true;
             // widget.callBackIsChanged(true);
           },
           onChangeEnd: (value) async {
+            await Future.delayed(Duration(milliseconds: 300));
+
             InitServices.isSliderChanging = false;
 
             // widget.callBackIsChanged(false);
