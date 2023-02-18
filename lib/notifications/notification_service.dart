@@ -31,7 +31,7 @@ class CustomNotificationService {
     });
   }
 
-  Future<void> playSound(
+  Future<void> registerNotification(
     title,
     body,
     endTime,
@@ -69,17 +69,25 @@ class CustomNotificationService {
     );
   }
 
+  bool dateExpiredOrStackEmpty(Bell innerBell) {
+    if (innerBell.notificationStack.isNotEmpty) {
+      return DateTime.now().isAfter(innerBell.notificationStack.first.add());
+    }
+    return true;
+  }
+
   //id to identify new notification
   Future<void> scheduleNotifications(String title, String body) async {
     try {
-      await playSound(
+      await registerNotification(
           title, body, DateTime.now().millisecondsSinceEpoch + 1000, 'testing');
     } catch (e) {
       // ignore: avoid_print
       print(e);
     }
   }
-  /// listen changes in [InitServices.bell] and 
+
+  /// listen changes in [InitServices.bell] and
   /// if it exist, yield bell
   Stream<Bell> bellListener() async* {
     print(
@@ -92,24 +100,9 @@ class CustomNotificationService {
         // UPDATE AND SAVE BELL
         innerBell = Bell.clone(InitServices.bell);
         yield innerBell;
-      } 
+      }
     }
   }
-
-  Future<void> clearNotifications() async {
-    await _localNotificationsPlugin.cancelAll();
-  }
-
-  bool dateExpiredOrStackEmpty(Bell innerBell){
-    if (innerBell.notificationStack.isNotEmpty){
-      return DateTime.now().isAfter(innerBell.notificationStack.first.add());
-    }
-    return true;
-    
-  }
-
-  
-
 
   /// [circleNotification] react to [bellListener] check
   /// that [innerBell] is running, if true
@@ -117,20 +110,42 @@ class CustomNotificationService {
   /// add new notification in stack, save to file, register periodic task
   /// [callbackDispatcher] in main.dart
   /// if bell paused, clear all
-  void circleNotification(Bell innerBell) async {
+  void circleNotification() async {
+    // ASSERT THAT BELL ALWAYS CREATED
+    // ignore: unnecessary_null_comparison
+    assert (InitServices.bell != null);
     // NOTIFICATION STACK ALWAYS CONTAIN ONE OR NOT CONTAINS NOTIFICATIONS;
 
     // NOTIFICATION SCHEDULING LOGIC HERE
-    if (innerBell.running) {
+    if (InitServices.bell.running) {
       print('try add notification');
 
       // add new task
-      if (dateExpiredOrStackEmpty(innerBell)) {
+      if (dateExpiredOrStackEmpty(InitServices.bell)) {
+        // assert that not expired
+        if (InitServices.bell.notificationStack.isNotEmpty) {
+          assert(DateTime.now().isAfter(InitServices.bell.notificationStack.first));
+        }
+
+        // assert that must be empty
+        assert(InitServices.bell.notificationStack.isEmpty);
+
+
         await InitServices.bell.clearNotifications();
+
+        // check that really cleared
+        assert(InitServices.bell.notificationStack.isEmpty);
+
+
         InitServices.bell.notificationStack = [
           DateTime.now().add(InitServices.bell.getInterval)
         ];
-        await LocalPathProvider.saveBell(innerBell);
+
+        // added delayed datetime
+        assert(DateTime.now().isBefore(InitServices.bell.notificationStack.first));
+
+
+        await LocalPathProvider.saveBell(InitServices.bell);
 
         await Workmanager().registerPeriodicTask(
             Config.intervalTask, Config.intervalTask,

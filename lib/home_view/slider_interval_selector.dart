@@ -39,7 +39,7 @@ class _SliderIntervalSelectorState extends State<SliderIntervalSelector> {
             // widget.callBackIsChanged(true);
           },
           onChangeEnd: (value) async {
-            await Future.delayed(Duration(milliseconds: 300));
+            await Future.delayed(const Duration(milliseconds: 300));
             
             InitServices.isSliderChanging = false;
 

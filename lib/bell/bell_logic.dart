@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart';
-import 'package:flutter_lucid_bell/main.dart';
 import 'package:workmanager/workmanager.dart';
 
 class Bell {
