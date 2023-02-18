@@ -97,6 +97,9 @@ class CustomNotificationService {
         await LocalPathProvider.saveBell(innerBell.toJson());
 
         yield innerBell;
+      } else if (innerBell.running && innerBell.notificationStack.isEmpty) {
+        yield innerBell; // notification stack must be always with notification if running, when load
+        // from cash it can be empty
       }
     }
   }
@@ -125,6 +128,10 @@ class CustomNotificationService {
       // add new task
       if (InitServices.bell.notificationStack.isEmpty) {
         await InitServices.bell.clearNotifications();
+        InitServices.bell.notificationStack = [
+          DateTime.now().add(InitServices.bell.interval)
+        ];
+        await LocalPathProvider.saveBell(innerBell.toJson());
 
         await Workmanager().registerPeriodicTask(
             Config.intervalTask, Config.intervalTask,

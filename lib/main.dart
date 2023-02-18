@@ -21,14 +21,12 @@ void callbackDispatcher() {
     }
     assert(LocalPathProvider.initialized);
 
-    String? bellJson = await LocalPathProvider.getBellJsonAsync();
-    Bell? bell;
+    
+    Bell? bell = await Bell.loadLocalSettings();
 
-    if (bellJson != null) {
-      bell = Bell.fromJson(bellJson);
-    }
-
+  
     String nextBellOn = 'Reminder';
+    assert(bell != null);
 
     //FIND OUT TASK
     try {
@@ -36,13 +34,15 @@ void callbackDispatcher() {
         case Config.intervalTask:
           assert(bell != null);
           DateTime nextBell = DateTime.now().add(bell!.interval);
+
+          nextBellOn += ', next bell on $nextBell';
+
           bell.notificationStack = [nextBell];
           LocalPathProvider.saveBell(bell.toJson());
-          nextBellOn += ', next bell on $nextBell';
 
           await InitServices.notificationService
               .scheduleNotifications('bell notification', nextBellOn);
-          
+
           break;
       }
 
@@ -74,10 +74,15 @@ class InitServices {
     await notificationService.init();
     print('notification initialized');
     print('bell registered');
-    registerBellListener();
-    var cashedBell = await Bell.loadLocalSettings();
+    Bell? cashedBell = await Bell.loadLocalSettings();
+    if (cashedBell != null){
+      InitServices.bell = cashedBell;
+    }
+    // if bell cashed, yield bell if bell listener condition;
+   
 
-    bell = cashedBell ?? bell;
+    registerBellListener();
+
     return true;
   }
 

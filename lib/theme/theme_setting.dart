@@ -6,7 +6,7 @@ class ThemeSetting {
       // Define the default brightness and colors.
       brightness: Brightness.dark,
       scaffoldBackgroundColor: Colors.black87,
-      primaryColor: Colors.lightBlue[800],
+      primaryColor: Colors.black54,
 
       // Define the default font family.
       fontFamily: 'Georgia',
