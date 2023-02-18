@@ -46,13 +46,15 @@ class _BellInfoState extends State<BellInfo> {
   void initState() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       // NOT UPDATE IF SLIDER  CHANGING OR BELL NOT RUN
-      if (InitServices.isSliderChanging || !InitServices.bell.running) {
+      if (!InitServices.bell.running) {
         print('paused');
       } else {
         print('i work');
         setState(() {
+          if (!InitServices.isSliderChanging) {
+            toNextBellInSeconds = lastToNextBell();
+          }
           // update bell info
-          toNextBellInSeconds = lastToNextBell();
         });
       }
     });
@@ -70,33 +72,75 @@ class _BellInfoState extends State<BellInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: Center(
-        child: FutureBuilder<int>(
-          future: toNextBellInSeconds,
-          initialData: 0,
-          builder: (
-            BuildContext context,
-            AsyncSnapshot<int> snapshot,
-          ) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return const Text('Error');
-              } else if (snapshot.hasData) {
-                return Text(snapshot.data.toString(),
+    return FutureBuilder<int>(
+      future: toNextBellInSeconds,
+      initialData: 0,
+      builder: (
+        BuildContext context,
+        AsyncSnapshot<int> snapshot,
+      ) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return AnimatedOpacity(
+              // If the widget is visible, animate to 0.0 (invisible).
+              // If the widget is hidden, animate to 1.0 (fully visible).
+
+              opacity:
+                  InitServices.bell.running && !InitServices.isSliderChanging
+                      ? 1
+                      : 0,
+              duration: const Duration(milliseconds: 1000),
+              child: Text('bell loading...',
+                  style: TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 36)));
+        } else if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+            return AnimatedOpacity(
+                // If the widget is visible, animate to 0.0 (invisible).
+                // If the widget is hidden, animate to 1.0 (fully visible).
+
+                opacity: InitServices.bell.running ? 1 : 0,
+                duration: const Duration(milliseconds: 1000),
+                child: const Text('Error'));
+          } else if (snapshot.hasData) {
+            return AnimatedOpacity(
+                // If the widget is visible, animate to 0.0 (invisible).
+                // If the widget is hidden, animate to 1.0 (fully visible).
+
+                opacity:
+                    InitServices.bell.running && !InitServices.isSliderChanging
+                        ? 1
+                        : 0,
+                duration: const Duration(milliseconds: 1000),
+                child: Text(snapshot.data.toString(),
                     style: const TextStyle(
                         color: Color.fromARGB(255, 255, 255, 255),
-                        fontSize: 36));
-              } else {
-                return const Text('Empty data');
-              }
-            } else {
-              return const SizedBox.shrink();
-            }
-          },
-        ),
-      ),
+                        fontSize: 36)));
+          } else {
+            return AnimatedOpacity(
+                // If the widget is visible, animate to 0.0 (invisible).
+                // If the widget is hidden, animate to 1.0 (fully visible).
+
+                opacity:
+                    InitServices.bell.running && !InitServices.isSliderChanging
+                        ? 1
+                        : 0,
+                duration: const Duration(milliseconds: 1000),
+                child: const Text('Empty data'));
+          }
+        } else {
+          return AnimatedOpacity(
+              // If the widget is visible, animate to 0.0 (invisible).
+              // If the widget is hidden, animate to 1.0 (fully visible).
+
+              opacity:
+                  InitServices.bell.running && !InitServices.isSliderChanging
+                      ? 1
+                      : 0,
+              duration: const Duration(milliseconds: 1000),
+              child: Text('State: ${snapshot.connectionState}'));
+        }
+      },
     );
   }
 }

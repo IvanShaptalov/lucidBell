@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ThemeSetting {
-  static  loadCalmTheme() {
+  static loadCalmTheme() {
     return ThemeData(
       // Define the default brightness and colors.
       brightness: Brightness.dark,
       scaffoldBackgroundColor: Colors.black87,
       primaryColor: Colors.black54,
+      bottomAppBarTheme: const BottomAppBarTheme(color: Colors.black),
 
       // Define the default font family.
       fontFamily: 'Georgia',

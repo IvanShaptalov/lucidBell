@@ -53,16 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                   height: SizeConfig.getMediaHeight(context) / 3, // 30%
                   width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width
-                  child: Center(
-                    child: AnimatedOpacity(
-                        // If the widget is visible, animate to 0.0 (invisible).
-                        // If the widget is hidden, animate to 1.0 (fully visible).
-
-                        // SHOW ONLY IF NOT CHANGE SLIDER AND BELL RUNNING
-                        opacity: InitServices.bell.running && !InitServices.isSliderChanging ? 1 : 0,
-                        duration: const Duration(milliseconds: 1000),
-                        child: const BellInfo()),
-                  )),
+                  child: Center(child: BellInfo())),
 
               // show TimeSelector if bell is running
 
