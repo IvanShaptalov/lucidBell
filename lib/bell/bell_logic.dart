@@ -31,9 +31,18 @@ class Bell {
     //todo change notification flag
   }
 
+  int get getNotificationStackHash {
+    String hash = "nothingor";
+    notificationStack.forEach((element) {
+      hash += element.toString();
+    });
+    return hash.hashCode;
+
+  }
+
   @override
   String toString() {
-    return "${super.toString()} $_interval $running $notificationStack";
+    return "${super.toString()} $_interval $running $getNotificationStackHash";
   }
 
   @override

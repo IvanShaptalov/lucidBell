@@ -97,7 +97,7 @@ class CustomNotificationService {
     while (true) {
       await Future.delayed(const Duration(seconds: 1));
       if (innerBell != InitServices.bell) {
-        // UPDATE AND SAVE BELL
+        // UPDATE BELL
         innerBell = Bell.clone(InitServices.bell);
         yield innerBell;
       }
