@@ -100,13 +100,13 @@ class CustomNotificationService {
           InitServices.bell /* && !InitServices.isSliderChanging*/) {
         // UPDATE AND SAVE BELL
         innerBell = Bell.clone(InitServices.bell);
-        LocalPathProvider.saveBell(InitServices.bell);
+        await LocalPathProvider.saveBell(InitServices.bell);
         yield innerBell;
       } else if (InitServices.bell.notificationStack
           .isEmpty /* && !InitServices.isSliderChanging*/) {
-        yield innerBell;
         innerBell = Bell.clone(InitServices.bell);
-        LocalPathProvider.saveBell(InitServices.bell);
+        await LocalPathProvider.saveBell(InitServices.bell);
+        yield innerBell;
       }
     }
   }
