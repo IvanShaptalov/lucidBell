@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/bell/bell_logic.dart';
 import 'package:flutter_lucid_bell/main.dart';
+import 'package:intl/intl.dart';
 
 class BellInfo extends StatefulWidget {
   const BellInfo({super.key});
@@ -73,51 +74,60 @@ class _BellInfoState extends State<BellInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<int>(
-      future: toNextBellInSeconds,
-      initialData: 0,
-      builder: (
-        BuildContext context,
-        AsyncSnapshot<int> snapshot,
-      ) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasData && snapshot.data != 0) {
-            int? newData = snapshot.data;
-            if (newData != null && newData != 0) {
-              lastLoadedData = newData;
+    return Column(
+      children: [
+        Text(DateFormat('h:mm:ss a').format(DateTime.now()),
+            style: const TextStyle(
+                color: Color.fromARGB(255, 255, 255, 255), fontSize: 42)),
+        FutureBuilder<int>(
+          future: toNextBellInSeconds,
+          initialData: 0,
+          builder: (
+            BuildContext context,
+            AsyncSnapshot<int> snapshot,
+          ) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData && snapshot.data != 0) {
+                int? newData = snapshot.data;
+                if (newData != null && newData != 0) {
+                  lastLoadedData = newData;
+                }
+                print('last loaded');
+
+                print(lastLoadedData);
+                return AnimatedOpacity(
+                    // If the widget is visible, animate to 0.0 (invisible).
+                    // If the widget is hidden, animate to 1.0 (fully visible).
+
+                    opacity: InitServices.bell.running &&
+                            !InitServices.isSliderChanging
+                        ? 1
+                        : 0,
+                    duration: const Duration(milliseconds: 500),
+                    child: Text(snapshot.data.toString(),
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 36)));
+              }
             }
             print('last loaded');
-
             print(lastLoadedData);
             return AnimatedOpacity(
                 // If the widget is visible, animate to 0.0 (invisible).
-                // If the widget is hidden, animate to 1.0 (fully visible).
+                // If the widge t is hidden, animate to 1.0 (fully visible).
 
                 opacity:
                     InitServices.bell.running && !InitServices.isSliderChanging
                         ? 1
                         : 0,
                 duration: const Duration(milliseconds: 500),
-                child: Text(snapshot.data.toString(),
+                child: Text(lastLoadedData.toString(),
                     style: const TextStyle(
                         color: Color.fromARGB(255, 255, 255, 255),
                         fontSize: 36)));
-          }
-        }
-        print('last loaded');
-        print(lastLoadedData);
-        return AnimatedOpacity(
-            // If the widget is visible, animate to 0.0 (invisible).
-            // If the widge t is hidden, animate to 1.0 (fully visible).
-
-            opacity: InitServices.bell.running && !InitServices.isSliderChanging
-                ? 1
-                : 0,
-            duration: const Duration(milliseconds: 500),
-            child: Text(lastLoadedData.toString(),
-                style: const TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255), fontSize: 36)));
-      },
+          },
+        ),
+      ],
     );
   }
 }
