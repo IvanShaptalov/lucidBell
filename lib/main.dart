@@ -10,6 +10,9 @@ import 'package:workmanager/workmanager.dart';
 import 'app.dart';
 
 @pragma('vm:entry-point')
+
+/// [callbackDispatcher] is background task that started in [InitServices.notificationService.circleNotification]
+/// load bell from file, add new interval save new bell to file and schedule notification to 1 seconds;
 void callbackDispatcher() {
   // WidgetsFlutterBinding.ensureInitialized();
 
@@ -21,10 +24,8 @@ void callbackDispatcher() {
     }
     assert(LocalPathProvider.initialized);
 
-    
     Bell? bell = await Bell.loadLocalSettings();
 
-  
     String nextBellOn = 'Reminder';
     assert(bell != null);
 
@@ -33,15 +34,20 @@ void callbackDispatcher() {
       switch (task) {
         case Config.intervalTask:
           assert(bell != null);
-          DateTime nextBell = DateTime.now().add(bell!.interval);
+          DateTime nextBell = DateTime.now().add(bell!.getInterval);
 
           nextBellOn += ', next bell on $nextBell';
 
           bell.notificationStack = [nextBell];
-          LocalPathProvider.saveBell(bell.toJson());
+          
 
           await InitServices.notificationService
               .scheduleNotifications('bell notification', nextBellOn);
+
+          // WAIT FOR NOTIFICATION
+          await Future.delayed(const Duration(seconds: 5));
+
+          LocalPathProvider.saveBell(bell);
 
           break;
       }
@@ -59,10 +65,7 @@ class InitServices {
       CustomNotificationService();
   static bool isSliderChanging = false;
   static Bell bell = mockBell();
-  static Bell mockBell() => Bell(
-      running: false,
-      interval: const Duration(minutes: 15),
-      notificationStack: []);
+  static Bell mockBell() => Bell(false, [], const Duration(minutes: 15));
 
   static var myApp = MyApp();
 
@@ -75,11 +78,10 @@ class InitServices {
     print('notification initialized');
     print('bell registered');
     Bell? cashedBell = await Bell.loadLocalSettings();
-    if (cashedBell != null){
+    if (cashedBell != null) {
       InitServices.bell = cashedBell;
     }
     // if bell cashed, yield bell if bell listener condition;
-   
 
     registerBellListener();
 

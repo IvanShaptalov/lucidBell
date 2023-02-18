@@ -6,24 +6,37 @@ import 'package:workmanager/workmanager.dart';
 
 class Bell {
   bool running;
-  Duration interval; // duration in minutes
+  late Duration _interval; // duration in minutes
   double intervalLowerBound = 15;
   double intervalUpperBound = 180;
   List notificationStack = [];
+
+  // not bigger and lower of bounds
+  // if you change interval, you clear next notification
+  set setInterval(Duration duration) {
+    assert(duration.inMinutes >= intervalLowerBound);
+    assert(duration.inMinutes <= intervalUpperBound);
+    _interval = duration;
+    // clear notification to commit changes
+  }
+
+  Duration get getInterval {
+    return _interval;
+  }
 
   Future<void> clearNotifications() async {
     if (notificationStack.isNotEmpty) {
       notificationStack.clear();
     }
     await Workmanager().cancelAll();
-    await InitServices.notificationService.clearNotifications();
-    LocalPathProvider.saveBell(toJson());
+    // await InitServices.notificationService.clearNotifications(); // not clear, because sending deleted 5 seconds before playing, not schedule notificaionts
+    LocalPathProvider.saveBell(this);
     //todo change notification flag
   }
 
   @override
   String toString() {
-    return "${super.toString()} $interval $running $notificationStack";
+    return "${super.toString()} $_interval $running $notificationStack";
   }
 
   @override
@@ -50,37 +63,34 @@ class Bell {
     print('running changed to: $running');
   }
 
-
-
-  Bell(
-      {required this.running,
-      required this.interval,
-      required this.notificationStack});
+  Bell(this.running, this.notificationStack, Duration interval) {
+    this.setInterval = interval;
+  }
 
   factory Bell.clone(Bell source) {
-    return Bell(
-        running: source.running,
-        interval: source.interval,
-        notificationStack: source.notificationStack);
+    return Bell(source.running, source.notificationStack, source.getInterval);
   }
 
   factory Bell.fromJson(String jsonString) {
     Map<String, dynamic> map = jsonDecode(jsonString);
     return Bell(
-        running: map['running'],
-        interval: Duration(seconds: map['interval']),
-        notificationStack: map['notificationStack'].map((jsonDatetime) {
-          return DateTime.parse(jsonDatetime);
-        }).toList());
+      map['running'],
+      map['notificationStack'].map((jsonDatetime) {
+        return DateTime.parse(jsonDatetime);
+      }).toList(),
+      Duration(seconds: map['interval']),
+    );
   }
 
   String toJson() {
     Map<String, dynamic> map = <String, dynamic>{
       'running': running,
-      'interval': interval.inSeconds,
-      'notificationStack': notificationStack.isNotEmpty?notificationStack.map((datetime) {
-        return datetime.toString();
-      }).toList(): [],
+      'interval': _interval.inSeconds,
+      'notificationStack': notificationStack.isNotEmpty
+          ? notificationStack.map((datetime) {
+              return datetime.toString();
+            }).toList()
+          : [],
     };
     return jsonEncode(map);
   }

@@ -13,7 +13,7 @@ void main() {
     await tester.pumpAndSettle();
     //MOCK BELL
     InitServices.bell.running = true;
-    InitServices.bell.interval = const Duration(minutes: 1);
+    InitServices.bell.setInterval = const Duration(minutes: 1);
 
     await tester.pumpAndSettle(const Duration(seconds: 5));
     // EXPECT THAT STACK NOT EMPTY

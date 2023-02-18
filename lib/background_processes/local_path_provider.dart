@@ -1,6 +1,7 @@
 import 'dart:io';
 // ignore: depend_on_referenced_packages
 import 'package:flutter/foundation.dart';
+import 'package:flutter_lucid_bell/bell/bell_logic.dart';
 import 'package:flutter_lucid_bell/config.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as p;
@@ -60,7 +61,7 @@ class LocalPathProvider {
     return null;
   }
 
-  static Future<bool> saveBell(String jsonBell) async {
+  static Future<bool> saveBell(Bell bell) async {
     //create cash file if not exists
     await _createCashLocal();
 
@@ -68,7 +69,7 @@ class LocalPathProvider {
     // ensure that file exists
     var file = File(cashLocalPath!);
     if (await file.exists()) {
-      await file.writeAsString(jsonBell);
+      await file.writeAsString(bell.toJson());
       // file saved
       return true;
     }

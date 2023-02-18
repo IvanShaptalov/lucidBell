@@ -20,29 +20,27 @@ class _SliderIntervalSelectorState extends State<SliderIntervalSelector> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(widget.bell.convertFromMinutesToH(widget.bell.interval)),
+        Text(widget.bell.convertFromMinutesToH(widget.bell.getInterval)),
         SfSlider(
           min: widget.bell.intervalLowerBound,
           max: widget.bell.intervalUpperBound,
           interval: 15,
           stepSize: 5,
-          value: widget.bell.interval.inMinutes.toDouble(),
+          value: widget.bell.getInterval.inMinutes.toDouble(),
           onChanged: (value) {
             setState(() {
               // update notifications
             });
-            widget.bell.interval = Duration(minutes: value.round());
-
-            InitServices.bell.clearNotifications();
+            widget.bell.setInterval = Duration(minutes: value.round());
+            widget.bell.clearNotifications();
           },
           onChangeStart: (value) async {
-            await Future.delayed(Duration(milliseconds: 300));
             InitServices.isSliderChanging = true;
             // widget.callBackIsChanged(true);
           },
           onChangeEnd: (value) async {
             await Future.delayed(Duration(milliseconds: 300));
-
+            
             InitServices.isSliderChanging = false;
 
             // widget.callBackIsChanged(false);

@@ -35,7 +35,7 @@ void main() {
 
       Bell newBell = Bell.fromJson(jsonBell);
 
-      expect(bell.interval.compareTo(newBell.interval), 0);
+      expect(bell.getInterval.compareTo(newBell.getInterval), 0);
 
       expect(bell.running == newBell.running, true);
 
@@ -47,10 +47,8 @@ void main() {
       // test check that music real loading from path, expect string
       Bell bell = InitServices.mockBell();
 
-      var jsonBell = bell.toJson();
-
       //SAVE TO FILE
-      LocalPathProvider.saveBell(jsonBell);
+      LocalPathProvider.saveBell(bell);
 
       //LOAD BELL FROM FILE
       //EXPECTED TO BE NULL
@@ -59,7 +57,7 @@ void main() {
       expect(newBell != null, true);
 
       //CHECK IDENTITY
-      expect(bell.interval.compareTo(newBell.interval), 0);
+      expect(bell.getInterval.compareTo(newBell.getInterval), 0);
 
       expect(bell.running == newBell.running, true);
 
