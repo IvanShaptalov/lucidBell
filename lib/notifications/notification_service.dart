@@ -105,6 +105,8 @@ class CustomNotificationService {
       } else if (InitServices.bell.notificationStack
           .isEmpty /* && !InitServices.isSliderChanging*/) {
         yield innerBell;
+        innerBell = Bell.clone(InitServices.bell);
+        LocalPathProvider.saveBell(InitServices.bell);
       }
     }
   }
