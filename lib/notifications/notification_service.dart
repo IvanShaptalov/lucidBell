@@ -71,7 +71,7 @@ class CustomNotificationService {
 
   bool dateExpiredOrStackEmpty(Bell innerBell) {
     if (innerBell.notificationStack.isNotEmpty) {
-      return DateTime.now().isAfter(innerBell.notificationStack.first.add());
+      return DateTime.now().isAfter(innerBell.notificationStack.first);
     }
     return true;
   }
@@ -113,7 +113,7 @@ class CustomNotificationService {
   void circleNotification() async {
     // ASSERT THAT BELL ALWAYS CREATED
     // ignore: unnecessary_null_comparison
-    assert (InitServices.bell != null);
+    assert(InitServices.bell != null);
     // NOTIFICATION STACK ALWAYS CONTAIN ONE OR NOT CONTAINS NOTIFICATIONS;
 
     // NOTIFICATION SCHEDULING LOGIC HERE
@@ -124,32 +124,34 @@ class CustomNotificationService {
       if (dateExpiredOrStackEmpty(InitServices.bell)) {
         // assert that not expired
         if (InitServices.bell.notificationStack.isNotEmpty) {
-          assert(DateTime.now().isAfter(InitServices.bell.notificationStack.first));
+          assert(DateTime.now()
+              .isAfter(InitServices.bell.notificationStack.first));
         }
 
         // assert that must be empty
         assert(InitServices.bell.notificationStack.isEmpty);
-
 
         await InitServices.bell.clearNotifications();
 
         // check that really cleared
         assert(InitServices.bell.notificationStack.isEmpty);
 
-
         InitServices.bell.notificationStack = [
           DateTime.now().add(InitServices.bell.getInterval)
         ];
 
         // added delayed datetime
-        assert(DateTime.now().isBefore(InitServices.bell.notificationStack.first));
-
+        assert(
+            DateTime.now().isBefore(InitServices.bell.notificationStack.first));
 
         await LocalPathProvider.saveBell(InitServices.bell);
 
         await Workmanager().registerPeriodicTask(
             Config.intervalTask, Config.intervalTask,
             frequency: InitServices.bell.getInterval);
+      } else {
+        // can be just changed
+        await LocalPathProvider.saveBell(InitServices.bell);
       }
     } else {
       await InitServices.bell.clearNotifications();

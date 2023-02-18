@@ -69,8 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       opacity: InitServices.bell.running ? 0.65 : 0.4,
                       duration: const Duration(milliseconds: 600),
                       // The green box must be a child of the AnimatedOpacity widget.
-                      child: SwitchBell(
-                          bell: InitServices.bell, callback: callback),
+                      child: SwitchBell(callback: callback),
                     ),
                   ],
                 ),
@@ -84,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   opacity: InitServices.bell.running ? 1 : 0,
                   duration: const Duration(milliseconds: 300),
                   // The green box must be a child of the AnimatedOpacity widget.
-                  child: SliderIntervalSelector(bell: InitServices.bell),
+                  child: SliderIntervalSelector(),
                 ),
               ),
             ],

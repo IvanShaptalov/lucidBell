@@ -7,9 +7,8 @@ import 'package:flutter_lucid_bell/main.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class SliderIntervalSelector extends StatefulWidget {
-  Bell bell;
 
-  SliderIntervalSelector({super.key, required this.bell});
+  SliderIntervalSelector({super.key});
 
   @override
   State<SliderIntervalSelector> createState() => _SliderIntervalSelectorState();
@@ -20,19 +19,19 @@ class _SliderIntervalSelectorState extends State<SliderIntervalSelector> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(widget.bell.convertFromMinutesToH(widget.bell.getInterval)),
+        Text(InitServices.bell.convertFromMinutesToH(InitServices.bell.getInterval)),
         SfSlider(
-          min: widget.bell.intervalLowerBound,
-          max: widget.bell.intervalUpperBound,
+          min: InitServices.bell.intervalLowerBound,
+          max: InitServices.bell.intervalUpperBound,
           interval: 15,
           stepSize: 5,
-          value: widget.bell.getInterval.inMinutes.toDouble(),
+          value: InitServices.bell.getInterval.inMinutes.toDouble(),
           onChanged: (value) {
             setState(() {
               // update notifications
             });
-            widget.bell.setInterval = Duration(minutes: value.round());
-            widget.bell.clearNotifications();
+            InitServices.bell.setInterval = Duration(minutes: value.round());
+            InitServices.bell.clearNotifications();
           },
           onChangeStart: (value) async {
             InitServices.isSliderChanging = true;

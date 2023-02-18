@@ -5,10 +5,9 @@ import 'package:flutter_lucid_bell/main.dart';
 
 // ignore: must_be_immutable
 class SwitchBell extends StatefulWidget {
-  Bell bell;
   Function callback;
 
-  SwitchBell({super.key, required this.bell, required this.callback});
+  SwitchBell({super.key, required this.callback});
 
   @override
   State<SwitchBell> createState() => _SwitchBellState();
@@ -27,16 +26,16 @@ class _SwitchBellState extends State<SwitchBell> {
               AnimatedOpacity(
                   // If the widget is visible, animate to 0.0 (invisible).
                   // If the widget is hidden, animate to 1.0 (fully visible).
-                  opacity: widget.bell.running ? 1 : 0,
+                  opacity: InitServices.bell.running ? 1 : 0,
                   duration: Duration(milliseconds: 500),
                   // The green box must be a child of the AnimatedOpacity widget.
                   child: Text('running')),
               Switch(
-                  value: widget.bell.running,
+                  value: InitServices.bell.running,
                   onChanged: ((value) {
                     setState(() {
                       widget.callback();
-                      widget.bell.switchRun(value);
+                      InitServices.bell.switchRun(value);
                       InitServices.bell.clearNotifications();
                     });
                   })),

@@ -24,9 +24,7 @@ class Bell {
   }
 
   Future<void> clearNotifications() async {
-    if (notificationStack.isNotEmpty) {
-      notificationStack.clear();
-    }
+    notificationStack.clear();
     await Workmanager().cancelAll();
     // await InitServices.notificationService.clearNotifications(); // not clear, because sending deleted 5 seconds before playing, not schedule notificaionts
     LocalPathProvider.saveBell(this);
