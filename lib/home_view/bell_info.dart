@@ -23,7 +23,7 @@ class _BellInfoState extends State<BellInfo> {
           .difference(DateTime.now())
           .inSeconds;
       // if expired, update from stack
-      if (seconds < 0) {
+      if (seconds <= 0) {
         var newBell = await Bell.loadLocalSettings();
         if (newBell != null) {
           InitServices.bell = newBell;
@@ -31,7 +31,7 @@ class _BellInfoState extends State<BellInfo> {
         seconds = InitServices.bell.notificationStack.first
             .difference(DateTime.now())
             .inSeconds;
-        if (seconds < 0) {
+        if (seconds <= 0) {
           return -1;
         }
         return seconds;
