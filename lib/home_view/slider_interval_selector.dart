@@ -12,37 +12,34 @@ class SliderIntervalSelector extends StatefulWidget {
 }
 
 class _SliderIntervalSelectorState extends State<SliderIntervalSelector> {
+  double localValue = InitServices.bell.getInterval.inMinutes.toDouble();
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Text(InitServices.bell
-            .convertFromMinutesToH(InitServices.bell.getInterval)),
+            .convertFromMinutesToH(Duration(minutes: localValue.toInt()))),
         SfSlider(
           min: InitServices.bell.intervalLowerBound,
           max: InitServices.bell.intervalUpperBound,
           interval: 15,
           stepSize: 5,
-          value: InitServices.bell.getInterval.inMinutes.toDouble(),
+          value: localValue,
           onChanged: (value) async {
-            setState(() {
-              // update notifications
-            });
-            InitServices.bell.setInterval = Duration(minutes: value.round());
-            await InitServices.bell.clearNotifications();
-            assert(InitServices
-                .bell.notificationStack.isEmpty); // need to be empty
+            setState(() {});
+            localValue = value;
           },
           onChangeStart: (value) {
+            print('start change');
             InitServices.isSliderChanging = true;
-            assert(InitServices
-                .bell.notificationStack.isEmpty); // need to be empty
-            // widget.callBackIsChanged(true);
           },
-          onChangeEnd: (value) {
+          onChangeEnd: (value) async {
+            InitServices.bell.setInterval = Duration(minutes: value.round());
+            await InitServices.bell.clearNotifications();
+
             Future.delayed(const Duration(milliseconds: 300))
                 .then((value) => InitServices.isSliderChanging = false);
-
+            print('end change');
             assert(InitServices
                 .bell.notificationStack.isEmpty); // need to be empty
             // widget.callBackIsChanged(false);

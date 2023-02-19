@@ -6,6 +6,7 @@ import 'package:flutter_lucid_bell/background_processes/local_path_provider.dart
 import 'package:flutter_lucid_bell/config.dart';
 import 'package:flutter_lucid_bell/notifications/notification_service.dart';
 import 'package:workmanager/workmanager.dart';
+import 'package:intl/intl.dart';
 
 import 'app.dart';
 
@@ -43,7 +44,8 @@ void callbackDispatcher() {
           // interval must exist!
           DateTime nextBell = DateTime.now().add(bell!.getInterval);
 
-          nextBellOn += ', next bell on $nextBell';
+          nextBellOn +=
+              ', next bell on ${DateFormat('h:mm:ss a').format(nextBell)}';
 
           bell.notificationStack = [nextBell];
 
@@ -116,7 +118,7 @@ void main() async {
   Workmanager().initialize(
       callbackDispatcher, // The top level function, aka callbackDispatcher
       isInDebugMode:
-          true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
+          false // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
       );
 
   runApp(InitServices.myApp);
