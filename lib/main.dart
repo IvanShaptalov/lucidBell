@@ -27,7 +27,6 @@ void callbackDispatcher() {
     // LocalPathProvider must be initialized!
 
     Bell? bell = await Bell.loadLocalSettings();
-  
 
     String nextBellOn = 'Reminder';
     assert(bell != null);
@@ -38,25 +37,23 @@ void callbackDispatcher() {
       switch (task) {
         case Config.intervalTask:
           assert(bell != null);
-          
+
           // ignore: unnecessary_null_comparison
           assert(bell!.getInterval != null);
           // interval must exist!
           DateTime nextBell = DateTime.now().add(bell!.getInterval);
-          
+
           nextBellOn += ', next bell on $nextBell';
 
           bell.notificationStack = [nextBell];
 
           // new delay must be after now date
           assert(DateTime.now().isBefore(bell.notificationStack.first));
-          
+
           await InitServices.notificationService
               .scheduleNotifications('bell notification', nextBellOn);
 
           // WAIT FOR NOTIFICATION
-          await Future.delayed(const Duration(seconds: 5));
-
 
           LocalPathProvider.saveBell(bell);
 

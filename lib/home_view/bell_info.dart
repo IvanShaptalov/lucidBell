@@ -50,9 +50,7 @@ class _BellInfoState extends State<BellInfo> {
       // NOT UPDATE IF SLIDER  CHANGING OR BELL NOT RUN
       if (!InitServices.bell.running) {
         print('paused');
-        setState(() {
-          
-        });
+        setState(() {});
       } else {
         print('i work');
         setState(() {
@@ -73,6 +71,21 @@ class _BellInfoState extends State<BellInfo> {
   void dispose() {
     timer.cancel();
     super.dispose();
+  }
+
+  Widget bellCondition(int seconds) {
+    //not played yet
+    if (seconds == -1) {
+      return const Icon(Icons.sync_rounded);
+    }
+    //not loaded yet
+    else if (seconds == 0) {
+      return const Icon(Icons.alarm);
+    } else {
+      return Text(seconds.toString(),
+          style: const TextStyle(
+              color: Color.fromARGB(255, 255, 255, 255), fontSize: 36));
+    }
   }
 
   @override
@@ -107,10 +120,7 @@ class _BellInfoState extends State<BellInfo> {
                         ? 1
                         : 0,
                     duration: const Duration(milliseconds: 500),
-                    child: Text(snapshot.data.toString(),
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            fontSize: 36)));
+                    child: bellCondition(snapshot.data!));
               }
             }
             print('last loaded');
@@ -124,10 +134,7 @@ class _BellInfoState extends State<BellInfo> {
                         ? 1
                         : 0,
                 duration: const Duration(milliseconds: 500),
-                child: Text(lastLoadedData.toString(),
-                    style: const TextStyle(
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        fontSize: 36)));
+                child: bellCondition(lastLoadedData));
           },
         ),
       ],

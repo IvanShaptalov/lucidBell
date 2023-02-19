@@ -24,25 +24,24 @@ class _SliderIntervalSelectorState extends State<SliderIntervalSelector> {
           interval: 15,
           stepSize: 5,
           value: InitServices.bell.getInterval.inMinutes.toDouble(),
-          onChanged: (value) {
+          onChanged: (value) async {
             setState(() {
               // update notifications
             });
             InitServices.bell.setInterval = Duration(minutes: value.round());
-            InitServices.bell.clearNotifications();
+            await InitServices.bell.clearNotifications();
             assert(InitServices
                 .bell.notificationStack.isEmpty); // need to be empty
           },
-          onChangeStart: (value) async {
+          onChangeStart: (value) {
             InitServices.isSliderChanging = true;
             assert(InitServices
                 .bell.notificationStack.isEmpty); // need to be empty
             // widget.callBackIsChanged(true);
           },
-          onChangeEnd: (value) async {
-            await Future.delayed(const Duration(milliseconds: 300));
-
-            InitServices.isSliderChanging = false;
+          onChangeEnd: (value) {
+            Future.delayed(const Duration(milliseconds: 300))
+                .then((value) => InitServices.isSliderChanging = false);
 
             assert(InitServices
                 .bell.notificationStack.isEmpty); // need to be empty

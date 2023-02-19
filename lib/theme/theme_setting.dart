@@ -10,7 +10,7 @@ class ThemeSetting {
       bottomAppBarTheme: const BottomAppBarTheme(color: Colors.black),
 
       // Define the default font family.
-      fontFamily: 'Georgia',
+      fontFamily: 'WakeUpToday',
 
       // Define the default `TextTheme`. Use this to specify the default
       // text styling for headlines, titles, bodies of text, and more.
