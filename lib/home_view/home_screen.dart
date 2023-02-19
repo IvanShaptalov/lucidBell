@@ -49,7 +49,11 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                   height: SizeConfig.getMediaHeight(context) / 3, // 30%
                   width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width
-                  child: const Center(child: BellInfo())),
+                  child: Padding(
+
+                    padding: EdgeInsets.only(top: SizeConfig.getMediaHeight(context)*0.1), //10%
+                    child: const Center(child: BellInfo()),
+                  )),
 
               // show TimeSelector if bell is running
 
