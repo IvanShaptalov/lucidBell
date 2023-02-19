@@ -74,12 +74,12 @@ class _BellInfoState extends State<BellInfo> {
   }
 
   Widget bellCondition(int seconds) {
-    //not played yet
-    if (seconds == -1) {
+    //not loaded
+    if (seconds == 0) {
       return const Icon(Icons.sync_rounded);
     }
-    //not loaded yet
-    else if (seconds == 0) {
+    //not played yet
+    else if (seconds == -1) {
       return const Icon(Icons.alarm);
     } else {
       return Text(seconds.toString(),
