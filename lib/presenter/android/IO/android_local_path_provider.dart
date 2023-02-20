@@ -139,3 +139,15 @@
 //     return '';
 //   }
 // }
+
+import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
+
+mixin AndroidBellStorageManager {
+  AndroidBell loadBellFromStorage() {
+    throw UnimplementedError();
+  }
+
+  AndroidBell saveBellToStorage() {
+    throw UnimplementedError();
+  }
+}

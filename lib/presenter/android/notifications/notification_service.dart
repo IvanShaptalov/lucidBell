@@ -132,3 +132,18 @@
 //     }
 //   }
 // }
+
+mixin AndroidBellNotificationService {
+  Future<bool> scheduleNotification() async{
+    throw UnimplementedError();
+  }
+
+
+  bool dateExpired(DateTime otherDate) {
+    throw UnimplementedError();
+  }
+
+  Future<void> registerNotification() async {
+    throw UnimplementedError();
+  }
+}

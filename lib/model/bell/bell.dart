@@ -43,10 +43,6 @@ abstract class BaseBell {
   String toJson();
 
   /// load bell from implemented storage
-  // =================================================IO==================================================================
-  BaseBell loadFromStorage();
-
-  BaseBell saveToStorage();
 }
 
 /// =========================================[MAIN LOGIC IMPLEMENTATION] |[class Bell]====================================
@@ -194,22 +190,8 @@ class Bell extends BaseBell {
       map['running'],
       Duration(seconds: map['intervalInSeconds']),
       CashedIntervals.fromListOfSeconds(map['threeCashedIntervalsInSeconds']),
-      nextNotificationOn != null ? 
-      DateTime.parse(nextNotificationOn) 
-      : null,
+      nextNotificationOn != null ? DateTime.parse(nextNotificationOn) : null,
     );
-  }
-
-// ==========================================================IO METHODS=======================================================
-  // not implement in this class!
-  @override
-  BaseBell saveToStorage() {
-    throw UnimplementedError();
-  }
-
-  @override
-  BaseBell loadFromStorage() {
-    throw UnimplementedError();
   }
 
 // ================================================BASE OVERRIDE METHODS======================================================
@@ -224,15 +206,5 @@ class Bell extends BaseBell {
   @override
   bool operator ==(Object other) {
     return other is Bell && toString() == toString();
-  }
-}
-
-mixin BellStorageManager {
-  Bell loadBellFromStorage() {
-    throw UnimplementedError();
-  }
-
-  Bell saveBellToStorage() {
-    throw UnimplementedError();
   }
 }

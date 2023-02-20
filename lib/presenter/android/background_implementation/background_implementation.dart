@@ -65,3 +65,18 @@
   //     isInDebugMode:
   //         true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
   //     );
+
+
+
+  
+import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
+
+mixin AndroidBellBackgroundManager {
+  AndroidBell loadBellFromStorage() {
+    throw UnimplementedError();
+  }
+
+  AndroidBell saveBellToStorage() {
+    throw UnimplementedError();
+  }
+}
