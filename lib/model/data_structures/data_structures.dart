@@ -1,36 +1,79 @@
-// import 'package:flutter_lucid_bell/model/config_model.dart';
+import 'package:flutter_lucid_bell/model/config_model.dart';
 
-// class ThreeCashedIntervals<Duration> {
-//   final _list = <Duration>[];
+class CashedIntervals {
+  //===================================================FIELDS=================================================================
+  final _list = <Duration>[];
+  static const maxElements = BellConfig.maxCashedIntervals;
 
-//   ThreeCashedIntervals(){
-//     for (var element in BellConfig.threeCashedIntervals) {
-//         push(element as Duration);
-//      }
-//   }
+  //================================================CONSTRUCTORS=============================================================
+  CashedIntervals() {
+    _clear();
+    for (var element in BellConfig.cashedIntervals) {
+      push(element);
+    }
+  }
 
-//   void push(Duration value) {
-//     // if three alredy exists pop last
-//     if (_list.length >= 3){
-//       _list.add(value);
-//     pop();
-//     }
-//     else{
-//       _list.add(value);
-//     }
-//     // check if it true
-//     assert(_list.length == 3);
+  CashedIntervals.setManually(List elements) {
+    _clear();
+    for (var element in elements) {
+      push(element);
+    }
+  }
 
-    
-//     }
+  CashedIntervals.fromListOfSeconds(List<dynamic> listOfSeconds) {
+    _clear();
+    List<Duration> listOfDuration =
+        listOfSeconds.map((e) => Duration(seconds: e)).toList();
 
-//   Duration pop() => _list.removeLast();
+    for (var element in listOfDuration) {
+      push(element);
+    }
+  }
 
-//   Duration get peek => _list.last;
+  //====================================================PRIVATE METHODS===========================================================
 
-//   bool get isEmpty => _list.isEmpty;
-//   bool get isNotEmpty => _list.isNotEmpty;
+  void _clear() {
+    while (_list.isNotEmpty) {
+      _pop();
+    }
+  }
 
-//   @override
-//   String toString() => _list.toString();
-// }
+  Duration? _pop() => _list.isNotEmpty ? _list.removeAt(0) : null;
+
+  //=======================================================MAIN METHODS==========================================================
+  void push(Duration value) {
+    if (_list.contains(value)) {
+      // already have it
+    } else {
+      _list.add(value);
+      if (_list.length > 3) {
+        _pop();
+      }
+    }
+  }
+
+  Duration getByIndex(int index) => _list[index];
+  Duration get peek => _list.last;
+
+  bool get isEmpty => _list.isEmpty;
+  bool get isNotEmpty => _list.isNotEmpty;
+  int get length => _list.length;
+
+  //============================================================CONVERTING======================================================
+
+  List<int> toListOfSeconds() => _list.map((e) => e.inSeconds).toList();
+
+  //===========================================================BASE OVERRIDE===================================================
+  @override
+  String toString() => _list.toString();
+
+  @override
+  int get hashCode => toString().hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other is CashedIntervals &&
+        hashCode == hashCode;
+  }
+}
+// FULLY TESTED
