@@ -77,10 +77,12 @@ void main() {
         () async => expect(await AndroidBell.initServices(), true));
 
     test('end-to-end all functionality test from mock', () async {
+      // TODO test
       AndroidBell bell = AndroidBell.mockBell();
     });
 
     test('end-to-end all functionality test from cash', () async {
+      // TODO test
       AndroidBell bell = await AndroidBell.loadFromStorage();
     });
   });
