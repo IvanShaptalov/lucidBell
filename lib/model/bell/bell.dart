@@ -6,19 +6,22 @@ import 'package:flutter_lucid_bell/model/data_structures/data_structures.dart';
 
 abstract class BaseBell {
   // ======================================FIELDS, GETTERS AND SETTERS====================================================
-  late bool _running;
+  @protected
+  late bool innerRunning;
 
   /// true if [running] set, false if not
   bool setRunning(bool running);
   bool getRunning();
 
-  late Duration _interval;
+  @protected
+  late Duration innerInterval;
 
-  /// false if [_interval] not set, true if set,  set[_nextNotificationOn] here
+  /// false if [interval] not set, true if set,  set[nextNotificationOn] here
   bool setInterval(Duration interval);
   Duration getInterval();
 
-  DateTime? _nextNotificationOn;
+  @protected
+  DateTime? innerNextNotificationOn;
 
   DateTime? getNextNotificationOn();
   // ============================================CONSTRUCTORS============================================================
@@ -29,7 +32,7 @@ abstract class BaseBell {
 
   // ======================================ABSTRACT METHODS===============================================================
 
-  /// true if [_nextNotification] cleared, false if not
+  /// true if [nextNotification] cleared, false if not
   @protected
   bool clearNextNotificationTime();
 
@@ -38,9 +41,6 @@ abstract class BaseBell {
 
   /// present duration to human readable style
   String humanLikeDuration(Duration duration);
-
-  /// convert bell to json
-  String toJson();
 
   /// load bell from implemented storage
 }
@@ -53,56 +53,57 @@ class Bell extends BaseBell {
   final double intervalUpperBound = BellConfig.bellMinutesUpperBound;
 
 // =========================================FIELDS, GETTERS, SETTERS (IN METHOD IMPLEMENTATION)===========================
-  late CashedIntervals _threeCashedIntervals;
+  @protected
+  late CashedIntervals innerThreeCashedIntervals;
 
-  CashedIntervals get getThreeCashedIntervals => _threeCashedIntervals;
+  CashedIntervals get getThreeCashedIntervals => innerThreeCashedIntervals;
 
   @override
   bool setRunning(bool running) {
-    _running = running;
+    innerRunning = running;
     // if run, set new Notification time
-    if (running) {
+    if (innerRunning) {
       setNextNotificationTime();
     }
     // esle clear it
     else {
       clearNextNotificationTime();
     }
-    return running;
+    return innerRunning;
   }
 
   @override
-  Duration getInterval() => _interval;
+  Duration getInterval() => innerInterval;
 
   @override
   bool setInterval(Duration interval) {
     assert(interval.inMinutes <= intervalUpperBound);
     assert(interval.inMinutes >= intervalLowerBound);
 
-    _interval = interval;
-    _threeCashedIntervals.push(interval);
+    innerInterval = interval;
+    innerThreeCashedIntervals.push(innerInterval);
     setNextNotificationTime();
-    return (_nextNotificationOn != null);
+    return (innerNextNotificationOn != null);
   }
 
   @override
   DateTime setNextNotificationTime() {
-    _nextNotificationOn = DateTime.now().add(_interval);
-    return _nextNotificationOn!;
+    innerNextNotificationOn = DateTime.now().add(innerInterval);
+    return innerNextNotificationOn!;
   }
 
   @protected
   @override
   bool clearNextNotificationTime() {
-    _nextNotificationOn = null;
-    return (_nextNotificationOn == null);
+    innerNextNotificationOn = null;
+    return (innerNextNotificationOn == null);
   }
 
   @override
-  bool getRunning() => _running;
+  bool getRunning() => innerRunning;
 
   @override
-  DateTime? getNextNotificationOn() => _nextNotificationOn;
+  DateTime? getNextNotificationOn() => innerNextNotificationOn;
 
 // =========================================CONSTRUCTORS AND INIT METHODS=================================================
 
@@ -112,27 +113,28 @@ class Bell extends BaseBell {
   }
 
   @override
-  Bell(bool running, Duration interval, this._threeCashedIntervals) {
+  Bell(bool running, Duration interval, this.innerThreeCashedIntervals) {
     setInterval(interval);
     setRunning(running);
   }
 
-  factory Bell.mockBell() =>
-      Bell(true, const Duration(minutes: 15), CashedIntervals());
+  static Bell mockBell() {
+    return Bell(true, const Duration(minutes: 15), CashedIntervals());
+  }
 
   @protected
   Bell.protectedCreating(bool running, Duration interval,
       CashedIntervals threeCashedIntervals, DateTime? nextNotificationOn) {
-    _running = running;
-    _interval = interval;
-    _threeCashedIntervals = threeCashedIntervals;
-    _nextNotificationOn = nextNotificationOn;
+    innerRunning = running;
+    innerInterval = interval;
+    innerThreeCashedIntervals = threeCashedIntervals;
+    innerNextNotificationOn = nextNotificationOn;
   }
 
   @override
   Bell clone() {
     return Bell.protectedCreating(
-        _running, _interval, _threeCashedIntervals, _nextNotificationOn);
+        innerRunning, innerInterval, innerThreeCashedIntervals, innerNextNotificationOn);
   }
 
 // ==========================================UTILS METHODS ================================================================
@@ -170,20 +172,18 @@ class Bell extends BaseBell {
 
 // =========================================================JSON METHODS==================================================
 
-  @override
   String toJson() {
     Map<String, dynamic> map = <String, dynamic>{
-      'running': _running,
-      'intervalInSeconds': _interval.inSeconds,
+      'running': innerRunning,
+      'intervalInSeconds': innerInterval.inSeconds,
       'nextNotificationOn':
-          _nextNotificationOn != null ? _nextNotificationOn!.toString() : null,
-      'threeCashedIntervalsInSeconds': _threeCashedIntervals.toListOfSeconds()
+          innerNextNotificationOn != null ? innerNextNotificationOn!.toString() : null,
+      'threeCashedIntervalsInSeconds': innerThreeCashedIntervals.toListOfSeconds()
     };
     return jsonEncode(map);
   }
 
-  @override
-  factory Bell.fromJson(String json) {
+  static Bell fromJson(String json) {
     Map<String, dynamic> map = jsonDecode(json);
     String? nextNotificationOn = map['nextNotificationOn'];
     return Bell.protectedCreating(
@@ -197,7 +197,7 @@ class Bell extends BaseBell {
 // ================================================BASE OVERRIDE METHODS======================================================
   @override
   String toString() {
-    return "running: $_running, intervalInMilliseconds ${_interval.inMilliseconds} ${_threeCashedIntervals.toString()} ";
+    return "running: $innerRunning, intervalInMilliseconds ${innerInterval.inMilliseconds} ${innerThreeCashedIntervals.toString()} ";
   }
 
   @override

@@ -14,7 +14,7 @@ import 'package:flutter_lucid_bell/view/app.dart';
 void main() async {
   Bell(true, const Duration(minutes: 15), CashedIntervals());
   // // load widgets firstry
-  // WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
 
   // // init services
   // print('************************************start init');

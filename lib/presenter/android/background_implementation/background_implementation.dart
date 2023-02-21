@@ -1,82 +1,71 @@
+import 'package:flutter_lucid_bell/presenter/android/config_android_presenter.dart';
+import 'package:workmanager/workmanager.dart';
 
-// @pragma('vm:entry-point')
+@pragma('vm:entry-point')
 
-// /// [callbackDispatcher] is background task that started in [InitServices.notificationService.circleNotification]
-// /// load bell from file, add new interval save new bell to file and schedule notification to 1 seconds;
-// /// tested with asserst
-// void callbackDispatcher() {
-//   // WidgetsFlutterBinding.ensureInitialized();
+/// [callbackDispatcher] is background task that started in [InitServices.notificationService.circleNotification]
+/// load bell from file, add new interval save new bell to file and schedule notification to 1 seconds;
+/// tested with asserst
+void callbackDispatcher() {
+  // WidgetsFlutterBinding.ensureInitialized();
 
-//   Workmanager().executeTask((task, inputData) async {
-//     // NESSESARY INITIALIZATION
+  Workmanager().executeTask((task, inputData) async {
+    // NESSESARY INITIALIZATION
 
-//     if (LocalPathProvider.notInitialized) {
-//       await LocalPathProvider.init();
-//     }
-//     assert(LocalPathProvider.initialized);
-//     // LocalPathProvider must be initialized!
+    // if (LocalPathProvider.notInitialized) {
+    //   await LocalPathProvider.init();
+    // }
+    // assert(LocalPathProvider.initialized);
+    // LocalPathProvider must be initialized!
 
-//     Bell? bell = await Bell.loadLocalSettings();
+    // Bell? bell = await Bell.loadLocalSettings();
 
-//     String nextBellOn = 'Reminder';
-//     assert(bell != null);
-//     // bell must be saved!
+    // String nextBellOn = 'Reminder';
+    // assert(bell != null);
+    // // bell must be saved!
 
-//     //FIND OUT TASK
-//     try {
-//       switch (task) {
-//         case Config.intervalTask:
-//           assert(bell != null);
+    //FIND OUT TASK
+    // try {
+    //   switch (task) {
+    //     case Config.intervalTask:
+    //       assert(bell != null);
 
-//           // ignore: unnecessary_null_comparison
-//           assert(bell!.getInterval != null);
-//           // interval must exist!
-//           DateTime nextBell = DateTime.now().add(bell!.getInterval);
+    //       // ignore: unnecessary_null_comparison
+    //       assert(bell!.getInterval != null);
+    //       // interval must exist!
+    //       DateTime nextBell = DateTime.now().add(bell!.getInterval);
 
-//           nextBellOn += ', next bell on $nextBell';
+    //       nextBellOn += ', next bell on $nextBell';
 
-//           bell.notificationStack = [nextBell];
+    //       bell.notificationStack = [nextBell];
 
-//           // new delay must be after now date
-//           assert(DateTime.now().isBefore(bell.notificationStack.first));
+    //       // new delay must be after now date
+    //       assert(DateTime.now().isBefore(bell.notificationStack.first));
 
-//           await InitServices.notificationService
-//               .scheduleNotifications('bell notification', nextBellOn);
+    //       await InitServices.notificationService
+    //           .scheduleNotifications('bell notification', nextBellOn);
 
-//           // WAIT FOR NOTIFICATION
+    //       // WAIT FOR NOTIFICATION
 
-//           LocalPathProvider.saveBell(bell);
+    //       LocalPathProvider.saveBell(bell);
 
-//           break;
-//       }
+    //       break;
+    //   }
 
-//       return Future.value(true);
-//     } catch (e) {
-//       print(e.toString());
-//       return Future.error(e.toString());
-//     }
-//   });
-// }
+    //   return Future.value(true);
+    // } catch (e) {
+    //   print(e.toString());
+    return Future.error('unimplemented stuff'/*e.toString()*/);
+    // }
+  });
+}
 
-
-
-  // Workmanager().initialize(
-  //     callbackDispatcher, // The top level function, aka callbackDispatcher
-  //     isInDebugMode:
-  //         true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
-  //     );
-
-
-
-  
-import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
-
-mixin AndroidBellBackgroundManager {
-  AndroidBell loadBellFromStorage() {
-    throw UnimplementedError();
-  }
-
-  AndroidBell saveBellToStorage() {
-    throw UnimplementedError();
+class AndroidBellBackgroundManager {
+  void init() {
+    Workmanager().initialize(
+        callbackDispatcher, // The top level function, aka callbackDispatcher
+        isInDebugMode: ConfigBackgroundManager
+            .debugMode // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
+        );
   }
 }
