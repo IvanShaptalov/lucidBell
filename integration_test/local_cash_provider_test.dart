@@ -13,17 +13,17 @@ void main() {
     testWidgets(
         'document directory exists, and application directory created, path exists',
         (tester) async {
-      await LocalPathProvider.init();
+      await LocalPathProvider.initAsync();
       expect(await Directory(LocalPathProvider.appDocPath!).exists(), true);
     });
 
     testWidgets('cash file created. path exists', (tester) async {
-      await LocalPathProvider.init();
+      await LocalPathProvider.initAsync();
       expect(await File(LocalPathProvider.cashLocalPath!).exists(), true);
     });
 
     testWidgets('cash log created, path exists', (tester) async {
-      await LocalPathProvider.init();
+      await LocalPathProvider.initAsync();
       expect(await File(LocalPathProvider.logPath!).exists(), true);
     });
   });

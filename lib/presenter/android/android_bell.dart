@@ -4,15 +4,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/model/bell/bell.dart';
 import 'package:flutter_lucid_bell/model/data_structures/data_structures.dart';
 import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
+import 'package:flutter_lucid_bell/presenter/android/background_implementation/background_implementation.dart';
+import 'package:flutter_lucid_bell/presenter/android/notifications/notification_service.dart';
 
 ///Implement android platform dependencies, Cashing, work in background, notification service
-class AndroidBell extends Bell with AndroidBellStorageManager {
+class AndroidBell extends Bell
+    with
+        AndroidBellStorageManager,
+        AndroidBellNotificationService,
+        AndroidBellBackgroundManager {
+//======================================================FIELDS=======================================================
+  Duration get notificationTimeout =>
+      AndroidBellNotificationService.notificationTimeout;
+
 //=====================================================CONSTRUCTORS==================================================
   AndroidBell(running, interval, threeCashedIntervals)
       : super(running, interval, threeCashedIntervals);
 
   static AndroidBell mockBell() {
     return AndroidBell(true, const Duration(minutes: 15), CashedIntervals());
+  }
+
+  
+  @override
+  static Future<bool> initServices() async {
+    // init storage
+    bool storageInit = await AndroidBellStorageManager.initAsync();
+    bool backgroundInit = await AndroidBellBackgroundManager.initAsync();
+    bool notificationInit = await AndroidBellNotificationService.initAsync();
+
+    bool allInited = storageInit && backgroundInit && notificationInit;
+    assert(allInited);
+
+    return allInited;
   }
 
   @protected
@@ -38,12 +62,23 @@ class AndroidBell extends Bell with AndroidBellStorageManager {
     );
   }
 
-//======================================================IO=============================================================
+//======================================================IO===============================================================
   static Future<AndroidBell> loadFromStorage() async {
     return await AndroidBellStorageManager.loadBellFromStorage();
   }
 
-  static AndroidBell saveToStorage() {
-    return AndroidBellStorageManager.saveBellToStorage();
+  Future<bool> saveToStorage() async {
+    return await AndroidBellStorageManager.saveBellToStorageAsync(this);
   }
+
+//==================================================BACKGROUND SERVICE===================================================
+
+//===================================================NOTIFICATION SERVICE================================================
+
+  Future<bool> sendNotification(
+      String title, String body, Duration timeout) async {
+    return await AndroidBellNotificationService.playNotification(
+        title, body, timeout);
+  }
+//====================================================PERMISSIONS SERVICE================================================
 }

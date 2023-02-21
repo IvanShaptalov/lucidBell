@@ -1,71 +1,61 @@
+import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
+import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
 import 'package:flutter_lucid_bell/presenter/android/config_android_presenter.dart';
 import 'package:workmanager/workmanager.dart';
 
-@pragma('vm:entry-point')
+mixin AndroidBellBackgroundManager {
+  @pragma(
+      'vm:entry-point') // needed if using Flutter 3.1+ or your code obfuscated
+  static void backGroundWork() {
+    Workmanager().executeTask((task, inputData) async {
+      // NESSESARY INITIALIZATION
+      await LocalPathProvider.initAsync();
 
-/// [callbackDispatcher] is background task that started in [InitServices.notificationService.circleNotification]
-/// load bell from file, add new interval save new bell to file and schedule notification to 1 seconds;
-/// tested with asserst
-void callbackDispatcher() {
-  // WidgetsFlutterBinding.ensureInitialized();
+      AndroidBell bell = await AndroidBell.loadFromStorage();
 
-  Workmanager().executeTask((task, inputData) async {
-    // NESSESARY INITIALIZATION
+      String nextBellOnMessage = 'Reminder';
 
-    // if (LocalPathProvider.notInitialized) {
-    //   await LocalPathProvider.init();
-    // }
-    // assert(LocalPathProvider.initialized);
-    // LocalPathProvider must be initialized!
+      try {
+        // expect that notification updated
 
-    // Bell? bell = await Bell.loadLocalSettings();
+        assert(bell.updateNextNotificationOn(), true);
 
-    // String nextBellOn = 'Reminder';
-    // assert(bell != null);
-    // // bell must be saved!
+        nextBellOnMessage += ', next bell on ${bell.getNextNotificationOn()}';
 
-    //FIND OUT TASK
-    // try {
-    //   switch (task) {
-    //     case Config.intervalTask:
-    //       assert(bell != null);
+        // send notification
+        bool result = await bell.sendNotification(
+            'bell notification', nextBellOnMessage, bell.notificationTimeout);
 
-    //       // ignore: unnecessary_null_comparison
-    //       assert(bell!.getInterval != null);
-    //       // interval must exist!
-    //       DateTime nextBell = DateTime.now().add(bell!.getInterval);
+        // WAIT FOR NOTIFICATION
 
-    //       nextBellOn += ', next bell on $nextBell';
+        bell.saveToStorage();
+        return Future.value(result);
+      } catch (e) {
+        print(e.toString());
+        return Future.error(e.toString());
+        // }
+      }
+    });
+  }
 
-    //       bell.notificationStack = [nextBell];
-
-    //       // new delay must be after now date
-    //       assert(DateTime.now().isBefore(bell.notificationStack.first));
-
-    //       await InitServices.notificationService
-    //           .scheduleNotifications('bell notification', nextBellOn);
-
-    //       // WAIT FOR NOTIFICATION
-
-    //       LocalPathProvider.saveBell(bell);
-
-    //       break;
-    //   }
-
-    //   return Future.value(true);
-    // } catch (e) {
-    //   print(e.toString());
-    return Future.error('unimplemented stuff'/*e.toString()*/);
-    // }
-  });
-}
-
-class AndroidBellBackgroundManager {
-  void init() {
-    Workmanager().initialize(
-        callbackDispatcher, // The top level function, aka callbackDispatcher
+  static Future<bool> initAsync() async {
+    try {
+       Workmanager().initialize(
+        backGroundWork, // The top level function, aka callbackDispatcher
         isInDebugMode: ConfigBackgroundManager
             .debugMode // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
         );
+      
+    } catch (e) {
+      print("ERROR IN AndroidBellBackgroundManager ${e.toString()}");
+      return false;
+    }
+    return true;
+  }
+
+  static Future<bool> registerIntervalTask(Duration frequency) async {
+    await Workmanager().cancelAll();
+    await Workmanager().registerPeriodicTask('unique periodic task', 'u p task', frequency: frequency);
+    return true;
   }
 }

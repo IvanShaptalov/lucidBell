@@ -1,4 +1,5 @@
 import 'package:flutter_lucid_bell/model/config_model.dart';
+import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -57,6 +58,30 @@ void main() {
       AndroidBell newBell = AndroidBell.fromJson(jsonBell);
 
       expect(bell.hashCode, newBell.hashCode);
+    });
+
+    test('bell IO save load', () async {
+      AndroidBell bell = AndroidBell.mockBell();
+      bell.setInterval(const Duration(minutes: 45)); // set bell not mock
+      await LocalPathProvider.initAsync();
+      // just for test
+      // ignore: invalid_use_of_protected_member
+      expect(await bell.saveToStorage(), true);
+
+      AndroidBell newBell = await AndroidBell.loadFromStorage();
+
+      expect(bell.hashCode, newBell.hashCode);
+    });
+
+    test('bell services INITSERVICES',
+        () async => expect(await AndroidBell.initServices(), true));
+
+    test('end-to-end all functionality test from mock', () async {
+      AndroidBell bell = AndroidBell.mockBell();
+    });
+
+    test('end-to-end all functionality test from cash', () async {
+      AndroidBell bell = await AndroidBell.loadFromStorage();
     });
   });
 }

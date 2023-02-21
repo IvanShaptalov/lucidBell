@@ -26,8 +26,6 @@ abstract class BaseBell {
   DateTime? getNextNotificationOn();
   // ============================================CONSTRUCTORS============================================================
 
-  BaseBell init();
-
   BaseBell clone();
 
   // ======================================ABSTRACT METHODS===============================================================
@@ -107,9 +105,8 @@ class Bell extends BaseBell {
 
 // =========================================CONSTRUCTORS AND INIT METHODS=================================================
 
-  @override
-  Bell init() {
-    throw UnimplementedError();
+  static Future<bool> initServices() async {
+    return Future.value(true);
   }
 
   @override
@@ -133,11 +130,15 @@ class Bell extends BaseBell {
 
   @override
   Bell clone() {
-    return Bell.protectedCreating(
-        innerRunning, innerInterval, innerThreeCashedIntervals, innerNextNotificationOn);
+    return Bell.protectedCreating(innerRunning, innerInterval,
+        innerThreeCashedIntervals, innerNextNotificationOn);
   }
 
 // ==========================================UTILS METHODS ================================================================
+
+  bool updateNextNotificationOn() {
+    return setInterval(innerInterval);
+  }
 
   @override
   String humanLikeDuration(Duration duration) {
@@ -176,9 +177,11 @@ class Bell extends BaseBell {
     Map<String, dynamic> map = <String, dynamic>{
       'running': innerRunning,
       'intervalInSeconds': innerInterval.inSeconds,
-      'nextNotificationOn':
-          innerNextNotificationOn != null ? innerNextNotificationOn!.toString() : null,
-      'threeCashedIntervalsInSeconds': innerThreeCashedIntervals.toListOfSeconds()
+      'nextNotificationOn': innerNextNotificationOn != null
+          ? innerNextNotificationOn!.toString()
+          : null,
+      'threeCashedIntervalsInSeconds':
+          innerThreeCashedIntervals.toListOfSeconds()
     };
     return jsonEncode(map);
   }

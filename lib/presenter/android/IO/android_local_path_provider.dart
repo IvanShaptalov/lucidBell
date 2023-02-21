@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 // ignore: depend_on_referenced_packages
 import 'package:flutter/foundation.dart';
@@ -25,20 +26,21 @@ class LocalPathProvider {
     return !_notInitialized;
   }
 
-  static Future<bool> init() async {
-    Directory appDir = await getApplicationSupportDirectory();
+  static Future<bool> initAsync() async {
+    if (_notInitialized) {
+      Directory appDir = await getApplicationSupportDirectory();
 
-    appDocPath = await _createAppDir(appDir.path).then((dir) => dir.path);
+      appDocPath = await _createAppDir(appDir.path).then((dir) => dir.path);
 
-    // create local file to store data
-    await _createCashLocal();
-    await _createLogFile();
+      // create local file to store data
+      await _createCashLocal();
+      await _createLogFile();
 
-    if (kDebugMode) {
-      print(' localpath: ${LocalPathProvider.appDocPath}');
+      if (kDebugMode) {
+        print(' localpath: ${LocalPathProvider.appDocPath}');
+      }
     }
-
-    return true;
+    return initialized;
   }
 
   static Future<bool> deleteAppFolder() async {
@@ -52,7 +54,7 @@ class LocalPathProvider {
     return !await dir.exists();
   }
 
-  static Future<String?> getBellJsonAsync() async {
+  static Future<String?> getFileAsync() async {
     assert(cashLocalPath != null);
     var file = File(cashLocalPath!);
     if (await file.exists()) {
@@ -61,7 +63,7 @@ class LocalPathProvider {
     return null;
   }
 
-  static Future<bool> saveBell(AndroidBell bell) async {
+  static Future<bool> saveFile(String dataToSave) async {
     //create cash file if not exists
     await _createCashLocal();
 
@@ -69,7 +71,7 @@ class LocalPathProvider {
     // ensure that file exists
     var file = File(cashLocalPath!);
     if (await file.exists()) {
-      await file.writeAsString(bell.toJson());
+      await file.writeAsString(dataToSave);
       // file saved
       return true;
     }
@@ -140,13 +142,25 @@ class LocalPathProvider {
   }
 }
 
-
 mixin AndroidBellStorageManager {
-  static Future<AndroidBell> loadBellFromStorage() async{
-    throw UnimplementedError();
+
+  static Future<bool> initAsync()async {
+    return LocalPathProvider.initAsync();
+  }
+  static Future<AndroidBell> loadBellFromStorage() async {
+    String? jsonBell = await LocalPathProvider.getFileAsync();
+    AndroidBell? bell;
+    if (jsonBell != null) {
+      bell = AndroidBell.fromJson(jsonBell);
+      // return loaded bell
+      return bell;
+    }
+    // return mock bell
+    return AndroidBell.mockBell();
   }
 
-  static AndroidBell saveBellToStorage() {
-    throw UnimplementedError();
+  static Future<bool> saveBellToStorageAsync(AndroidBell bell) async {
+    bool result = await LocalPathProvider.saveFile(bell.toJson());
+    return result;
   }
 }
