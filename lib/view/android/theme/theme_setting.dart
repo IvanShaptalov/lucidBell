@@ -6,7 +6,7 @@ class ThemeSetting {
       // Define the default brightness and colors.
       brightness: Brightness.dark,
       scaffoldBackgroundColor: Colors.black87,
-      primaryColor: Colors.black54,
+      primaryColor: Color.fromARGB(148, 0, 0, 0),
       bottomAppBarTheme: const BottomAppBarTheme(color: Colors.black),
 
       // Define the default font family.

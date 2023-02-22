@@ -17,6 +17,11 @@ class AndroidBell extends Bell
   static const Duration notificationTimeout =
       AndroidBellNotificationService.notificationTimeout;
 
+  int getSecondsToNextNotification() {
+    int seconds = innerNextNotificationOn!.difference(DateTime.now()).inSeconds;
+    return seconds <= 0 ? 0 : seconds;
+  }
+
   @override
   bool setRunning(bool running) {
     innerRunning = running;

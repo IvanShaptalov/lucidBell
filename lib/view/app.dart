@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/home_screen.dart';
+import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
 
 // ignore: must_be_immutable
 class MyApp extends StatelessWidget {
@@ -13,6 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Lucid Bell Simplest',
       debugShowCheckedModeBanner: false,
+      theme: ThemeSetting.loadCalmTheme(),
       home: Scaffold(
         body: homeScreen,
       ),

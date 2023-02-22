@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
+import 'package:flutter_lucid_bell/view/android/home_view/bell_info.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/slider_interval_selector.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/switch_button.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
@@ -28,15 +29,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight, // #380036 > #0CBABA
                   colors: [
-                      Color.fromARGB(198, 68, 233, 131),
-                      Color.fromARGB(180, 14, 14, 126)
+                      Color.fromARGB(197, 66, 119, 253),
+                      Color.fromARGB(180, 15, 4, 11)
                     ])
               : const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight, // #380036 > #0CBABA
                   colors: [
-                      Color.fromARGB(203, 71, 167, 167),
-                      Color.fromARGB(54, 11, 85, 38)
+                      Color.fromARGB(199, 88, 37, 147),
+                      Color.fromARGB(91, 21, 14, 25)
                     ])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -44,14 +45,15 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // SizedBox(
-              //     height: SizeConfig.getMediaHeight(context) *0.35, // 35%
-              //     width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width
-              //     child: Padding(
-
-              //       padding: EdgeInsets.only(top: SizeConfig.getMediaHeight(context)*0.1, ), //10%
-              //       child: const Center(child: BellInfo()),
-              //     )),
+              SizedBox(
+                  height: SizeConfig.getMediaHeight(context) * 0.35, // 35%
+                  width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      top: SizeConfig.getMediaHeight(context) * 0.1,
+                    ), //10%
+                    child: const Center(child: BellInfo()),
+                  )),
 
               // show TimeSelector if bell is running
 
