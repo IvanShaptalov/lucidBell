@@ -4,6 +4,9 @@ import 'package:flutter_lucid_bell/presenter/android/config_android_presenter.da
 import 'package:workmanager/workmanager.dart';
 
 mixin AndroidBellBackgroundManager {
+  static bool _initialized = false;
+
+  static get initialized => _initialized;
   @pragma(
       'vm:entry-point') // needed if using Flutter 3.1+ or your code obfuscated
   static void backGroundWork() {
@@ -24,7 +27,7 @@ mixin AndroidBellBackgroundManager {
 
         // send notification
         bool result = await bell.sendNotification(
-            'bell notification', nextBellOnMessage, bell.notificationTimeout);
+            'bell notification', nextBellOnMessage);
 
         // WAIT FOR NOTIFICATION
 
@@ -48,14 +51,21 @@ mixin AndroidBellBackgroundManager {
       
     } catch (e) {
       print("ERROR IN AndroidBellBackgroundManager ${e.toString()}");
+      _initialized = false;
       return false;
     }
+    _initialized = true;
     return true;
   }
 
-  static Future<bool> registerIntervalTask(Duration frequency) async {
+  static Future<bool> registerIntervalTaskAsync(Duration frequency) async {
     await Workmanager().cancelAll();
     await Workmanager().registerPeriodicTask('unique periodic task', 'u p task', frequency: frequency);
+    
     return true;
+  }
+
+  static Future<void> cancelPreviousTasksAsync() async{
+    await Workmanager().cancelAll();
   }
 }

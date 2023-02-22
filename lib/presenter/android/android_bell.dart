@@ -14,8 +14,7 @@ class AndroidBell extends Bell
         AndroidBellNotificationService,
         AndroidBellBackgroundManager {
 //======================================================FIELDS=======================================================
-  Duration get notificationTimeout =>
-      AndroidBellNotificationService.notificationTimeout;
+  static const Duration notificationTimeout = AndroidBellNotificationService.notificationTimeout;
 
 //=====================================================CONSTRUCTORS==================================================
   AndroidBell(running, interval, threeCashedIntervals)
@@ -73,10 +72,16 @@ class AndroidBell extends Bell
 
 //==================================================BACKGROUND SERVICE===================================================
 
+  Future<bool> registerIntervalTask() async{
+    await AndroidBellBackgroundManager.cancelPreviousTasksAsync();
+    return await AndroidBellBackgroundManager.registerIntervalTaskAsync(innerInterval);
+
+  }
+
 //===================================================NOTIFICATION SERVICE================================================
 
   Future<bool> sendNotification(
-      String title, String body, Duration timeout) async {
+      String title, String body, {Duration timeout = notificationTimeout}) async {
     return await AndroidBellNotificationService.playNotification(
         title, body, timeout);
   }
