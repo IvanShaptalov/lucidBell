@@ -17,6 +17,45 @@ class AndroidBell extends Bell
   static const Duration notificationTimeout =
       AndroidBellNotificationService.notificationTimeout;
 
+  @override
+  bool setRunning(bool running) {
+    innerRunning = running;
+    // if run, set new Notification time
+    if (innerRunning) {
+      setNextNotificationTime();
+      registerIntervalTask();
+    }
+    // esle clear it
+    else {
+      clearNextNotificationTime();
+      cancelIntervalTask();
+    }
+    saveToStorage();
+    return innerRunning;
+  }
+
+  @override
+  bool setInterval(Duration interval) {
+    assert(interval.inMinutes <= intervalUpperBound);
+    assert(interval.inMinutes >= intervalLowerBound);
+
+    innerInterval = interval;
+
+    // update cashed buttons
+    innerThreeCashedIntervals.push(innerInterval);
+
+    // update notification time
+    setNextNotificationTime();
+
+    // run task if bell running
+    if (innerRunning){
+      registerIntervalTask();
+    }
+
+    saveToStorage();
+    return (innerNextNotificationOn != null);
+  }
+
 //=====================================================CONSTRUCTORS==================================================
   AndroidBell(running, interval, threeCashedIntervals)
       : super(running, interval, threeCashedIntervals);
@@ -35,6 +74,8 @@ class AndroidBell extends Bell
 
     return allInited;
   }
+
+
 
   @protected
   AndroidBell.protectedCreating(bool running, Duration interval,
@@ -71,10 +112,14 @@ class AndroidBell extends Bell
 //==================================================BACKGROUND SERVICE===================================================
 
   Future<bool> registerIntervalTask() async {
-    // await AndroidBellBackgroundManager.cancelPreviousTasksAsync();
-    // return await AndroidBellBackgroundManager.registerIntervalTaskAsync(innerInterval);
-    return Future.value(true);
+    await AndroidBellBackgroundManager.cancelPreviousTasksAsync();
+    return await AndroidBellBackgroundManager.registerIntervalTaskAsync(innerInterval);
   }
+
+  Future<bool> cancelIntervalTask() async {
+    return await AndroidBellBackgroundManager.cancelPreviousTasksAsync();
+  }
+
 
 //===================================================NOTIFICATION SERVICE================================================
 

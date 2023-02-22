@@ -59,7 +59,7 @@ void main() async {
       isInDebugMode:
           true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
       );
-  Workmanager().registerOneOffTask('sdfk', 'adsfkljdaf');
+  
 
   runApp(MyApp());
 }
