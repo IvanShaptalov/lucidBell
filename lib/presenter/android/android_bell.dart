@@ -14,9 +14,9 @@ class AndroidBell extends Bell
         AndroidBellNotificationService,
         AndroidBellBackgroundManager {
 //======================================================FIELDS GETTERS, SETTERS=======================================
-  static const Duration notificationTimeout = AndroidBellNotificationService.notificationTimeout;
+  static const Duration notificationTimeout =
+      AndroidBellNotificationService.notificationTimeout;
 
-  
 //=====================================================CONSTRUCTORS==================================================
   AndroidBell(running, interval, threeCashedIntervals)
       : super(running, interval, threeCashedIntervals);
@@ -25,14 +25,12 @@ class AndroidBell extends Bell
     return AndroidBell(true, const Duration(minutes: 15), CashedIntervals());
   }
 
-  
   static Future<bool> initServicesAsync() async {
     // init storage
     bool storageInit = await AndroidBellStorageManager.initAsync();
-    bool backgroundInit = await AndroidBellBackgroundManager.initAsync();
     bool notificationInit = await AndroidBellNotificationService.initAsync();
 
-    bool allInited = storageInit && backgroundInit && notificationInit;
+    bool allInited = storageInit && notificationInit;
     assert(allInited);
 
     return allInited;
@@ -72,16 +70,16 @@ class AndroidBell extends Bell
 
 //==================================================BACKGROUND SERVICE===================================================
 
-  Future<bool> registerIntervalTask() async{
-    await AndroidBellBackgroundManager.cancelPreviousTasksAsync();
-    return await AndroidBellBackgroundManager.registerIntervalTaskAsync(innerInterval);
-
+  Future<bool> registerIntervalTask() async {
+    // await AndroidBellBackgroundManager.cancelPreviousTasksAsync();
+    // return await AndroidBellBackgroundManager.registerIntervalTaskAsync(innerInterval);
+    return Future.value(true);
   }
 
 //===================================================NOTIFICATION SERVICE================================================
 
-  Future<bool> sendNotification(
-      String title, String body, {Duration timeout = notificationTimeout}) async {
+  Future<bool> sendNotification(String title, String body,
+      {Duration timeout = notificationTimeout}) async {
     return await AndroidBellNotificationService.playNotification(
         title, body, timeout);
   }

@@ -12,7 +12,7 @@ mixin AndroidBellBackgroundManager {
   static void backGroundWork() {
     Workmanager().executeTask((task, inputData) async {
       // NESSESARY INITIALIZATION
-      await LocalPathProvider.initAsync();
+      await AndroidBell.initServicesAsync();
 
       AndroidBell bell = await AndroidBell.loadFromStorage();
 

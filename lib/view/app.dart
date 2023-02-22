@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/home_screen.dart';
+import 'package:workmanager/workmanager.dart';
 
 // ignore: must_be_immutable
 class MyApp extends StatelessWidget {
