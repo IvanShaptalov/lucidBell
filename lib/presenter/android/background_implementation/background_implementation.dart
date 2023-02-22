@@ -32,6 +32,7 @@ mixin AndroidBellBackgroundManager {
         // WAIT FOR NOTIFICATION
 
         bell.saveToStorage();
+        
         return Future.value(result);
       } catch (e) {
         print(e.toString());

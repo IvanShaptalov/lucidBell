@@ -145,12 +145,12 @@ class LocalPathProvider {
 mixin AndroidBellStorageManager {
 
   static Future<bool> initAsync()async {
-    return LocalPathProvider.initAsync();
+    return await LocalPathProvider.initAsync();
   }
   static Future<AndroidBell> loadBellFromStorage() async {
     String? jsonBell = await LocalPathProvider.getFileAsync();
     AndroidBell? bell;
-    if (jsonBell != null) {
+    if (jsonBell!= null && jsonBell != "") {
       bell = AndroidBell.fromJson(jsonBell);
       // return loaded bell
       return bell;

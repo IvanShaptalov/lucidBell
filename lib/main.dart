@@ -3,23 +3,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/model/bell/bell.dart';
 import 'package:flutter_lucid_bell/model/data_structures/data_structures.dart';
+import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
 import 'package:flutter_lucid_bell/view/app.dart';
-// import 'package:flutter_lucid_bell/bell/bell_logic.dart';
-// import 'package:flutter_lucid_bell/model/config_model.dart';
-// // import 'package:flutter_lucid_bell/notifications/notification_service.dart';
-// import 'package:workmanager/workmanager.dart';
 
-// import 'view/app.dart';
-
+class MainBell{
+  static AndroidBell? bell;
+  static Future<void> init() async{
+    bool result = await AndroidBell.initServicesAsync();
+    assert(result, true);
+    bell = await AndroidBell.loadFromStorage();
+  }
+}
 void main() async {
-  Bell(true, const Duration(minutes: 15), CashedIntervals());
-  // // load widgets firstry
+  // // load widgets firstly
   WidgetsFlutterBinding.ensureInitialized();
-
-  // // init services
-  // print('************************************start init');
-
-  // await InitServices.init();
+  await MainBell.init();
+  
 
   runApp(const MyApp());
 }

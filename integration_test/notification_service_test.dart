@@ -14,14 +14,14 @@ void main() {
   group('custom notification service initialized', () {
     testWidgets('notification initialized', (tester) async {
       AndroidBell bell = AndroidBell.mockBell();
-      await AndroidBell.initServices();
+      await AndroidBell.initServicesAsync();
 
       expect(CustomNotificationService.initSettings != null, true);
       expect(CustomNotificationService.androidSetting != null, true);
     });
     testWidgets('notification sent', (tester) async {
       AndroidBell bell = AndroidBell.mockBell();
-      await AndroidBell.initServices();
+      await AndroidBell.initServicesAsync();
       bool result =
           await bell.sendNotification('test notification', 'test notification');
       expect(result, true);

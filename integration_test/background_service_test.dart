@@ -15,13 +15,13 @@ void main() {
   group('background service initialized', () {
     testWidgets('background initialized', (tester) async {
       AndroidBell bell = AndroidBell.mockBell();
-      await AndroidBell.initServices();
+      await AndroidBell.initServicesAsync();
 
       expect(AndroidBellBackgroundManager.initialized, true);
     });
     testWidgets('back task sent', (tester) async {
       AndroidBell bell = AndroidBell.mockBell();
-      await AndroidBell.initServices();
+      await AndroidBell.initServicesAsync();
       
       expect(await bell.registerIntervalTask(), true);
     });

@@ -25,8 +25,7 @@ class AndroidBell extends Bell
   }
 
   
-  @override
-  static Future<bool> initServices() async {
+  static Future<bool> initServicesAsync() async {
     // init storage
     bool storageInit = await AndroidBellStorageManager.initAsync();
     bool backgroundInit = await AndroidBellBackgroundManager.initAsync();

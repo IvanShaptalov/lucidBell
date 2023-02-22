@@ -15,7 +15,7 @@ void main() {
             AndroidBell.mockBell().getNextNotificationOn() != null, true));
 
     test(
-        'bell has three cashed length always is ${BellConfig.maxCashedIntervals}',
+        'bell cashed notification length always is ${BellConfig.maxCashedIntervals}',
         () {
       AndroidBell bell = AndroidBell.mockBell();
       expect(
@@ -73,17 +73,20 @@ void main() {
       expect(bell.hashCode, newBell.hashCode);
     });
 
-    test('bell services INITSERVICES',
-        () async => expect(await AndroidBell.initServices(), true));
-
-    test('end-to-end all functionality test from mock', () async {
-      // TODO test
+     test('bell IO load from empty file', () async {
       AndroidBell bell = AndroidBell.mockBell();
+      bell.setInterval(const Duration(minutes: 45)); // set bell not mock
+      await LocalPathProvider.initAsync();
+      
+      await LocalPathProvider.saveFile("");
+
+      AndroidBell newBell = await AndroidBell.loadFromStorage();
+
+      expect(newBell.hashCode, AndroidBell.mockBell().hashCode);
     });
 
-    test('end-to-end all functionality test from cash', () async {
-      // TODO test
-      AndroidBell bell = await AndroidBell.loadFromStorage();
-    });
+    test('bell services INITSERVICES',
+        () async => expect(await AndroidBell.initServicesAsync(), true));
+
   });
 }
