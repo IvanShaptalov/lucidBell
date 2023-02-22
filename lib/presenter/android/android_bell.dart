@@ -35,7 +35,7 @@ class AndroidBell extends Bell
   }
 
   @override
-  bool setInterval(Duration interval) {
+  bool setInterval(Duration interval, {bool fromBackgound = false}) {
     assert(interval.inMinutes <= intervalUpperBound);
     assert(interval.inMinutes >= intervalLowerBound);
 
@@ -48,12 +48,17 @@ class AndroidBell extends Bell
     setNextNotificationTime();
 
     // run task if bell running
-    if (innerRunning){
+    if (innerRunning && !fromBackgound){
       registerIntervalTask();
     }
 
     saveToStorage();
     return (innerNextNotificationOn != null);
+  }
+
+  @override
+  bool updateNextNotificationOn() {
+    return setInterval(innerInterval, fromBackgound: true);
   }
 
 //=====================================================CONSTRUCTORS==================================================

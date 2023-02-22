@@ -9,12 +9,7 @@ import 'dart:async';
 import 'package:workmanager/workmanager.dart';
 
 @pragma('vm:entry-point')
-
-/// [callbackDispatcher] is background task that started in [InitServices.notificationService.circleNotification]
-/// load bell from file, add new interval save new bell to file and schedule notification to 1 seconds;
-/// tested with asserst
 void callbackDispatcher() {
-  // WidgetsFlutterBinding.ensureInitialized();
 
   Workmanager().executeTask((task, inputData) async {
     // NESSESARY INITIALIZATION
