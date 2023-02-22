@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
+import 'package:flutter_lucid_bell/presenter/android/background_implementation/background_implementation.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/app.dart';
 
@@ -22,7 +23,7 @@ void callbackDispatcher() {
     try {
       // expect that notification updated
 
-      assert(bell.updateNextNotificationOn(), true);
+      bell.updateNextNotificationOn();
 
       nextBellOnMessage += ', next bell on ${bell.getNextNotificationOn()}';
 
@@ -32,7 +33,7 @@ void callbackDispatcher() {
 
       // WAIT FOR NOTIFICATION
 
-      bell.saveToStorage();
+      await bell.saveToStorageAsync();
 
       return Future.value(result);
     } catch (e) {
@@ -42,7 +43,7 @@ void callbackDispatcher() {
   });
 }
 
-void main() async {
+Future<void> main() async {
   // load widgets firstry
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -54,7 +55,7 @@ void main() async {
       isInDebugMode:
           true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
       );
-  
+  AndroidBellBackgroundManager.initialized = true;
 
   runApp(MyApp());
 }
