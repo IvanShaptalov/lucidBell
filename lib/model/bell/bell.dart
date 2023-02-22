@@ -79,8 +79,13 @@ class Bell extends BaseBell {
     assert(interval.inMinutes >= intervalLowerBound);
 
     innerInterval = interval;
+
+    // update cashed buttons
     innerThreeCashedIntervals.push(innerInterval);
+
+    // update notification time
     setNextNotificationTime();
+
     return (innerNextNotificationOn != null);
   }
 
@@ -111,6 +116,8 @@ class Bell extends BaseBell {
 
   @override
   Bell(bool running, Duration interval, this.innerThreeCashedIntervals) {
+    innerInterval = interval;
+    innerRunning = running;
     setInterval(interval);
     setRunning(running);
   }
@@ -149,13 +156,13 @@ class Bell extends BaseBell {
     String strMinutes = "";
     switch (totalHours) {
       case 0:
-        strMinutes = "";
+        strHours = "";
         break;
       case 1:
-        strMinutes = "$minutesLeft Hour";
+        strHours = "$totalHours Hour";
         break;
       default:
-        strMinutes = "$minutesLeft Hours";
+        strHours = "$totalHours Hours";
     }
 
     switch (minutesLeft) {

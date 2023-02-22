@@ -13,9 +13,10 @@ class AndroidBell extends Bell
         AndroidBellStorageManager,
         AndroidBellNotificationService,
         AndroidBellBackgroundManager {
-//======================================================FIELDS=======================================================
+//======================================================FIELDS GETTERS, SETTERS=======================================
   static const Duration notificationTimeout = AndroidBellNotificationService.notificationTimeout;
 
+  
 //=====================================================CONSTRUCTORS==================================================
   AndroidBell(running, interval, threeCashedIntervals)
       : super(running, interval, threeCashedIntervals);
