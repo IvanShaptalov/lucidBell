@@ -12,26 +12,20 @@ class CashedButtons extends StatefulWidget {
 }
 
 class _CashedButtonsState extends State<CashedButtons> {
-  // StreamSubscription? sub;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    BellPresenter.callbacksTrigger.add(update);
+  }
 
-  // @override
-  // void dispose() async {
-  //   super.dispose();
-  //   if (sub != null) {
-  //     await sub!.cancel();
-  //   }
-  // }
+  void update() => setState(() {
+        print('update buttons');
+      });
 
   @override
   Widget build(BuildContext context) {
-    // sub = View.bellDurationListener(BellPresenter.bell!.innerInterval)
-    //     .listen((event) async {
-    //   await Future.delayed(Duration(seconds: 1));
-
-    //   setState(() {
-    //     print('update all');
-    //   });
-    // });
+    print('buttons ***');
 
     return Center(
       child: Row(
@@ -43,6 +37,7 @@ class _CashedButtonsState extends State<CashedButtons> {
                   BellPresenter.bell!.setInterval(BellPresenter
                       .bell!.getThreeCashedIntervals
                       .getByIndex(0));
+                  BellPresenter.updateCallbacks();
                 });
               },
               child: Text(
@@ -53,6 +48,7 @@ class _CashedButtonsState extends State<CashedButtons> {
                   BellPresenter.bell!.setInterval(BellPresenter
                       .bell!.getThreeCashedIntervals
                       .getByIndex(1));
+                  BellPresenter.updateCallbacks();
                 });
               },
               child: Text(
@@ -63,6 +59,7 @@ class _CashedButtonsState extends State<CashedButtons> {
                   BellPresenter.bell!.setInterval(BellPresenter
                       .bell!.getThreeCashedIntervals
                       .getByIndex(2));
+                  BellPresenter.updateCallbacks();
                 });
               },
               child: Text(

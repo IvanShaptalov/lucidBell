@@ -12,6 +12,7 @@ import 'package:path/path.dart' as p;
 class BellPresenter {
   static AndroidBell? bell;
   static StreamSubscription? watcherSub;
+  static List<Function> callbacksTrigger = [];
   
   static Future<bool> init() async {
     if (watcherSub != null){
@@ -29,4 +30,14 @@ class BellPresenter {
     });
     return true;
   }
+
+  static void updateCallbacks(){
+    print('========================================================trigger length: ${callbacksTrigger.length}');
+    for (var f in callbacksTrigger){
+
+      f();
+    }
+  }
+
+
 }

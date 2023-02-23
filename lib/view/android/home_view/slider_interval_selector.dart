@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/android/theme/view.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
+import 'package:timezone/timezone.dart';
 
 class SliderIntervalSelector extends StatefulWidget {
   const SliderIntervalSelector({super.key});
@@ -17,27 +18,21 @@ class SliderIntervalSelector extends StatefulWidget {
 class _SliderIntervalSelectorState extends State<SliderIntervalSelector> {
   double localValue = BellPresenter.bell!.getInterval().inMinutes.toDouble();
 
-  // StreamSubscription? sub;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    BellPresenter.callbacksTrigger.add(update);
+  }
 
-  // @override
-  // void dispose() async{
-  //   super.dispose();
-  //   if (sub != null) {
-  //     await sub!.cancel();
-  //   }
-  // }
+  void update() => setState(() {
+        localValue = BellPresenter.bell!.getInterval().inMinutes.toDouble();
+        print('update slider');
+      });
 
   @override
   Widget build(BuildContext context) {
-    // sub = View.bellDurationListener(BellPresenter.bell!.innerInterval)
-    //     .listen((event) async {
-    //   await Future.delayed(Duration(seconds: 1));
-    //   setState(() {
-    //     print('update all');
-    //     localValue = BellPresenter.bell!.getInterval().inMinutes.toDouble();
-    //   });
-      
-    // });
+    print('slider ***');
 
     return Column(
       children: [
@@ -60,6 +55,8 @@ class _SliderIntervalSelectorState extends State<SliderIntervalSelector> {
           },
           onChangeEnd: (value) {
             BellPresenter.bell!.setInterval(Duration(minutes: value.toInt()));
+            print('update!!!!!!!!!!!!!!!!!!!');
+            BellPresenter.updateCallbacks();
           },
         ),
       ],
