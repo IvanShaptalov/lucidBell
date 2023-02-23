@@ -7,6 +7,7 @@ import 'package:flutter_lucid_bell/presenter/android/config_android_presenter.da
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:watcher/watcher.dart';
 
 class LocalPathProvider {
   static String?
@@ -114,6 +115,10 @@ class LocalPathProvider {
     if (!await File(logPath!).exists()) {
       await File(logPath!).create();
     }
+  }
+
+  static DirectoryWatcher getFileBellListener() {
+    return DirectoryWatcher(p.absolute(LocalPathProvider.appDocPath!));
   }
 
   static Future<bool> logBackground(String log) async {

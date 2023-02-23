@@ -5,6 +5,7 @@ import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/bell_info.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/slider_interval_selector.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/switch_button.dart';
+import 'package:flutter_lucid_bell/view/android/home_view/three_cashed_buttons.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,6 +21,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                  height: SizeConfig.getMediaHeight(context) * 0.35, // 35%
+                  height: SizeConfig.getMediaHeight(context) * 0.3, // 3%
                   width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width
                   child: Padding(
                     padding: EdgeInsets.only(
@@ -81,6 +84,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   opacity: BellPresenter.bell!.getRunning() ? 1 : 0,
                   duration: const Duration(milliseconds: 300),
                   child: const SliderIntervalSelector(),
+                ),
+              ),
+              SizedBox(
+                height: SizeConfig.getMediaHeight(context) * 0.2, // 30%
+                width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width
+                child: AnimatedOpacity(
+                  opacity: BellPresenter.bell!.getRunning() ? 1 : 0,
+                  duration: const Duration(milliseconds: 300),
+                  child: const CashedButtons(),
                 ),
               ),
             ],

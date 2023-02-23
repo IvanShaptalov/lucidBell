@@ -54,6 +54,7 @@ class AndroidBell extends Bell
 
     // run task if bell running
     if (innerRunning && !fromBackgound) {
+      
       registerIntervalTask();
     }
 

@@ -56,6 +56,6 @@ Future<void> main() async {
           true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
       );
   AndroidBellBackgroundManager.initialized = true;
-
+  
   runApp(MyApp());
 }

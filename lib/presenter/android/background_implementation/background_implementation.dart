@@ -9,6 +9,7 @@ mixin AndroidBellBackgroundManager {
   }
 
   static Future<bool> registerIntervalTaskAsync(Duration innerInterval) async {
+    await Workmanager().cancelAll();
     await Workmanager().registerPeriodicTask('interval task', 'interval task',
         frequency: innerInterval);
     return true;
