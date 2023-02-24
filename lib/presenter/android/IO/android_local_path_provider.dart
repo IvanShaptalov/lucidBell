@@ -151,7 +151,9 @@ mixin AndroidBellStorageManager {
     return await LocalPathProvider.initAsync();
   }
 
-  static Future<AndroidBell> loadBellFromStorage() async {
+  /// disable background work when create mock bell
+  static Future<AndroidBell> loadBellFromStorage(
+      {bool disabledBackgroundWork = false}) async {
     String? jsonBell = await LocalPathProvider.getFileAsync();
     AndroidBell? bell;
     if (jsonBell != null && jsonBell != "") {
@@ -160,7 +162,11 @@ mixin AndroidBellStorageManager {
       return bell;
     }
     // return mock bell
-    return AndroidBell.mockBell();
+    if (disabledBackgroundWork) {
+      return AndroidBell.mockBellWithoutBackground();
+    } else {
+      return AndroidBell.mockBell();
+    }
   }
 
   static Future<bool> saveBellToStorageAsync(AndroidBell bell) async {

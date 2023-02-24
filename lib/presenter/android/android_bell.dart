@@ -54,7 +54,6 @@ class AndroidBell extends Bell
 
     // run task if bell running
     if (innerRunning && !fromBackgound) {
-      
       registerIntervalTask();
     }
 
@@ -114,8 +113,10 @@ class AndroidBell extends Bell
       AndroidBell.protectedCreating(
           true, const Duration(minutes: 15), CashedIntervals(), DateTime.now());
 //======================================================IO===============================================================
-  static Future<AndroidBell> loadFromStorage() async {
-    return await AndroidBellStorageManager.loadBellFromStorage();
+  static Future<AndroidBell> loadFromStorage(
+      {bool disabledBackgroundWork = false}) async {
+    return await AndroidBellStorageManager.loadBellFromStorage(
+        disabledBackgroundWork: disabledBackgroundWork);
   }
 
   Future<bool> saveToStorageAsync() async {

@@ -16,7 +16,7 @@ void callbackDispatcher() {
     // NESSESARY INITIALIZATION
     await AndroidBell.initServicesAsync();
 
-    AndroidBell bell = await AndroidBell.loadFromStorage();
+    AndroidBell bell = await AndroidBell.loadFromStorage(disabledBackgroundWork: true);
 
     String nextBellOnMessage = 'Reminder';
 

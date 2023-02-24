@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/model/config_model.dart';
 import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
+import 'package:flutter_lucid_bell/presenter/android/notifications/notification_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:flutter_lucid_bell/main.dart' as app;
@@ -12,7 +14,9 @@ void main() {
     test(
         'bell initialized , nextNotification set',
         () => expect(
-            AndroidBell.mockBellWithoutBackground().getNextNotificationOn() != null, true));
+            AndroidBell.mockBellWithoutBackground().getNextNotificationOn() !=
+                null,
+            true));
 
     test(
         'bell cashed notification length always is ${BellConfig.maxCashedIntervals}',
@@ -73,10 +77,10 @@ void main() {
       expect(bell.hashCode, newBell.hashCode);
     });
 
-     test('bell IO load from empty file', () async {
+    test('bell IO load from empty file', () async {
       await app.main();
       await AndroidBell.initServicesAsync();
-      
+
       await LocalPathProvider.saveFile("");
 
       AndroidBell newBell = await AndroidBell.loadFromStorage();
@@ -84,9 +88,23 @@ void main() {
       expect(newBell.hashCode, AndroidBell.mockBell().hashCode);
     });
 
+    test('bell IO load mock without background work', () async {
+      await app.main();
+      await AndroidBell.initServicesAsync();
+
+      await LocalPathProvider.saveFile("");
+
+      AndroidBell newBell =
+          await AndroidBell.loadFromStorage(disabledBackgroundWork: true);
+
+      expect(await CustomNotificationService.isNotificationSent(),
+          true); // exception throwed
+    });
+
     test('bell services INITSERVICES',
         () async => expect(await AndroidBell.initServicesAsync(), true));
-
   });
-
 }
+
+
+    // AndroidBell bell = await AndroidBell.loadFromStorage(disabledBackgroundWork: true);
