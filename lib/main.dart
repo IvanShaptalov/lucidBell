@@ -25,7 +25,7 @@ void callbackDispatcher() {
 
       bell.updateNextNotificationOn();
 
-      String justNextBell = " next on ${bell.getNextNotificationOnFormatted()}";
+      String justNextBell = "next 🔔 on ${bell.getNextNotificationOnFormatted()}";
       nextBellOnMessage +=
           ', next bell on ${bell.getNextNotificationOnFormatted()}';
 
