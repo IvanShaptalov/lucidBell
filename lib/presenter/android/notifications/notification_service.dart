@@ -94,7 +94,6 @@ mixin AndroidBellNotificationService {
       return true;
     } catch (e) {
       // ignore: avoid_print
-      print(e);
       return false;
     }
   }
