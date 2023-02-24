@@ -1,12 +1,9 @@
 // ignore_for_file: must_be_immutable
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
-import 'package:flutter_lucid_bell/view/android/theme/view.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
-import 'package:timezone/timezone.dart';
 
 class SliderIntervalSelector extends StatefulWidget {
   const SliderIntervalSelector({super.key});
@@ -36,8 +33,11 @@ class _SliderIntervalSelectorState extends State<SliderIntervalSelector> {
 
     return Column(
       children: [
-        Text(BellPresenter.bell!
-            .humanLikeDuration(Duration(minutes: localValue.toInt()))),
+        Text(
+          BellPresenter.bell!
+              .humanLikeDuration(Duration(minutes: localValue.toInt()),),
+          style:  GoogleFonts.poppins(color: const Color.fromARGB(255, 225, 223, 223), fontSize: 18, fontWeight: FontWeight.bold),
+        ),
         SfSlider(
           min: BellPresenter.bell!.intervalLowerBound,
           max: BellPresenter.bell!.intervalUpperBound,
@@ -55,7 +55,6 @@ class _SliderIntervalSelectorState extends State<SliderIntervalSelector> {
           },
           onChangeEnd: (value) {
             BellPresenter.bell!.setInterval(Duration(minutes: value.toInt()));
-            print('update!!!!!!!!!!!!!!!!!!!');
             BellPresenter.updateCallbacks();
           },
         ),

@@ -21,6 +21,7 @@ dependencies:
   flutter_local_notifications: ^13.0.0
   timezone: ^0.9.1
   watcher: ^1.0.2
+  google_fonts: ^4.0.3
 
 dev_dependencies:
   integration_test:

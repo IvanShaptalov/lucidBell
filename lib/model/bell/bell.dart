@@ -159,10 +159,10 @@ class Bell extends BaseBell {
         strHours = "";
         break;
       case 1:
-        strHours = "$totalHours Hour";
+        strHours = "$totalHours hour";
         break;
       default:
-        strHours = "$totalHours Hours";
+        strHours = "$totalHours hours";
     }
 
     switch (minutesLeft) {
@@ -170,10 +170,10 @@ class Bell extends BaseBell {
         strMinutes = "";
         break;
       case 1:
-        strMinutes = "$minutesLeft Minute";
+        strMinutes = "$minutesLeft minute";
         break;
       default:
-        strMinutes = "$minutesLeft Minutes";
+        strMinutes = "$minutesLeft minutes";
     }
     return "$strHours $strMinutes";
   }

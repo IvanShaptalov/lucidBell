@@ -22,21 +22,19 @@ class _SwitchBellState extends State<SwitchBell> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              AnimatedOpacity(
-                  // If the widget is visible, animate to 0.0 (invisible).
-                  // If the widget is hidden, animate to 1.0 (fully visible).
-                  opacity: BellPresenter.bell!.getRunning() ? 1 : 0,
-                  duration: const Duration(milliseconds: 500),
-                  // The green box must be a child of the AnimatedOpacity widget.
-                  child: const Text('running')),
-              Switch(
-                  value: BellPresenter.bell!.getRunning(),
-                  onChanged: ((value) {
-                    setState(() {
-                      widget.callback();
-                      BellPresenter.bell!.setRunning(value);
-                    });
-                  })),
+              Transform.scale(
+                scale: 1.2,
+                child: Switch(
+                    
+                    // activeColor: Color.fromARGB(255, 51, 182, 142),
+                    value: BellPresenter.bell!.getRunning(),
+                    onChanged: ((value) {
+                      setState(() {
+                        widget.callback();
+                        BellPresenter.bell!.setRunning(value);
+                      });
+                    })),
+              ),
             ],
           ),
         ),
