@@ -1,8 +1,6 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
-import 'package:flutter_lucid_bell/view/android/theme/view.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
 
 class CashedButtons extends StatefulWidget {
@@ -15,18 +13,15 @@ class CashedButtons extends StatefulWidget {
 class _CashedButtonsState extends State<CashedButtons> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     BellPresenter.callbacksTrigger.add(update);
   }
 
   void update() => setState(() {
-        print('update buttons');
       });
 
   @override
   Widget build(BuildContext context) {
-    print('buttons ***');
 
     return Center(
       child: Row(
@@ -47,6 +42,7 @@ class _CashedButtonsState extends State<CashedButtons> {
   }
 }
 
+// ignore: must_be_immutable
 class CashedButton extends StatefulWidget {
   Duration interval;
   CashedButton({super.key, required this.interval});

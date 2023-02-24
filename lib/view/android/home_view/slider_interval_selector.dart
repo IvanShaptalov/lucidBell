@@ -17,19 +17,16 @@ class _SliderIntervalSelectorState extends State<SliderIntervalSelector> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     BellPresenter.callbacksTrigger.add(update);
   }
 
   void update() => setState(() {
         localValue = BellPresenter.bell!.getInterval().inMinutes.toDouble();
-        print('update slider');
       });
 
   @override
   Widget build(BuildContext context) {
-    print('slider ***');
 
     return Column(
       children: [

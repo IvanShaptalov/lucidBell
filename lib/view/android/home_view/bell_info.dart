@@ -22,10 +22,8 @@ class _BellInfoState extends State<BellInfo> {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       // NOT UPDATE IF SLIDER  CHANGING OR BELL NOT RUN
       if (!BellPresenter.bell!.getRunning()) {
-        print('paused');
         setState(() {});
       } else {
-        print('i work');
         setState(() {
           toNextBellInSeconds =
               BellPresenter.bell!.getSecondsToNextNotification();

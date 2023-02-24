@@ -1,6 +1,4 @@
-import 'dart:io';
 
-import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
 import 'package:flutter_lucid_bell/presenter/android/notifications/notification_service.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,6 +12,7 @@ void main() {
   group('custom notification service initialized', () {
     testWidgets('notification initialized', (tester) async {
       await app.main();
+      // ignore: unused_local_variable
       AndroidBell bell = AndroidBell.mockBell();
       await AndroidBell.initServicesAsync();
 

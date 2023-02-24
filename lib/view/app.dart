@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/home_screen.dart';
 import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
 

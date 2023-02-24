@@ -39,7 +39,6 @@ void callbackDispatcher() {
 
       return Future.value(result);
     } catch (e) {
-      print(e.toString());
       return Future.error(e.toString());
     }
   });

@@ -22,6 +22,7 @@ dependencies:
   timezone: ^0.9.1
   watcher: ^1.0.2
   google_fonts: ^4.0.3
+  intl: ^0.18.0
 
 dev_dependencies:
   integration_test:

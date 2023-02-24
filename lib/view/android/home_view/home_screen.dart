@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: AnimatedOpacity(
                   opacity: BellPresenter.bell!.getRunning() ? 1 : 0,
                   duration: const Duration(milliseconds: 300),
-                  child: SliderIntervalSelector(),
+                  child: const SliderIntervalSelector(),
                 ),
               ),
               SizedBox(
@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: AnimatedOpacity(
                   opacity: BellPresenter.bell!.getRunning() ? 1 : 0,
                   duration: const Duration(milliseconds: 300),
-                  child: CashedButtons(),
+                  child: const CashedButtons(),
                 ),
               ),
             ],
@@ -104,7 +104,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void callback() {
     setState(() {
-      print('updated');
     });
   }
 }

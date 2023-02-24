@@ -10,7 +10,6 @@ void main() {
 
   group('background service initialized', () {
     testWidgets('background initialized', (tester) async {
-      AndroidBell bell = AndroidBell.mockBellWithoutBackground();
       await AndroidBell.initServicesAsync();
       await app.main();
 

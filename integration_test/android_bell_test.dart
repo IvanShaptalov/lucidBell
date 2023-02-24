@@ -1,7 +1,6 @@
 import 'package:flutter_lucid_bell/model/config_model.dart';
 import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
-import 'package:flutter_lucid_bell/presenter/android/notifications/notification_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:flutter_lucid_bell/main.dart' as app;
