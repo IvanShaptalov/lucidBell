@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/model/config_model.dart';
 import 'package:flutter_lucid_bell/model/data_structures/data_structures.dart';
+import 'package:intl/intl.dart';
 
 abstract class BaseBell {
   // ======================================FIELDS, GETTERS AND SETTERS====================================================
@@ -107,6 +108,12 @@ class Bell extends BaseBell {
 
   @override
   DateTime? getNextNotificationOn() => innerNextNotificationOn;
+
+  String getNextNotificationOnFormatted() =>
+      // ignore: prefer_if_null_operators
+      DateFormat('h:mm a').format(innerNextNotificationOn != null
+          ? innerNextNotificationOn!
+          : DateTime.now().add(innerInterval));
 
 // =========================================CONSTRUCTORS AND INIT METHODS=================================================
 

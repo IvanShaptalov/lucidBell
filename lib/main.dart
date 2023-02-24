@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
 import 'package:flutter_lucid_bell/presenter/android/background_implementation/background_implementation.dart';
+import 'package:flutter_lucid_bell/presenter/android/config_android_presenter.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/app.dart';
 
@@ -11,7 +12,6 @@ import 'package:workmanager/workmanager.dart';
 
 @pragma('vm:entry-point')
 void callbackDispatcher() {
-
   Workmanager().executeTask((task, inputData) async {
     // NESSESARY INITIALIZATION
     await AndroidBell.initServicesAsync();
@@ -25,11 +25,13 @@ void callbackDispatcher() {
 
       bell.updateNextNotificationOn();
 
-      nextBellOnMessage += ', next bell on ${bell.getNextNotificationOn()}';
+      String justNextBell = " next on ${bell.getNextNotificationOnFormatted()}";
+      nextBellOnMessage +=
+          ', next bell on ${bell.getNextNotificationOnFormatted()}';
 
       // send notification
       bool result =
-          await bell.sendNotification('bell notification', nextBellOnMessage);
+          await bell.sendNotification(justNextBell, nextBellOnMessage);
 
       // WAIT FOR NOTIFICATION
 
@@ -52,10 +54,10 @@ Future<void> main() async {
 
   Workmanager().initialize(
       callbackDispatcher, // The top level function, aka callbackDispatcher
-      isInDebugMode:
-          true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
+      isInDebugMode: ConfigBackgroundManager
+          .debugMode // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
       );
   AndroidBellBackgroundManager.initialized = true;
-  
+
   runApp(MyApp());
 }

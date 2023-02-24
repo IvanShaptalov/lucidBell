@@ -1,5 +1,5 @@
-name: flutter_lucid_bell
-description: Simplest Lucid bell to repeatable reminder to reality check.
+name: 'flutter_lucid_bell'
+description: 'Simplest interval bell to remind you what you want'
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 

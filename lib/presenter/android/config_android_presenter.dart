@@ -1,5 +1,5 @@
 class ConfigBackgroundManager {
-  static const bool debugMode = true;
+  static const bool debugMode = false;
 }
 
 

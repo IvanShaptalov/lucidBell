@@ -25,7 +25,7 @@ void main() {
       AndroidBell bell = AndroidBell.mockBell();
       await AndroidBell.initServicesAsync();
       bool result =
-          await bell.sendNotification('test notification', 'test notification');
+          await bell.sendNotification('reminder', 'reminder');
       expect(result, true);
     });
   });

@@ -3,7 +3,7 @@
     
 
    <application
-        android:label="flutter_lucid_bell"
+        android:label="Circle Bell"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

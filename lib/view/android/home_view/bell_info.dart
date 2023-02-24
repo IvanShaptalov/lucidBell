@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:intl/intl.dart';
 
+
 class BellInfo extends StatefulWidget {
   const BellInfo({super.key});
 
@@ -67,7 +68,7 @@ class _BellInfoState extends State<BellInfo> {
           // If the widget is hidden, animate to 1.0 (fully visible).
 
           opacity: BellPresenter.bell!.getRunning() ? 1 : 0,
-          duration: const Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 300),
           child: bellCondition(toNextBellInSeconds))
     ]);
   }

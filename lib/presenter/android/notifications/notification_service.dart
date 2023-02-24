@@ -58,7 +58,7 @@ class CustomNotificationService {
 
 // #3
     await _localNotificationsPlugin.zonedSchedule(
-      rand.nextInt(100000),
+      1,
       title,
       body,
       scheduleTime,
@@ -82,7 +82,7 @@ mixin AndroidBellNotificationService {
     try {
       // register notification to play
       await CustomNotificationService.registerNotification(
-          title, body, DateTime.now().millisecondsSinceEpoch + 1000, 'testing');
+          title, body, DateTime.now().millisecondsSinceEpoch + 1000, 'reminder');
 
       Future.delayed(timeout)
           .then((value) => throw Exception('notification timeout'));
