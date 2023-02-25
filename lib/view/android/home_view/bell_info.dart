@@ -51,7 +51,8 @@ class _BellInfoState extends State<BellInfo> {
       // TODO change to format
       DateTime date =  DateTime.fromMillisecondsSinceEpoch(seconds * 1000);
       String format = 'mm:ss';
-      if (seconds % 60 > 0){
+      
+      if (seconds % 3600 > 0){
         format = 'h:mm:ss';
       }
       String dateStringFormat = DateFormat(format).format(date);
