@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
+import 'package:flutter_lucid_bell/presenter/android/permission_service/permission_service.dart';
 
 /// USE PRESENTER TO IMPLEMENT SOME MODEL LOGIC AND CONNECT IT TO VIEW AND CURRENT PLATFORM
 // import 'package:flutter_lucid_bell/presenter/android/init_services.dart';
@@ -13,6 +14,9 @@ class BellPresenter {
   static List<Function> callbacksTrigger = [];
   
   static Future<bool> init() async {
+    // load permissions
+    await PermissionService().init();
+    // load bell
     if (watcherSub != null){
       await watcherSub!.cancel();
     }
@@ -28,7 +32,6 @@ class BellPresenter {
 
   static void updateCallbacks(){
     for (var f in callbacksTrigger){
-
       f();
     }
   }
