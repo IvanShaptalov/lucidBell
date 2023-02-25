@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/model/config_model.dart';
 import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
@@ -103,6 +102,23 @@ void main() {
 
     test('bell services INITSERVICES',
         () async => expect(await AndroidBell.initServicesAsync(), true));
+
+    test('bell cancel notification', () async {
+      await app.main();
+      await AndroidBell.initServicesAsync();
+      var bell = AndroidBell.mockBell();
+      
+       bell.sendNotification('reminder', 'reminder');
+
+      expect(await CustomNotificationService.isNotificationSent(),
+          false);
+
+      await bell.cancelIntervalTask();
+
+      expect(await CustomNotificationService.isNotificationSent(),
+          true); // exception throwed
+    });
+
   });
 }
 

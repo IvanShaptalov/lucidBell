@@ -132,6 +132,7 @@ class AndroidBell extends Bell
   }
 
   Future<bool> cancelIntervalTask() async {
+    await AndroidBellNotificationService.cancelNotification();
     return await AndroidBellBackgroundManager.cancelPreviousTasksAsync();
   }
 

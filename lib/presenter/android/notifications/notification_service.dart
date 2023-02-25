@@ -28,12 +28,20 @@ class CustomNotificationService {
     });
   }
 
-  // IF NOT PENDING NOTIFICATIONS - SENT;
+  /// IF NOT PENDING NOTIFICATIONS - true;
   static Future<bool> isNotificationSent() async {
     return (await _localNotificationsPlugin.pendingNotificationRequests())
         .isEmpty;
   }
 
+  static Future<bool> cancelNotification() async{
+    // ignore: unnecessary_null_comparison
+    if (_localNotificationsPlugin != null){
+    await _localNotificationsPlugin.cancelAll();
+      return true;
+    }
+    return false;
+  }
   static Future<void> registerNotification(
     title,
     body,
@@ -75,6 +83,10 @@ mixin AndroidBellNotificationService {
   static const Duration notificationTimeout = Duration(seconds: 20);
   static Future<bool> initAsync() async {
     return await CustomNotificationService.initAsync();
+  }
+
+  static Future<bool> cancelNotification() async {
+    return await CustomNotificationService.cancelNotification();
   }
 
   static Future<bool> playNotification(

@@ -15,7 +15,7 @@ class BellPresenter {
   
   static Future<bool> init() async {
     // load permissions
-    await PermissionService().init();
+    // await PermissionService().init();
     // load bell
     if (watcherSub != null){
       await watcherSub!.cancel();

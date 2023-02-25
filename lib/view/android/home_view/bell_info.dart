@@ -48,7 +48,10 @@ class _BellInfoState extends State<BellInfo> {
     if (seconds <= 0) {
       return const Icon(Icons.alarm);
     } else {
-      return Text(seconds.toString(),
+      // TODO change to format
+      DateTime date =  DateTime.fromMillisecondsSinceEpoch(seconds * 1000);
+      String dateStringFormat = DateFormat('mm:ss').format(date);
+      return Text(dateStringFormat,
           style: const TextStyle(
               color: Color.fromARGB(255, 255, 255, 255), fontSize: 36));
     }
