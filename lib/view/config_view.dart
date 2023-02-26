@@ -9,3 +9,7 @@ class SizeConfig {
     return MediaQuery.of(context).size.width;
   }
 }
+
+class ViewConfig{
+  static const String timeFormat = 'hh:mm:ss a';
+}

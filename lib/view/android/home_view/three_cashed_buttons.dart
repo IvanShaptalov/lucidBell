@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
+import 'package:flutter_lucid_bell/view/view.dart';
 
 class CashedButtons extends StatefulWidget {
   const CashedButtons({super.key});
@@ -55,7 +56,8 @@ class _CashedButtonState extends State<CashedButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: SizeConfig.getMediaWidth(context) * 0.2, //20%
+      width: SizeConfig.getMediaWidth(context) * 0.22, //22%
+      margin: EdgeInsets.symmetric(horizontal: SizeConfig.getMediaWidth(context) * 0.002), //%0.2
       height: SizeConfig.getMediaHeight(context) * 0.05, //10%
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(45)),
@@ -79,7 +81,7 @@ class _CashedButtonState extends State<CashedButton> {
             });
           },
           child: Text(
-            '${widget.interval.inMinutes} min',
+            View.humanLikeDuration(widget.interval, shortLabel: true),
             maxLines: 1,
             textAlign: TextAlign.center,
           )),

@@ -38,8 +38,6 @@ abstract class BaseBell {
   @protected
   DateTime setNextNotificationTime();
 
-  /// present duration to human readable style
-  String humanLikeDuration(Duration duration);
 
   /// load bell from implemented storage
 }
@@ -154,36 +152,6 @@ class Bell extends BaseBell {
     return setInterval(innerInterval);
   }
 
-  @override
-  String humanLikeDuration(Duration duration) {
-    assert(duration.inMinutes > 0);
-    int totalHours = duration.inHours;
-    int minutesLeft = duration.inMinutes - (totalHours * 60);
-    String strHours = "";
-    String strMinutes = "";
-    switch (totalHours) {
-      case 0:
-        strHours = "";
-        break;
-      case 1:
-        strHours = "$totalHours hour";
-        break;
-      default:
-        strHours = "$totalHours hours";
-    }
-
-    switch (minutesLeft) {
-      case 0:
-        strMinutes = "";
-        break;
-      case 1:
-        strMinutes = "$minutesLeft minute";
-        break;
-      default:
-        strMinutes = "$minutesLeft minutes";
-    }
-    return "$strHours $strMinutes";
-  }
 
 // =========================================================JSON METHODS==================================================
 
