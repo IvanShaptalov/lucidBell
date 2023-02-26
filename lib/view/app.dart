@@ -7,8 +7,6 @@ import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
 // ignore: must_be_immutable
 class MyApp extends StatefulWidget {
   MyApp({super.key});
-  final List<Widget> _pages = [const HomeScreen(), const PermissionPage()];
-
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -16,11 +14,18 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int currentPage = 0;
 
+  void updateCallback() {
+    setState(() {});
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     // ignore: invalid_use_of_protected_member
-
+    final List<Widget> _pages = [
+      HomeScreen(updateCallback),
+      const PermissionPage()
+    ];
     return MaterialApp(
         title: 'Lucid Bell Simplest',
         debugShowCheckedModeBanner: false,
@@ -44,7 +49,7 @@ class _MyAppState extends State<MyApp> {
                         ])),
           child: Scaffold(
             backgroundColor: Colors.transparent,
-            body: widget._pages.elementAt(currentPage),
+            body: _pages.elementAt(currentPage),
             bottomNavigationBar: BottomNavigationBar(
                 backgroundColor: Colors.transparent,
                 items: const [
@@ -61,6 +66,8 @@ class _MyAppState extends State<MyApp> {
                 fixedColor: Colors.red,
                 onTap: (int inIndex) {
                   setState(() {
+                    BellPresenter.clearCallbackTriggers();
+
                     currentPage = inIndex;
                   });
                 }),

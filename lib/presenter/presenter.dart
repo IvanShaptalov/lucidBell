@@ -35,5 +35,15 @@ class BellPresenter {
     }
   }
 
+  static void addIfEmpty(Function f){
+    if (callbacksTrigger.isEmpty){
+      callbacksTrigger.add(f);
+    }
+  }
+
+  static void clearCallbackTriggers() {
+    callbacksTrigger.clear();
+  }
+
 
 }

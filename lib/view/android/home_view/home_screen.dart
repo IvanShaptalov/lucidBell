@@ -9,7 +9,8 @@ import 'package:flutter_lucid_bell/view/android/home_view/three_cashed_buttons.d
 import 'package:flutter_lucid_bell/view/config_view.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  Function updateCallback;
+  HomeScreen(this.updateCallback, {super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -64,7 +65,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Container(
               margin: EdgeInsets.only(
-                  bottom: SizeConfig.getMediaHeight(context)  * 0.05),// 5% from bottom
+                  bottom: SizeConfig.getMediaHeight(context) *
+                      0.05), // 5% from bottom
               child: SizedBox(
                 width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width
                 child: AnimatedOpacity(
@@ -82,5 +84,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void callback() {
     setState(() {});
+    widget.updateCallback();
   }
 }

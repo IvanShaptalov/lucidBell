@@ -28,6 +28,7 @@ class _SliderIntervalSelectorState extends State<SliderIntervalSelector> {
 
   @override
   Widget build(BuildContext context) {
+    BellPresenter.addIfEmpty(update);
     return Column(
       children: [
         Text(

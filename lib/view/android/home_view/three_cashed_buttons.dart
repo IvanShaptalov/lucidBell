@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
@@ -18,11 +17,11 @@ class _CashedButtonsState extends State<CashedButtons> {
     BellPresenter.callbacksTrigger.add(update);
   }
 
-  void update() => setState(() {
-      });
+  void update() => setState(() {});
 
   @override
   Widget build(BuildContext context) {
+    BellPresenter.addIfEmpty(update);
 
     return Center(
       child: Row(
@@ -57,23 +56,25 @@ class _CashedButtonState extends State<CashedButton> {
   Widget build(BuildContext context) {
     return Container(
       width: SizeConfig.getMediaWidth(context) * 0.22, //22%
-      margin: EdgeInsets.symmetric(horizontal: SizeConfig.getMediaWidth(context) * 0.002), //%0.2
+      margin: EdgeInsets.symmetric(
+          horizontal: SizeConfig.getMediaWidth(context) * 0.002), //%0.2
       height: SizeConfig.getMediaHeight(context) * 0.05, //10%
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(45)),
-        
         gradient: LinearGradient(
           begin: Alignment.bottomCenter,
           end: Alignment.topCenter,
-          colors: [Color.fromARGB(255, 56, 25, 76), Color.fromARGB(255, 75, 53, 147), ],
+          colors: [
+            Color.fromARGB(255, 56, 25, 76),
+            Color.fromARGB(255, 75, 53, 147),
+          ],
         ),
       ),
       child: TextButton(
           style: TextButton.styleFrom(
             foregroundColor: Colors.white,
-             // Text Color
+            // Text Color
           ),
-          
           onPressed: () async {
             setState(() {
               BellPresenter.bell!.setInterval(widget.interval);
