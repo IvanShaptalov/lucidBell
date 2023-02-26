@@ -1,5 +1,3 @@
-import 'package:flutter_lucid_bell/model/config_model.dart';
-import 'package:flutter_lucid_bell/model/data_structures/data_structures.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
 import 'package:flutter_test/flutter_test.dart';
 

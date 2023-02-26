@@ -1,13 +1,15 @@
 import 'package:permission_handler/permission_handler.dart';
+import 'package:sound_mode/permission_handler.dart';
 
 class PermissionService {
   // NESSESARY PERMISSIONS
   bool notificationPermissionGranted = false;
   bool batteryOptimizationDisabled = false;
+  bool silentModeDisabled = false;
+  bool specificPermission = false;
 
   Future<void> init() async {
-    await grantPermissions();
-    await grantSpecificPermissions();
+    await checkForPermissions();
   }
 
   Future<void> checkForPermissions() async {
@@ -16,6 +18,19 @@ class PermissionService {
     // BATTERY GRANT
     batteryOptimizationDisabled =
         await Permission.ignoreBatteryOptimizations.isGranted;
+
+    // SILENT DISABLED
+    silentModeDisabled = await isSilentModeDisabled();
+
+    specificPermission = false;
+  }
+
+  Future<bool> isSilentModeDisabled() async {
+    bool? result = await PermissionHandler.permissionsGranted;
+    if (result == true) {
+      return true;
+    }
+    return false;
   }
 
   Future<bool> checkForSpecificPermissions() async {
@@ -23,34 +38,13 @@ class PermissionService {
     return true;
   }
 
-  Future<bool> grantSpecificPermissions() async {
-    // print('try check');
-    // if (await checkForSpecificPermissions()) {
-    //   print('**************it is normal android');
-    //   return true;
-    // } else {
-    //   print('try grant');
-    //   await specific.getAutoStartPermission().timeout(const Duration(seconds: 10));
-    //   return true;
-    // }
-    return true;
+  Future<bool> grantPermission(Permission permission, bool saveAnswer) async {
+    saveAnswer = await permission.request().isGranted;
+    return saveAnswer;
   }
 
-  Future<bool> grantPermissions() async {
-    // NOTIFICATIONS
-    await checkForPermissions();
-    if (!notificationPermissionGranted) {
-      notificationPermissionGranted =
-          await Permission.notification.request().isGranted;
-    }
-
-    // BATTERY OPTIMIZATION
-    if (!batteryOptimizationDisabled) {
-      batteryOptimizationDisabled =
-          await Permission.ignoreBatteryOptimizations.request().isGranted;
-    }
-
-    // todo create xiaomi task
-    return notificationPermissionGranted;
+  Future<bool> disableSilentMode() async {
+    await PermissionHandler.openDoNotDisturbSetting();
+    return isSilentModeDisabled();
   }
 }

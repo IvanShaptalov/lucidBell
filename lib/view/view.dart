@@ -20,8 +20,6 @@ class View {
   }
 
   static String formatTime(DateTime date) {
-    String format = 'ss';
-
     String dateStringFormat = DateFormat(ViewConfig.timeFormat).format(date);
     return dateStringFormat;
   }

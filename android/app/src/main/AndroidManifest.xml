@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wetosimplest.adroid.flutter_lucid_bell">
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
-
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
     
    <application
         android:label="Circle Bell"

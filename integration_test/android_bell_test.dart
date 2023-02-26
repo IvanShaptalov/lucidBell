@@ -93,8 +93,7 @@ void main() {
 
       await LocalPathProvider.saveFile("");
 
-      AndroidBell newBell =
-          await AndroidBell.loadFromStorage(disabledBackgroundWork: true);
+      await AndroidBell.loadFromStorage(disabledBackgroundWork: true);
 
       expect(await CustomNotificationService.isNotificationSent(),
           true); // exception throwed
@@ -107,18 +106,16 @@ void main() {
       await app.main();
       await AndroidBell.initServicesAsync();
       var bell = AndroidBell.mockBell();
-      
-       bell.sendNotification('reminder', 'reminder');
 
-      expect(await CustomNotificationService.isNotificationSent(),
-          false);
+      bell.sendNotification('reminder', 'reminder');
+
+      expect(await CustomNotificationService.isNotificationSent(), false);
 
       await bell.cancelIntervalTask();
 
       expect(await CustomNotificationService.isNotificationSent(),
           true); // exception throwed
     });
-
   });
 }
 

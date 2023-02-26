@@ -10,6 +10,9 @@ class PermissionPage extends StatefulWidget {
 class _PermissionPageState extends State<PermissionPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return const Scaffold(
+      body: Text('permission page'),
+      backgroundColor: Colors.transparent,
+    );
   }
 }
