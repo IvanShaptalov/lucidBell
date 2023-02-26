@@ -25,6 +25,8 @@ class _SwitchBellState extends State<SwitchBell> {
               Transform.scale(
                 scale: 1.2,
                 child: Switch(
+                  activeColor: Colors.greenAccent,
+
                     
                     // activeColor: Color.fromARGB(255, 51, 182, 142),
                     value: BellPresenter.bell!.getRunning(),

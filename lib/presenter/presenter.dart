@@ -11,7 +11,12 @@ class BellPresenter {
   static AndroidBell? bell;
   static StreamSubscription? watcherSub;
   static List<Function> callbacksTrigger = [];
-  
+  static bool isBellRunning(){
+    if (bell == null){
+      return false;
+    }
+    return bell!.getRunning();
+  }
   static Future<bool> init() async {
     // load permissions
     // await PermissionService().init();

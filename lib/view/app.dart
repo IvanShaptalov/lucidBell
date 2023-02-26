@@ -6,7 +6,7 @@ import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
 
 // ignore: must_be_immutable
 class MyApp extends StatefulWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     // ignore: invalid_use_of_protected_member
-    final List<Widget> _pages = [
+    final List<Widget> pages = [
       HomeScreen(updateCallback),
       const PermissionPage()
     ];
@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
                         ])),
           child: Scaffold(
             backgroundColor: Colors.transparent,
-            body: _pages.elementAt(currentPage),
+            body: pages.elementAt(currentPage),
             bottomNavigationBar: BottomNavigationBar(
                 backgroundColor: Colors.transparent,
                 items: const [
@@ -63,7 +63,8 @@ class _MyAppState extends State<MyApp> {
                       backgroundColor: Colors.transparent),
                 ],
                 currentIndex: currentPage,
-                fixedColor: Colors.red,
+                unselectedItemColor: Colors.grey,
+                fixedColor: BellPresenter.isBellRunning()? Colors.greenAccent: Colors.deepPurple,
                 onTap: (int inIndex) {
                   setState(() {
                     BellPresenter.clearCallbackTriggers();

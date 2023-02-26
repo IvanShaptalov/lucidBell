@@ -16,7 +16,8 @@ void callbackDispatcher() {
     // NESSESARY INITIALIZATION
     await AndroidBell.initServicesAsync();
 
-    AndroidBell bell = await AndroidBell.loadFromStorage(disabledBackgroundWork: true);
+    AndroidBell bell =
+        await AndroidBell.loadFromStorage(disabledBackgroundWork: true);
 
     String nextBellOnMessage = 'Reminder';
 
@@ -25,7 +26,8 @@ void callbackDispatcher() {
 
       bell.updateNextNotificationOn();
 
-      String justNextBell = "next 🔔 on ${bell.getNextNotificationOnFormatted()}";
+      String justNextBell =
+          "next 🔔 on ${bell.getNextNotificationOnFormatted()}";
       nextBellOnMessage +=
           ', next bell on ${bell.getNextNotificationOnFormatted()}';
 
@@ -58,5 +60,5 @@ Future<void> main() async {
       );
   AndroidBellBackgroundManager.initialized = true;
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
