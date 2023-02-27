@@ -1,6 +1,7 @@
 import 'dart:io';
 // ignore: depend_on_referenced_packages
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
 import 'package:flutter_lucid_bell/presenter/android/config_android_presenter.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
@@ -10,8 +11,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:watcher/watcher.dart';
 
 class LocalPathProvider {
+  static String? appDocPath;
+
   static String?
-      appDocPath; //use createAppDirAsync to set appDocPath to string path
+      appBellDir; //use createAppDirAsync to set appDocPath to string path
   static String?
       cashLocalPath; // use createAppDirAsync to set cashLocalPath to string path
 
@@ -37,9 +40,11 @@ class LocalPathProvider {
       await _createCashLocal();
       await _createLogFile();
 
+      appBellDir = p.join(appDocPath!, ConfigAppLocales.localInfoDir);
+
       if (kDebugMode) {
         print(' localpath: ${LocalPathProvider.appDocPath}');
-        logBackground(' localpath: ${LocalPathProvider.appDocPath}');
+        await logBackgroundAsync(' localpath: ${LocalPathProvider.appDocPath}');
       }
     }
     return initialized;
@@ -60,7 +65,9 @@ class LocalPathProvider {
     assert(cashLocalPath != null);
     var file = File(cashLocalPath!);
     if (await file.exists()) {
-      return await file.readAsString();
+      var result = await file.readAsString();
+      await logBackgroundAsync('from file: $result');
+      return result;
     }
     return null;
   }
@@ -73,6 +80,8 @@ class LocalPathProvider {
     // ensure that file exists
     var file = File(cashLocalPath!);
     if (await file.exists()) {
+      await logBackgroundAsync(
+          'file to write: $dataToSave\npath: $cashLocalPath');
       await file.writeAsString(dataToSave);
       // file saved
       return true;
@@ -98,8 +107,11 @@ class LocalPathProvider {
     // appDocPath directory must be created, use
     assert(appDocPath is String);
     String path = p.join(appDocPath!, ConfigAppLocales.localInfoPath);
+    String directoryPath = p.join(appDocPath!, ConfigAppLocales.localInfoDir);
     cashLocalPath = path;
-
+    if (!await Directory(directoryPath).exists()){
+      await Directory(directoryPath).create();
+    }
     // create if not exists
     if (!await File(path).exists()) {
       await File(path).create();
@@ -119,10 +131,14 @@ class LocalPathProvider {
   }
 
   static DirectoryWatcher getFileBellListener() {
-    return DirectoryWatcher(p.absolute(LocalPathProvider.appDocPath!));
+    return DirectoryWatcher(p.absolute(appBellDir!));
   }
 
-  static Future<bool> logBackground(String log) async {
+  static Future<bool> logBackgroundAsync(String log) async {
+    print('log: $log');
+    if (!LocalPathProvider.initialized) {
+      await LocalPathProvider.initAsync();
+    }
     //create log file if not exists
     await _createLogFile();
 
@@ -130,7 +146,8 @@ class LocalPathProvider {
     // ensure that file exists
     var file = File(logPath!);
     if (await file.exists()) {
-      await file.writeAsString("$log \n : ${View.formatTime(DateTime.now())}", mode: FileMode.append);
+      await file.writeAsString("${View.formatTime(DateTime.now())}: $log \n",
+          mode: FileMode.append);
       // file saved
       return true;
     }
@@ -159,14 +176,26 @@ mixin AndroidBellStorageManager {
     String? jsonBell = await LocalPathProvider.getFileAsync();
     AndroidBell? bell;
     if (jsonBell != null && jsonBell != "") {
-      bell = AndroidBell.fromJson(jsonBell);
-      // return loaded bell
-      return bell;
+      try {
+        bell = AndroidBell.fromJson(jsonBell);
+        await LocalPathProvider.logBackgroundAsync('loaded bell: $bell');
+        return bell;
+      } catch (e) {
+        await LocalPathProvider.logBackgroundAsync(
+            'error while loading bell: ${e.toString()}');
+
+        return AndroidBell.mockBell();
+      }
     }
     // return mock bell
     if (disabledBackgroundWork) {
+      await LocalPathProvider.logBackgroundAsync(
+          'mock bell without background');
+
       return AndroidBell.mockBellWithoutBackground();
     } else {
+      await LocalPathProvider.logBackgroundAsync('mock bell with background');
+
       return AndroidBell.mockBell();
     }
   }

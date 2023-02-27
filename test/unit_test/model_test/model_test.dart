@@ -28,7 +28,7 @@ void main() {
     });
 
     test(
-        'bell has three cashed length always is ${BellConfig.maxCashedIntervals}, first is 25',
+        'bell has three cashed length always is 3, first is 25',
         () {
       var cashedNotifications = CashedIntervals();
       cashedNotifications.push(const Duration(minutes: 25));
@@ -69,7 +69,7 @@ void main() {
         () => expect(Bell.mockBell().getNextNotificationOn() != null, true));
 
     test(
-        'bell has three cashed length always is ${BellConfig.maxCashedIntervals}',
+        'bell has three cashed length always is 3',
         () {
       Bell bell = Bell.mockBell();
       expect(

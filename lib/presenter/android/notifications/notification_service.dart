@@ -22,11 +22,11 @@ class CustomNotificationService {
     // #3
     return await _localNotificationsPlugin.initialize(initSettings!).then((_) {
       debugPrint('setupPlugin: setup success');
-      LocalPathProvider.logBackground('setupPlugin: setup success');
+      LocalPathProvider.logBackgroundAsync('setupPlugin: setup success');
       return true;
     }).catchError((Object error) {
       debugPrint('Error: $error');
-      LocalPathProvider.logBackground('Error: $error');
+      LocalPathProvider.logBackgroundAsync('Error: $error');
 
       return false;
     });
@@ -110,7 +110,7 @@ mixin AndroidBellNotificationService {
       return true;
     } catch (e) {
       // ignore: avoid_print
-      LocalPathProvider.logBackground('error in notifications : ${e.toString()}');
+      LocalPathProvider.logBackgroundAsync('error in notifications : ${e.toString()}');
 
       return false;
     }
