@@ -82,6 +82,8 @@ class SpecificCustomPermission {
 
 class PermissionService {
   /// ===================================================[PERMISSIONS]======================================================
+  static bool allGranted = false;
+  
   static CustomPermission notification = CustomPermission(
       false,
       'notifications enabled',
@@ -101,6 +103,9 @@ class PermissionService {
     // BATTERY GRANT
     batteryOptimization.granted =
         await Permission.ignoreBatteryOptimizations.isGranted;
+
+    
+    allGranted = notification.granted && batteryOptimization.granted;
   }
 
   static Future<void> checkSpecificPermissions() async {

@@ -44,7 +44,15 @@ class _PermissionPageState extends State<PermissionPage> {
               margin: EdgeInsets.symmetric(
                   vertical: SizeConfig.getMediaHeight(context) * 0.1), //10%
               child: Transform.scale(
-                  scale: 4, child: const Icon(Icons.emoji_emotions))),
+                  scale: 4,
+                  child: Container(
+                    child: PermissionService.allGranted
+                        ? const Text(
+                            '😊',
+                            style: TextStyle(fontSize: 30),
+                          )
+                        : const Text('😔', style: TextStyle(fontSize: 30)),
+                  ))),
           SizedBox(
             height: SizeConfig.getMediaHeight(context) * 0.6,
             child: Column(
@@ -52,7 +60,8 @@ class _PermissionPageState extends State<PermissionPage> {
                 PermissionListTile(PermissionService.notification),
                 PermissionListTile(PermissionService.batteryOptimization),
                 Container(
-                  padding: EdgeInsets.only(top: SizeConfig.getMediaHeight(context) * 0.1), //10%
+                  padding: EdgeInsets.only(
+                      top: SizeConfig.getMediaHeight(context) * 0.1), //10%
                   child: SpecificCustomPermission.implemented
                       ? const SpecificPermissionTile()
                       : const SizedBox.shrink(),
