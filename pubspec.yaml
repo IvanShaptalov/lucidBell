@@ -24,6 +24,7 @@ dependencies:
   google_fonts: ^4.0.3
   intl: ^0.18.0
   permission_handler: ^10.2.0
+  device_info_plus: ^8.1.0
 
 dev_dependencies:
   integration_test:

@@ -15,17 +15,14 @@ class _PermissionPageState extends State<PermissionPage> {
   Timer? timer;
   @override
   void initState() {
-    timer = Timer.periodic(const Duration(seconds: 5), (timer) async {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       await PermissionService.checkPermissions();
       // NOT UPDATE IF SLIDER  CHANGING OR BELL NOT RUN
       setState(() {
-        PermissionService.notificationPermissionGranted;
-        PermissionService.silentModeDisabled;
-        PermissionService.batteryOptimizationDisabled;
-        PermissionService.specificPermission;
+        PermissionService.notification;
+        PermissionService.batteryOptimization;
       });
     });
-
     super.initState();
   }
 
@@ -48,22 +45,19 @@ class _PermissionPageState extends State<PermissionPage> {
                   vertical: SizeConfig.getMediaHeight(context) * 0.1), //10%
               child: Transform.scale(
                   scale: 4, child: const Icon(Icons.emoji_emotions))),
-          Container(
-            // color: Colors.blue,
-            child: SizedBox(
-              height: SizeConfig.getMediaHeight(context) * 0.6,
-              child: ListView(
-                children: [
-                  PermissionListTile(PermissionService.notificationsTitle,
-                      PermissionService.notificationPermissionGranted),
-                  PermissionListTile(PermissionService.silentModeDisabledTitle,
-                      PermissionService.silentModeDisabled),
-                  PermissionListTile(PermissionService.batteryTitle,
-                      PermissionService.batteryOptimizationDisabled),
-                  PermissionListTile(PermissionService.specificPermissionTitle,
-                      PermissionService.specificPermission)
-                ],
-              ),
+          SizedBox(
+            height: SizeConfig.getMediaHeight(context) * 0.6,
+            child: Column(
+              children: [
+                PermissionListTile(PermissionService.notification),
+                PermissionListTile(PermissionService.batteryOptimization),
+                Container(
+                  padding: EdgeInsets.only(top: SizeConfig.getMediaHeight(context) * 0.1), //10%
+                  child: SpecificCustomPermission.implemented
+                      ? const SpecificPermissionTile()
+                      : const SizedBox.shrink(),
+                ),
+              ],
             ),
           ),
         ],
@@ -75,14 +69,33 @@ class _PermissionPageState extends State<PermissionPage> {
 
 // ignore: must_be_immutable
 class PermissionListTile extends StatelessWidget {
-  PermissionListTile(this.permissionTitle, this.granted, {super.key});
-  String permissionTitle;
-  bool granted;
+  PermissionListTile(this.cPermission, {super.key});
+  CustomPermission cPermission;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        title: Text(permissionTitle),
-        leading: granted ? const Icon(Icons.check) : const Icon(Icons.close));
+      title: Text(cPermission.title),
+      leading: cPermission.granted
+          ? const Icon(Icons.check)
+          : const Icon(Icons.close),
+      subtitle: Text(cPermission.description),
+      onTap: () => PermissionService.grantPermission(cPermission),
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class SpecificPermissionTile extends StatelessWidget {
+  const SpecificPermissionTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(SpecificCustomPermission.title!),
+      leading: const Icon(Icons.info_outline),
+      subtitle: Text(SpecificCustomPermission.description!),
+      onTap: () {},
+    );
   }
 }

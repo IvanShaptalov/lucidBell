@@ -1,7 +1,6 @@
 import 'dart:io';
 // ignore: depend_on_referenced_packages
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
 import 'package:flutter_lucid_bell/presenter/android/config_android_presenter.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
