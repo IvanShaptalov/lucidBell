@@ -20,7 +20,7 @@ class _BellInfoState extends State<BellInfo> {
   void initState() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       // NOT UPDATE IF SLIDER  CHANGING OR BELL NOT RUN
-      if (!BellPresenter.bell!.getRunning()) {
+      if (!BellPresenter.isBellRunning()) {
         setState(() {});
       } else {
         setState(() {
@@ -67,7 +67,7 @@ class _BellInfoState extends State<BellInfo> {
           // If the widget is visible, animate to 0.0 (invisible).
           // If the widget is hidden, animate to 1.0 (fully visible).
 
-          opacity: BellPresenter.bell!.getRunning() ? 1 : 0,
+          opacity: BellPresenter.isBellRunning() ? 1 : 0,
           duration: const Duration(milliseconds: 300),
           child: bellCondition(toNextBellInSeconds))
     ]);

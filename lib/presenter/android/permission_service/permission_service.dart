@@ -1,18 +1,19 @@
 import 'package:permission_handler/permission_handler.dart';
-import 'package:sound_mode/permission_handler.dart';
 
 class PermissionService {
   // NESSESARY PERMISSIONS
-  bool notificationPermissionGranted = false;
-  bool batteryOptimizationDisabled = false;
-  bool silentModeDisabled = false;
-  bool specificPermission = false;
+  static bool notificationPermissionGranted = false;
+  static bool batteryOptimizationDisabled = false;
+  static bool silentModeDisabled = false;
+  static bool specificPermission = false;
 
-  Future<void> init() async {
-    await checkForPermissions();
-  }
+  static String notificationsTitle = 'notifications enabled';
+  static String batteryTitle = 'battery optimization disabled';
+  static String silentModeDisabledTitle = 'silent mode disabled';
+  static String specificPermissionTitle = 'specific permission';
 
-  Future<void> checkForPermissions() async {
+
+  static Future<void> checkPermissions() async {
     // NOTIFICATION GRANT
     notificationPermissionGranted = await Permission.notification.isGranted;
     // BATTERY GRANT
@@ -22,29 +23,28 @@ class PermissionService {
     // SILENT DISABLED
     silentModeDisabled = await isSilentModeDisabled();
 
-    specificPermission = false;
+    specificPermission = true;
   }
 
-  Future<bool> isSilentModeDisabled() async {
-    bool? result = await PermissionHandler.permissionsGranted;
-    if (result == true) {
-      return true;
-    }
-    return false;
+  static Future<bool> isSilentModeDisabled() async {
+    // bool? result = await PermissionHandler.permissionsGranted;
+    // if (result == true) {
+    //   return true;
+    // }
+    return true;
   }
 
-  Future<bool> checkForSpecificPermissions() async {
+  static Future<bool> checkForSpecificPermissions() async {
     // return (await specific.isAutoStartAvailable.timeout(const Duration(seconds: 10))) ?? true;
     return true;
   }
 
-  Future<bool> grantPermission(Permission permission, bool saveAnswer) async {
+  static Future<bool> grantPermission(Permission permission, bool saveAnswer) async {
     saveAnswer = await permission.request().isGranted;
     return saveAnswer;
   }
 
-  Future<bool> disableSilentMode() async {
-    await PermissionHandler.openDoNotDisturbSetting();
-    return isSilentModeDisabled();
+  static Future<bool> disableSilentMode() async {
+    return true;
   }
 }

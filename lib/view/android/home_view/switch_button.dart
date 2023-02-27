@@ -29,7 +29,7 @@ class _SwitchBellState extends State<SwitchBell> {
 
                     
                     // activeColor: Color.fromARGB(255, 51, 182, 142),
-                    value: BellPresenter.bell!.getRunning(),
+                    value: BellPresenter.isBellRunning(),
                     onChanged: ((value) {
                       setState(() {
                         widget.callback();

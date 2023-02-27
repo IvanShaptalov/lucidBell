@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   AnimatedOpacity(
                     // If the widget is visible, animate to 0.0 (invisible).
                     // If the widget is hidden, animate to 1.0 (fully visible).
-                    opacity: BellPresenter.bell!.getRunning() ? 0.65 : 0.4,
+                    opacity: BellPresenter.isBellRunning() ? 0.65 : 0.4,
                     duration: const Duration(milliseconds: 600),
                     // The green box must be a child of the AnimatedOpacity widget.
                     child: SwitchBell(callback: callback),
@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: SizeConfig.getMediaHeight(context) * 0.1, // 30%
               width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width
               child: AnimatedOpacity(
-                opacity: BellPresenter.bell!.getRunning() ? 1 : 0,
+                opacity: BellPresenter.isBellRunning() ? 1 : 0,
                 duration: const Duration(milliseconds: 300),
                 child: const SliderIntervalSelector(),
               ),
@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: SizedBox(
                 width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width
                 child: AnimatedOpacity(
-                  opacity: BellPresenter.bell!.getRunning() ? 1 : 0,
+                  opacity: BellPresenter.isBellRunning() ? 1 : 0,
                   duration: const Duration(milliseconds: 300),
                   child: const CashedButtons(),
                 ),

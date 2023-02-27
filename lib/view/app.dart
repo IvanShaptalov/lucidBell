@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeSetting.loadCalmTheme(),
         home: Container(
           decoration: BoxDecoration(
-              gradient: BellPresenter.bell!.getRunning() // active
+              gradient: BellPresenter.isBellRunning() // active
                   ? const LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight, // #380036 > #0CBABA
@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
                 ],
                 currentIndex: currentPage,
                 unselectedItemColor: Colors.grey,
-                fixedColor: BellPresenter.isBellRunning()? Colors.greenAccent: Colors.deepPurple,
+                fixedColor: BellPresenter.isBellRunning()? Colors.green: Colors.deepPurple,
                 onTap: (int inIndex) {
                   setState(() {
                     BellPresenter.clearCallbackTriggers();

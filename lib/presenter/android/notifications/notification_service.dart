@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz_data;
 
@@ -21,9 +22,12 @@ class CustomNotificationService {
     // #3
     return await _localNotificationsPlugin.initialize(initSettings!).then((_) {
       debugPrint('setupPlugin: setup success');
+      LocalPathProvider.logBackground('setupPlugin: setup success');
       return true;
     }).catchError((Object error) {
       debugPrint('Error: $error');
+      LocalPathProvider.logBackground('Error: $error');
+
       return false;
     });
   }
@@ -106,6 +110,8 @@ mixin AndroidBellNotificationService {
       return true;
     } catch (e) {
       // ignore: avoid_print
+      LocalPathProvider.logBackground('error in notifications : ${e.toString()}');
+
       return false;
     }
   }

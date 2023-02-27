@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
 import 'package:flutter_lucid_bell/presenter/android/config_android_presenter.dart';
+import 'package:flutter_lucid_bell/view/view.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -28,7 +29,7 @@ class LocalPathProvider {
 
   static Future<bool> initAsync() async {
     if (_notInitialized) {
-      Directory appDir = await getApplicationSupportDirectory();
+      Directory appDir = (await getExternalStorageDirectory())!;
 
       appDocPath = await _createAppDir(appDir.path).then((dir) => dir.path);
 
@@ -38,6 +39,7 @@ class LocalPathProvider {
 
       if (kDebugMode) {
         print(' localpath: ${LocalPathProvider.appDocPath}');
+        logBackground(' localpath: ${LocalPathProvider.appDocPath}');
       }
     }
     return initialized;
@@ -128,7 +130,7 @@ class LocalPathProvider {
     // ensure that file exists
     var file = File(logPath!);
     if (await file.exists()) {
-      await file.writeAsString("$log \n", mode: FileMode.append);
+      await file.writeAsString("$log \n : ${View.formatTime(DateTime.now())}", mode: FileMode.append);
       // file saved
       return true;
     }
