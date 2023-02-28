@@ -67,4 +67,5 @@ class View {
 
     return "$strHours $strMinutes";
   }
+
 }

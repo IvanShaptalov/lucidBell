@@ -12,4 +12,6 @@ class SizeConfig {
 
 class ViewConfig{
   static const String timeFormat = 'hh:mm:ss a';
+  static bool showFeaturesPage = true;
+
 }

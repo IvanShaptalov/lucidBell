@@ -3,6 +3,9 @@ import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/home_screen.dart';
 import 'package:flutter_lucid_bell/view/android/permission_page/permission_page.dart';
 import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
+import 'package:flutter_lucid_bell/view/android/welcome_screen/welcome_screen.dart';
+import 'package:flutter_lucid_bell/view/config_view.dart';
+import 'package:flutter_lucid_bell/view/view.dart';
 
 // ignore: must_be_immutable
 class MyApp extends StatefulWidget {
@@ -30,49 +33,53 @@ class _MyAppState extends State<MyApp> {
         title: 'Lucid Bell Simplest',
         debugShowCheckedModeBanner: false,
         theme: ThemeSetting.loadCalmTheme(),
-        home: Container(
-          decoration: BoxDecoration(
-              gradient: BellPresenter.isBellRunning() // active
-                  ? const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight, // #380036 > #0CBABA
-                      colors: [
-                          Color.fromARGB(197, 66, 119, 253),
-                          Color.fromARGB(180, 15, 4, 11)
-                        ])
-                  : const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight, // #380036 > #0CBABA
-                      colors: [
-                          Color.fromARGB(199, 88, 37, 147),
-                          Color.fromARGB(91, 21, 14, 25)
-                        ])),
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: pages.elementAt(currentPage),
-            bottomNavigationBar: BottomNavigationBar(
-                backgroundColor: Colors.transparent,
-                items: const [
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.home),
-                      label: "home",
-                      backgroundColor: Colors.transparent),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.settings),
-                      label: "settings",
-                      backgroundColor: Colors.transparent),
-                ],
-                currentIndex: currentPage,
-                unselectedItemColor: Colors.grey,
-                fixedColor: BellPresenter.isBellRunning()? Colors.green: Colors.deepPurple,
-                onTap: (int inIndex) {
-                  setState(() {
-                    BellPresenter.clearCallbackTriggers();
+        home: ViewConfig.showFeaturesPage
+            ? WelcomeScreen(updateCallback)
+            : Container(
+                decoration: BoxDecoration(
+                    gradient: BellPresenter.isBellRunning() // active
+                        ? const LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight, // #380036 > #0CBABA
+                            colors: [
+                                Color.fromARGB(197, 66, 119, 253),
+                                Color.fromARGB(180, 15, 4, 11)
+                              ])
+                        : const LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight, // #380036 > #0CBABA
+                            colors: [
+                                Color.fromARGB(199, 88, 37, 147),
+                                Color.fromARGB(91, 21, 14, 25)
+                              ])),
+                child: Scaffold(
+                  backgroundColor: Colors.transparent,
+                  body: pages.elementAt(currentPage),
+                  bottomNavigationBar: BottomNavigationBar(
+                      backgroundColor: Colors.transparent,
+                      items: const [
+                        BottomNavigationBarItem(
+                            icon: Icon(Icons.home),
+                            label: "home",
+                            backgroundColor: Colors.transparent),
+                        BottomNavigationBarItem(
+                            icon: Icon(Icons.settings),
+                            label: "settings",
+                            backgroundColor: Colors.transparent),
+                      ],
+                      currentIndex: currentPage,
+                      unselectedItemColor: Colors.grey,
+                      fixedColor: BellPresenter.isBellRunning()
+                          ? Colors.green
+                          : Colors.deepPurple,
+                      onTap: (int inIndex) {
+                        setState(() {
+                          BellPresenter.clearCallbackTriggers();
 
-                    currentPage = inIndex;
-                  });
-                }),
-          ),
-        ));
+                          currentPage = inIndex;
+                        });
+                      }),
+                ),
+              ));
   }
 }
