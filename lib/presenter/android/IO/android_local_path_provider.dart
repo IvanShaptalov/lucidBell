@@ -134,7 +134,9 @@ class LocalPathProvider {
   }
 
   static Future<bool> logBackgroundAsync(String log) async {
-    print('log: $log');
+    if (kDebugMode) {
+      print('log: $log');
+    }
     if (!LocalPathProvider.initialized) {
       await LocalPathProvider.initAsync();
     }
