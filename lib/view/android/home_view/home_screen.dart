@@ -26,7 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-                height: SizeConfig.getMediaHeight(context) * 0.25, // 25%
                 width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width
                 child: Padding(
                   padding: EdgeInsets.only(
@@ -55,7 +54,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(
-              height: SizeConfig.getMediaHeight(context) * 0.1, // 30%
               width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width
               child: AnimatedOpacity(
                 opacity: BellPresenter.isBellRunning() ? 1 : 0,
