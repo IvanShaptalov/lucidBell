@@ -72,7 +72,7 @@ class AndroidBell extends Bell
       : super(running, interval, threeCashedIntervals);
 
   static AndroidBell mockBell() {
-    return AndroidBell(true, const Duration(minutes: 15), CashedIntervals());
+    return AndroidBell(false, const Duration(minutes: 15), CashedIntervals());
   }
 
   static Future<bool> initServicesAsync() async {
@@ -111,7 +111,7 @@ class AndroidBell extends Bell
 
   factory AndroidBell.mockBellWithoutBackground() =>
       AndroidBell.protectedCreating(
-          true, const Duration(minutes: 15), CashedIntervals(), DateTime.now());
+          false, const Duration(minutes: 15), CashedIntervals(), DateTime.now());
 //======================================================IO===============================================================
   static Future<AndroidBell> loadFromStorage(
       {bool disabledBackgroundWork = false}) async {

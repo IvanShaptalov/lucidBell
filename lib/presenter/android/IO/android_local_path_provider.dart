@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 // ignore: depend_on_referenced_packages
 import 'package:flutter/foundation.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
+import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as p;
@@ -217,20 +219,42 @@ class AndroidBellStorageManager {
   }
 }
 
+//TODO write tests
 class StorageLogger {
   static Future<bool> logBackgroundAsync(String log) async {
-    await LocalManager.initAsync();
+    if (BellPresenter.logToFile) {
+      await LocalManager.initAsync();
 
-    assert(LocalManager.initialized);
+      assert(LocalManager.initialized);
 
-    var file = File(LocalManager.logFilePath!);
-    LocalManager.writeToFile(LocalManager.logFilePath!,
-        "${View.formatTime(DateTime.now())}: $log \n",
-        fileMode: FileMode.append);
+      var file = File(LocalManager.logFilePath!);
+      LocalManager.writeToFile(LocalManager.logFilePath!,
+          "${View.formatTime(DateTime.now())}: $log \n",
+          fileMode: FileMode.append);
 
-    // file saved
-    return true;
+      // file saved
+      return BellPresenter.logToFile;
+    }
+    return BellPresenter.logToFile;
   }
 }
 
-class StorageAppStartManager {}
+//TODO write tests
+class StorageAppStartManager {
+  static Future<bool> saveWelcomePageDataAsync(bool welcomeData) async {
+    await LocalManager.initAsync();
+
+    bool result = await LocalManager.writeToFile(
+        LocalManager.onStartApplicationFilePath!, jsonEncode(welcomeData));
+    return result;
+  }
+
+  static Future<bool> getWelcomePageDataAsync() async {
+    await LocalManager.initAsync();
+
+    String? rawResult =
+        await LocalManager.readFile(LocalManager.onStartApplicationFilePath!);
+    bool result = rawResult != null ? jsonDecode(rawResult) : true;
+    return result;
+  }
+}

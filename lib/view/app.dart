@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
         title: 'Lucid Bell Simplest',
         debugShowCheckedModeBanner: false,
         theme: ThemeSetting.loadCalmTheme(),
-        home: ViewConfig.showFeaturesPage
+        home: BellPresenter.showFeaturesPage
             ? WelcomeScreen(updateCallback)
             : Container(
                 decoration: BoxDecoration(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucid_bell/presenter/presenter.dart';
 
 class SizeConfig {
   static double getMediaHeight(context) {
@@ -12,6 +13,5 @@ class SizeConfig {
 
 class ViewConfig{
   static const String timeFormat = 'hh:mm:ss a';
-  static bool showFeaturesPage = true;
 
 }

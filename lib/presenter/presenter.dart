@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
 import 'package:flutter_lucid_bell/presenter/android/permission_service/permission_service.dart';
@@ -12,11 +13,19 @@ class BellPresenter {
   static AndroidBell? bell;
   static StreamSubscription? watcherSub;
   static List<Function> callbacksTrigger = [];
+  static bool logToFile = false;
+
+  static bool showFeaturesPage = true;
   static bool isBellRunning() {
     if (bell == null) {
       return false;
     }
     return bell!.getRunning();
+  }
+
+  static Future<void> setFeaturesPage(bool showFeatures) async {
+    showFeaturesPage = showFeatures;
+    await StorageAppStartManager.saveWelcomePageDataAsync(showFeatures);
   }
 
   static Future<bool> init() async {
@@ -29,8 +38,17 @@ class BellPresenter {
       await watcherSub!.cancel();
     }
     bool result = await AndroidBell.initServicesAsync();
+
     assert(result, true);
     bell = await AndroidBell.loadFromStorage();
+
+    // load features
+    showFeaturesPage = await StorageAppStartManager.getWelcomePageDataAsync();
+    if (kDebugMode) {
+      print("show features : $showFeaturesPage");
+    }
+
+    // add file watcher
     var watcher = AndroidBellStorageManager.getBellFileWatcher();
     watcherSub = watcher.events.listen((event) async {
       bell = await AndroidBell.loadFromStorage();

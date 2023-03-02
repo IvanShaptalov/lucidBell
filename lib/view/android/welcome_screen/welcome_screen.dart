@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/android/welcome_screen/features.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
 
@@ -115,7 +116,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                       TextButton(
                           onPressed: () {
                             setState(() {});
-                            ViewConfig.showFeaturesPage = false;
+                            BellPresenter.setFeaturesPage(false);
 
                             // skip tutorial or end
                             widget.updateCallback();
