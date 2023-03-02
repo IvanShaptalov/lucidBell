@@ -77,7 +77,7 @@ class AndroidBell extends Bell
 
   static Future<bool> initServicesAsync() async {
     // init storage
-    bool storageInit = await AndroidBellStorageManager.initAsync();
+    bool storageInit = await LocalManager.initAsync();
     bool notificationInit = await AndroidBellNotificationService.initAsync();
 
     bool allInited = storageInit && notificationInit;

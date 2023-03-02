@@ -22,11 +22,11 @@ class CustomNotificationService {
     // #3
     return await _localNotificationsPlugin.initialize(initSettings!).then((_) {
       debugPrint('setupPlugin: setup success');
-      LocalPathProvider.logBackgroundAsync('setupPlugin: setup success');
+      StorageLogger.logBackgroundAsync('setupPlugin: setup success');
       return true;
     }).catchError((Object error) {
       debugPrint('Error: $error');
-      LocalPathProvider.logBackgroundAsync('Error: $error');
+      StorageLogger.logBackgroundAsync('Error: $error');
 
       return false;
     });
@@ -38,14 +38,15 @@ class CustomNotificationService {
         .isEmpty;
   }
 
-  static Future<bool> cancelNotification() async{
+  static Future<bool> cancelNotification() async {
     // ignore: unnecessary_null_comparison
-    if (_localNotificationsPlugin != null){
-    await _localNotificationsPlugin.cancelAll();
+    if (_localNotificationsPlugin != null) {
+      await _localNotificationsPlugin.cancelAll();
       return true;
     }
     return false;
   }
+
   static Future<void> registerNotification(
     title,
     body,
@@ -83,7 +84,6 @@ class CustomNotificationService {
 }
 
 mixin AndroidBellNotificationService {
-
   static const Duration notificationTimeout = Duration(seconds: 20);
   static Future<bool> initAsync() async {
     return await CustomNotificationService.initAsync();
@@ -97,8 +97,8 @@ mixin AndroidBellNotificationService {
       String title, String body, Duration timeout) async {
     try {
       // register notification to play
-      await CustomNotificationService.registerNotification(
-          title, body, DateTime.now().millisecondsSinceEpoch + 1000, 'reminder');
+      await CustomNotificationService.registerNotification(title, body,
+          DateTime.now().millisecondsSinceEpoch + 1000, 'reminder');
 
       Future.delayed(timeout)
           .then((value) => throw Exception('notification timeout'));
@@ -110,7 +110,8 @@ mixin AndroidBellNotificationService {
       return true;
     } catch (e) {
       // ignore: avoid_print
-      LocalPathProvider.logBackgroundAsync('error in notifications : ${e.toString()}');
+      StorageLogger.logBackgroundAsync(
+          'error in notifications : ${e.toString()}');
 
       return false;
     }

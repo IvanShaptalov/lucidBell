@@ -12,39 +12,40 @@ class BellPresenter {
   static AndroidBell? bell;
   static StreamSubscription? watcherSub;
   static List<Function> callbacksTrigger = [];
-  static bool isBellRunning(){
-    if (bell == null){
+  static bool isBellRunning() {
+    if (bell == null) {
       return false;
     }
     return bell!.getRunning();
   }
+
   static Future<bool> init() async {
     // load permissions
     await PermissionService.checkPermissions();
     await PermissionService.checkSpecificPermissions();
 
     // load bell
-    if (watcherSub != null){
+    if (watcherSub != null) {
       await watcherSub!.cancel();
     }
     bool result = await AndroidBell.initServicesAsync();
     assert(result, true);
     bell = await AndroidBell.loadFromStorage();
-    var watcher = LocalPathProvider.getFileBellListener();
-    watcherSub = watcher.events.listen((event) async{
+    var watcher = AndroidBellStorageManager.getBellFileWatcher();
+    watcherSub = watcher.events.listen((event) async {
       bell = await AndroidBell.loadFromStorage();
     });
     return true;
   }
 
-  static void updateCallbacks(){
-    for (var f in callbacksTrigger){
+  static void updateCallbacks() {
+    for (var f in callbacksTrigger) {
       f();
     }
   }
 
-  static void addIfEmpty(Function f){
-    if (callbacksTrigger.isEmpty){
+  static void addIfEmpty(Function f) {
+    if (callbacksTrigger.isEmpty) {
       callbacksTrigger.add(f);
     }
   }
@@ -52,6 +53,4 @@ class BellPresenter {
   static void clearCallbackTriggers() {
     callbacksTrigger.clear();
   }
-
-
 }

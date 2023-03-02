@@ -2,187 +2,195 @@ import 'dart:io';
 // ignore: depend_on_referenced_packages
 import 'package:flutter/foundation.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
-import 'package:flutter_lucid_bell/presenter/android/config_android_presenter.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:watcher/watcher.dart';
 
-class LocalPathProvider {
-  static String? appDocPath;
+class LocalManager {
+  /// ===========================[ROOT]=========================================
+  ///
+  static String? storageDirectoryPath;
 
-  static String?
-      appBellDir; //use createAppDirAsync to set appDocPath to string path
-  static String?
-      cashLocalPath; // use createAppDirAsync to set cashLocalPath to string path
+  /// ==========================[DIRECTORY PATHS]===============================
+  ///
+  static String localBellDirectoryPath = 'localBellDir';
+  static String logDirectoryPath = 'logDir';
+  static String reminderTextDirectoryPath = 'rTextDir';
+  static String onStartApplicationDirectoryPath = 'onStartDir';
 
-  static String? logPath;
+  /// ==========================[FILES PATHS]====================================
+  ///
+  static String? localBellFilePath;
+  static String? logFilePath;
+  static String? reminderTextFilePath;
+  static String? onStartApplicationFilePath;
 
-  static bool get _notInitialized {
-    return LocalPathProvider.appDocPath == null ||
-        LocalPathProvider.cashLocalPath == null ||
-        LocalPathProvider.logPath == null;
+  ///============================[FILE NAMES]====================================
+  ///
+  static String localBellFileName = 'bellInfo.txt';
+  static String logFileName = 'logFile.txt';
+  static String rTextFileName = 'reminderText.txt';
+  static String onStartFileName = 'onStart.txt';
+
+  /// ============================[UTIL]=========================================
+  static bool dirExists(String? dirPath) {
+    if (dirPath == null) {
+      return false;
+    } else {
+      return Directory(dirPath).existsSync();
+    }
   }
+
+  static bool fileExists(String? filePath) {
+    if (filePath == null) {
+      return false;
+    } else {
+      return File(filePath).existsSync();
+    }
+  }
+
+  /// ==========================[INITIALIZATION]=================================
 
   static bool get initialized {
-    return !_notInitialized;
+    return
+        // DIRECTORIES EXISTS
+        dirExists(storageDirectoryPath) &&
+            dirExists(localBellDirectoryPath) &&
+            dirExists(logDirectoryPath) &&
+            dirExists(reminderTextDirectoryPath) &&
+            dirExists(onStartApplicationDirectoryPath) &&
+            // FILES EXISTS
+            fileExists(localBellFilePath) &&
+            fileExists(logFilePath) &&
+            fileExists(reminderTextFilePath) &&
+            fileExists(onStartApplicationFilePath);
   }
 
-  static Future<bool> initAsync() async {
-    if (_notInitialized) {
-      Directory appDir = (await getExternalStorageDirectory())!;
+  static Future<String> createAppDirectoryPath() async {
+    var externalDir = await getExternalStorageDirectory();
+    var appDir = externalDir ?? (await getApplicationSupportDirectory());
+    var created = createDirectory(appDir.path);
+    assert(created, true);
+    return appDir.path;
+  }
 
-      appDocPath = await _createAppDir(appDir.path).then((dir) => dir.path);
+  static Future<bool> mountPathsAsync() async {
+    storageDirectoryPath = await createAppDirectoryPath();
+    assert(storageDirectoryPath != null);
+//=========================MOUNT DIRECTORIES=============================================
+    localBellDirectoryPath =
+        p.join(storageDirectoryPath!, localBellDirectoryPath);
+    logDirectoryPath = p.join(storageDirectoryPath!, logDirectoryPath);
+    reminderTextDirectoryPath =
+        p.join(storageDirectoryPath!, reminderTextDirectoryPath);
+    onStartApplicationDirectoryPath =
+        p.join(storageDirectoryPath!, onStartApplicationDirectoryPath);
 
-      // create local file to store data
-      await _createCashLocal();
-      await _createLogFile();
-
-      appBellDir = p.join(appDocPath!, ConfigAppLocales.localInfoDir);
-
-      if (kDebugMode) {
-        print(' localpath: ${LocalPathProvider.appDocPath}');
-        await logBackgroundAsync(' localpath: ${LocalPathProvider.appDocPath}');
-      }
+    for (String dirPath in [
+      localBellDirectoryPath,
+      logDirectoryPath,
+      reminderTextDirectoryPath,
+      onStartApplicationDirectoryPath
+    ]) {
+      createDirectory(dirPath);
     }
+
+//========================MOUNT FILES====================================================
+
+    localBellFilePath = p.join(localBellDirectoryPath, localBellFileName);
+    logFilePath = p.join(logDirectoryPath, logFileName);
+    reminderTextFilePath = p.join(reminderTextDirectoryPath, rTextFileName);
+    onStartApplicationFilePath =
+        p.join(onStartApplicationDirectoryPath, onStartFileName);
+
+    for (String filePath in [
+      localBellFilePath!,
+      logFilePath!,
+      reminderTextFilePath!,
+      onStartApplicationFilePath!
+    ]) {
+      createFile(filePath);
+    }
+    assert(initialized == true);
     return initialized;
   }
 
-  static Future<bool> deleteAppFolder() async {
-    // return true if deleted
-    assert(appDocPath is String, true);
-    assert(cashLocalPath is String, true);
-    var dir = Directory(appDocPath!);
-    if (await dir.exists()) {
-      await dir.delete(recursive: true);
+  /// init file tree if not initialized, use only await initAsync();
+  static Future<bool> initAsync() async {
+    if (!initialized) {
+      await mountPathsAsync();
     }
-    return !await dir.exists();
+    assert(initialized == true);
+    return initialized;
   }
 
-  static Future<String?> getFileAsync() async {
-    assert(cashLocalPath != null);
-    var file = File(cashLocalPath!);
-    if (await file.exists()) {
-      var result = await file.readAsString();
-      await logBackgroundAsync('from file: $result');
-      return result;
+  /// ===========================[CRUD]===========================================
+  static bool createDirectory(String path) {
+    var dir = Directory(path);
+    if (!dir.existsSync()) {
+      dir.createSync(recursive: true);
     }
-    return null;
+    return dir.existsSync();
   }
 
-  static Future<bool> saveFile(String dataToSave) async {
-    //create cash file if not exists
-    await _createCashLocal();
-
-    assert(cashLocalPath is String);
-    // ensure that file exists
-    var file = File(cashLocalPath!);
-    if (await file.exists()) {
-      await logBackgroundAsync(
-          'file to write: $dataToSave\npath: $cashLocalPath');
-      await file.writeAsString(dataToSave);
-      // file saved
-      return true;
+  static bool createFile(String path) {
+    var file = File(path);
+    if (!file.existsSync()) {
+      file.createSync(recursive: true);
     }
-    // file not exists
-    return false;
+    return file.existsSync();
   }
 
-  // use this method to create appDocPath
-  static Future<Directory> _createAppDir(String docDir) async {
-    var appDirPath = p.join(docDir, ConfigAppLocales.appName);
+  static Future<bool> writeToFile(String path, String data,
+      {FileMode fileMode = FileMode.write}) async {
+    // init if not initialized
+    await initAsync();
 
-    Directory dir = Directory(appDirPath);
-    // if dir not exists, create it
-    if (!await Directory(appDirPath).exists()) {
-      dir = await Directory(appDirPath).create(recursive: true);
-    }
-    assert(await dir.exists());
-    return dir;
-  }
+    await File(path).writeAsString(data, mode: fileMode);
 
-  static Future<void> _createCashLocal() async {
-    // appDocPath directory must be created, use
-    assert(appDocPath is String);
-    String path = p.join(appDocPath!, ConfigAppLocales.localInfoPath);
-    String directoryPath = p.join(appDocPath!, ConfigAppLocales.localInfoDir);
-    cashLocalPath = path;
-    if (!await Directory(directoryPath).exists()){
-      await Directory(directoryPath).create();
-    }
-    // create if not exists
-    if (!await File(path).exists()) {
-      await File(path).create();
-    }
-  }
-
-  static Future<void> _createLogFile() async {
-    // appDocPath directory must be created, use
-    assert(appDocPath is String);
-    String path = p.join(appDocPath!, 'backLog.txt');
-    logPath = path;
-
-    // create if not exists
-    if (!await File(logPath!).exists()) {
-      await File(logPath!).create();
-    }
-  }
-
-  static DirectoryWatcher getFileBellListener() {
-    return DirectoryWatcher(p.absolute(appBellDir!));
-  }
-
-  static Future<bool> logBackgroundAsync(String log) async {
     if (kDebugMode) {
-      print('log: $log');
+      print('file to write: $data \npatj" $path');
     }
-    if (!LocalPathProvider.initialized) {
-      await LocalPathProvider.initAsync();
-    }
-    //create log file if not exists
-    await _createLogFile();
 
-    assert(logPath is String);
-    // ensure that file exists
-    var file = File(logPath!);
-    if (await file.exists()) {
-      await file.writeAsString("${View.formatTime(DateTime.now())}: $log \n",
-          mode: FileMode.append);
-      // file saved
-      return true;
-    }
-    // file not exists
-    return false;
+    return true;
   }
 
-  static Future<String?> getBackgroundLogAsync() async {
-    assert(logPath != null);
-    var file = File(logPath!);
-    if (await file.exists()) {
-      return await file.readAsString();
-    }
-    return '';
+  static Future<String?> readFile(String path) async {
+    // init if not initialized
+    await initAsync();
+    var file = File(path);
+    var result = await file.readAsString();
+    return result != "" ? result : null;
+  }
+
+  /// ==============================[LISTENERS]====================================
+  static FileWatcher getFileWatcher(String filePath) {
+    assert(File(filePath).existsSync(), true);
+    return FileWatcher(filePath);
   }
 }
 
-mixin AndroidBellStorageManager {
-  static Future<bool> initAsync() async {
-    return await LocalPathProvider.initAsync();
+class AndroidBellStorageManager {
+  static FileWatcher getBellFileWatcher() {
+    return LocalManager.getFileWatcher(LocalManager.localBellFilePath!);
   }
 
-  /// disable background work when create mock bell
   static Future<AndroidBell> loadBellFromStorage(
       {bool disabledBackgroundWork = false}) async {
-    String? jsonBell = await LocalPathProvider.getFileAsync();
+    await LocalManager.initAsync();
+
+    String? jsonBell =
+        await LocalManager.readFile(LocalManager.localBellFilePath!);
     AndroidBell? bell;
-    if (jsonBell != null && jsonBell != "") {
+    if (jsonBell != null) {
       try {
         bell = AndroidBell.fromJson(jsonBell);
-        await LocalPathProvider.logBackgroundAsync('loaded bell: $bell');
+        await StorageLogger.logBackgroundAsync('loaded bell: $bell');
         return bell;
       } catch (e) {
-        await LocalPathProvider.logBackgroundAsync(
+        await StorageLogger.logBackgroundAsync(
             'error while loading bell: ${e.toString()}');
 
         return AndroidBell.mockBell();
@@ -190,19 +198,39 @@ mixin AndroidBellStorageManager {
     }
     // return mock bell
     if (disabledBackgroundWork) {
-      await LocalPathProvider.logBackgroundAsync(
-          'mock bell without background');
+      await StorageLogger.logBackgroundAsync('mock bell without background');
 
       return AndroidBell.mockBellWithoutBackground();
     } else {
-      await LocalPathProvider.logBackgroundAsync('mock bell with background');
+      await StorageLogger.logBackgroundAsync('mock bell with background');
 
       return AndroidBell.mockBell();
     }
   }
 
   static Future<bool> saveBellToStorageAsync(AndroidBell bell) async {
-    bool result = await LocalPathProvider.saveFile(bell.toJson());
+    await LocalManager.initAsync();
+
+    bool result = await LocalManager.writeToFile(
+        LocalManager.localBellFilePath!, bell.toJson());
     return result;
   }
 }
+
+class StorageLogger {
+  static Future<bool> logBackgroundAsync(String log) async {
+    await LocalManager.initAsync();
+
+    assert(LocalManager.initialized);
+
+    var file = File(LocalManager.logFilePath!);
+    LocalManager.writeToFile(LocalManager.logFilePath!,
+        "${View.formatTime(DateTime.now())}: $log \n",
+        fileMode: FileMode.append);
+
+    // file saved
+    return true;
+  }
+}
+
+class StorageAppStartManager {}

@@ -66,7 +66,7 @@ void main() {
     test('bell IO save load', () async {
       AndroidBell bell = AndroidBell.mockBellWithoutBackground();
       bell.setInterval(const Duration(minutes: 45)); // set bell not mock
-      await LocalPathProvider.initAsync();
+      await LocalManager.initAsync();
       // just for test
       // ignore: invalid_use_of_protected_member
       expect(await bell.saveToStorageAsync(), true);
@@ -80,7 +80,7 @@ void main() {
       await app.main();
       await AndroidBell.initServicesAsync();
 
-      await LocalPathProvider.saveFile("");
+      await LocalManager.writeToFile(LocalManager.localBellFilePath!, "");
 
       AndroidBell newBell = await AndroidBell.loadFromStorage();
 
@@ -91,7 +91,7 @@ void main() {
       await app.main();
       await AndroidBell.initServicesAsync();
 
-      await LocalPathProvider.saveFile("");
+      await LocalManager.writeToFile(LocalManager.localBellFilePath!, "");
 
       await AndroidBell.loadFromStorage(disabledBackgroundWork: true);
 

@@ -10,21 +10,23 @@ void main() {
   app.main();
 
   group('IO', () {
-    testWidgets(
-        'document directory exists, and application directory created, path exists',
-        (tester) async {
-      await LocalPathProvider.initAsync();
-      expect(await Directory(LocalPathProvider.appDocPath!).exists(), true);
+    testWidgets('files created', (tester) async {
+      await LocalManager.initAsync();
+
+      expect(await File(LocalManager.logFilePath!).exists(), true);
+      expect(await File(LocalManager.localBellFilePath!).exists(), true);
+      expect(await File(LocalManager.reminderTextFilePath!).exists(), true);
+      expect(
+          await File(LocalManager.onStartApplicationFilePath!).exists(), true);
     });
 
-    testWidgets('cash file created. path exists', (tester) async {
-      await LocalPathProvider.initAsync();
-      expect(await File(LocalPathProvider.cashLocalPath!).exists(), true);
-    });
-
-    testWidgets('cash log created, path exists', (tester) async {
-      await LocalPathProvider.initAsync();
-      expect(await File(LocalPathProvider.logPath!).exists(), true);
+    testWidgets('directories created', (tester) async {
+      await LocalManager.initAsync();
+      expect(await Directory(LocalManager.logDirectoryPath).exists(), true);
+      expect(await Directory(LocalManager.localBellDirectoryPath).exists(), true);
+      expect(await Directory(LocalManager.reminderTextDirectoryPath).exists(), true);
+      expect(await Directory(LocalManager.onStartApplicationDirectoryPath).exists(),
+          true);
     });
   });
 }

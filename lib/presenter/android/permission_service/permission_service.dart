@@ -22,7 +22,7 @@ class SpecificCustomPermission {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
     String manufacturer = androidInfo.manufacturer.toLowerCase();
-    await LocalPathProvider.logBackgroundAsync('Running on $manufacturer');
+    await StorageLogger.logBackgroundAsync('Running on $manufacturer');
 
 /// ===================================[XIAOMI IMPLEMENTATION]====================================================
     if (manufacturer.contains('xiaomi')) {
