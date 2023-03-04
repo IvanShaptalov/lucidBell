@@ -114,13 +114,13 @@ void main() {
 
   group('Base Reminder text', () {
     test('Reminder text initialized from enum', () {
-      var rem = BellReminderText();
+      var rem = ReminderText();
 
       expect(rem.getReminderText, 'Not forget it');
     });
 
     test('Reminder text test history', () {
-      var rem = BellReminderText();
+      var rem = ReminderText();
       rem.setReminderText(PreloadedReminderTexts.breathingText);
       var remEnum = PreloadedReminderTexts.breathingText;
       expect(rem.getReminderText, remEnum.getValue());

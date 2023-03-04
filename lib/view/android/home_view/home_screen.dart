@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 )),
 
             // show TimeSelector if bell is running
-            ReminderText(),
+            ReminderTextScreen(),
 
             SizedBox(
               width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width

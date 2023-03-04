@@ -1,4 +1,4 @@
-class BellReminderText {
+class ReminderText {
   /// =================================================[FIELDS, GETTERS and SETTERS]===========================================
   String _reminderText = 'Not forget it';
 
@@ -14,6 +14,10 @@ class BellReminderText {
     _historyOfReminderTexts.add(_reminderText);
   }
 
+  void clearHistory(){
+    _historyOfReminderTexts.clear();
+  }
+
   get getReminderText => _reminderText;
 
   final List<String> _historyOfReminderTexts = [];
@@ -22,7 +26,7 @@ class BellReminderText {
 
   /// ================================================[CONSTRUCTORS]==========================================================
 
-  BellReminderText();
+  ReminderText();
 }
 
 /// ============================================[PRELOADED REMINDERS TEXTS ENUM]============================================

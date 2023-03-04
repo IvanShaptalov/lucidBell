@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
 
 // ignore: must_be_immutable
-class ReminderText extends StatefulWidget {
-  ReminderText({super.key});
+class ReminderTextScreen extends StatefulWidget {
+  ReminderTextScreen({super.key});
   final _textController = TextEditingController();
   int maxLines = 3;
   String text = "remider";
   @override
-  State<ReminderText> createState() => _ReminderTextState();
+  State<ReminderTextScreen> createState() => _ReminderTextScreenState();
 }
 
-class _ReminderTextState extends State<ReminderText> {
+class _ReminderTextScreenState extends State<ReminderTextScreen> {
   @override
   Widget build(BuildContext context) {
     return Center(
