@@ -1,4 +1,5 @@
 import 'package:flutter_lucid_bell/model/bell/bell.dart';
+import 'package:flutter_lucid_bell/model/bell/reminder_text.dart';
 import 'package:flutter_lucid_bell/model/config_model.dart';
 import 'package:flutter_lucid_bell/model/data_structures/data_structures.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -27,9 +28,7 @@ void main() {
       expect(newCashed == cashedNotifications, true);
     });
 
-    test(
-        'bell has three cashed length always is 3, first is 25',
-        () {
+    test('bell has three cashed length always is 3, first is 25', () {
       var cashedNotifications = CashedIntervals();
       cashedNotifications.push(const Duration(minutes: 25));
       cashedNotifications.push(const Duration(minutes: 25));
@@ -68,9 +67,7 @@ void main() {
     test('bell initialized , nextNotification set',
         () => expect(Bell.mockBell().getNextNotificationOn() != null, true));
 
-    test(
-        'bell has three cashed length always is 3',
-        () {
+    test('bell has three cashed length always is 3', () {
       Bell bell = Bell.mockBell();
       expect(
           bell.getThreeCashedIntervals.length == BellConfig.maxCashedIntervals,
@@ -112,6 +109,47 @@ void main() {
       Bell newBell = Bell.fromJson(jsonBell);
 
       expect(bell.hashCode, newBell.hashCode);
+    });
+  });
+
+  group('Base Reminder text', () {
+    test('Reminder text initialized from enum', () {
+      var rem = BellReminderText();
+
+      expect(rem.getReminderText, 'Not forget it');
+    });
+
+    test('Reminder text test history', () {
+      var rem = BellReminderText();
+      rem.setReminderText(PreloadedReminderTexts.breathingText);
+      var remEnum = PreloadedReminderTexts.breathingText;
+      expect(rem.getReminderText, remEnum.getValue());
+
+      expect(rem.getHistoryOfReminderTexsts.last, remEnum.getValue());
+
+      rem.setReminderText(PreloadedReminderTexts.mueingText);
+      expect(rem.getHistoryOfReminderTexsts.length, 2);
+
+      rem.setReminderText(PreloadedReminderTexts.mueingText);
+      expect(rem.getHistoryOfReminderTexsts.length, 2);
+
+      rem.setReminderText(PreloadedReminderTexts.breathingText);
+      expect(rem.getHistoryOfReminderTexsts.length, 2);
+
+      expect(rem.getHistoryOfReminderTexsts.last, remEnum.getValue());
+
+      rem.setReminderText(PreloadedReminderTexts.customTextEnum,
+          customText: 'Custom text');
+
+      expect(rem.getHistoryOfReminderTexsts.length, 3);
+
+      expect(rem.getHistoryOfReminderTexsts.last, 'Custom text');
+
+      rem.setReminderText(PreloadedReminderTexts.breathingText);
+
+      expect(rem.getHistoryOfReminderTexsts.length, 3);
+
+      expect(rem.getHistoryOfReminderTexsts.last, remEnum.getValue());
     });
   });
 }

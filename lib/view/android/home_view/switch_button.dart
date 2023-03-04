@@ -18,7 +18,6 @@ class _SwitchBellState extends State<SwitchBell> {
     return Column(
       children: [
         SizedBox(
-          height: SizeConfig.getMediaHeight(context) * 0.3,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [

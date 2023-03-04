@@ -5,7 +5,6 @@ import 'package:flutter_lucid_bell/view/android/home_view/home_screen.dart';
 import 'package:flutter_lucid_bell/view/android/permission_page/permission_page.dart';
 import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
 import 'package:flutter_lucid_bell/view/android/welcome_screen/welcome_screen.dart';
-import 'package:flutter_lucid_bell/view/config_view.dart';
 
 // ignore: must_be_immutable
 class MyApp extends StatefulWidget {
@@ -66,6 +65,7 @@ class _MyAppState extends State<MyApp> {
                                   Color.fromARGB(91, 21, 14, 25)
                                 ])),
                   child: Scaffold(
+                    resizeToAvoidBottomInset: false,
                     backgroundColor: Colors.transparent,
                     body: pages.elementAt(currentPage),
                     bottomNavigationBar: BottomNavigationBar(

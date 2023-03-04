@@ -219,7 +219,6 @@ class AndroidBellStorageManager {
   }
 }
 
-//TODO write tests
 class StorageLogger {
   static Future<bool> logBackgroundAsync(String log) async {
     if (BellPresenter.logToFile) {
@@ -227,7 +226,6 @@ class StorageLogger {
 
       assert(LocalManager.initialized);
 
-      var file = File(LocalManager.logFilePath!);
       LocalManager.writeToFile(LocalManager.logFilePath!,
           "${View.formatTime(DateTime.now())}: $log \n",
           fileMode: FileMode.append);
@@ -239,7 +237,6 @@ class StorageLogger {
   }
 }
 
-//TODO write tests
 class StorageAppStartManager {
   static Future<bool> saveWelcomePageDataAsync(bool welcomeData) async {
     await LocalManager.initAsync();
