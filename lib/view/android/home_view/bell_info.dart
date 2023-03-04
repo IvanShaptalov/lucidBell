@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
+import 'package:flutter_lucid_bell/view/config_view.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
 
 class BellInfo extends StatefulWidget {
@@ -45,12 +46,19 @@ class _BellInfoState extends State<BellInfo> {
 
   Widget bellCondition(int seconds) {
     if (seconds <= 0) {
-      return const Icon(Icons.alarm);
+      return SizedBox(
+          height: SizeConfig.getMediaHeight(context) * 0.1, //10% height
+
+          child: const Icon(Icons.alarm));
     } else {
       String dateStringFormat = View.formatLeftSeconds(seconds);
-      return Text(dateStringFormat,
-          style: const TextStyle(
-              color: Color.fromARGB(255, 255, 255, 255), fontSize: 36));
+      return SizedBox(
+        height: SizeConfig.getMediaHeight(context) * 0.1, //10% height
+
+        child: Text(dateStringFormat,
+            style: const TextStyle(
+                color: Color.fromARGB(255, 255, 255, 255), fontSize: 36)),
+      );
     }
   }
 

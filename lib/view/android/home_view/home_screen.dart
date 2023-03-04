@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // show TimeSelector if bell is running
 
             SizedBox(
-              height: SizeConfig.getMediaHeight(context) * 0.30, // 30%
+              height: SizeConfig.getMediaHeight(context) * 0.30, // 30% height
               width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
