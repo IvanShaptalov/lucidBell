@@ -41,7 +41,7 @@ void main() {
             PreloadedReminderTexts.meditationText) // set reminderText not mock
         ..setReminderText(PreloadedReminderTexts.customTextEnum,
             customText: "oaoaoaoao"); // set reminderText not mock
-            
+
       await LocalManager.initAsync();
       // just for test
       // ignore: invalid_use_of_protected_member
