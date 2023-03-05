@@ -72,3 +72,7 @@ class BellPresenter {
     callbacksTrigger.clear();
   }
 }
+
+class TextReminderPresenter{
+  
+}
