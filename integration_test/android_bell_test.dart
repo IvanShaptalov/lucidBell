@@ -87,6 +87,19 @@ void main() {
       expect(newBell.hashCode, AndroidBell.mockBell().hashCode);
     });
 
+    test('bell IO load from broken json file', () async {
+      await app.main();
+      await AndroidBell.initServicesAsync();
+
+      await LocalManager.writeToFile(LocalManager.localBellFilePath!, "json broken file");
+
+      AndroidBell newBell = await AndroidBell.loadFromStorage();
+
+      expect(newBell.hashCode, AndroidBell.mockBell().hashCode);
+    });
+
+    
+
     test('bell IO load mock without background work', () async {
       await app.main();
       await AndroidBell.initServicesAsync();
@@ -116,6 +129,8 @@ void main() {
       expect(await CustomNotificationService.isNotificationSent(),
           true); // exception throwed
     });
+
+
   });
 }
 

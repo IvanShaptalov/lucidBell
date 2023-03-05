@@ -1,28 +1,32 @@
+import 'package:flutter/material.dart';
+
 class ReminderText {
   /// =================================================[FIELDS, GETTERS and SETTERS]===========================================
-  String _reminderText = 'Not forget it';
+  @protected
+  String innerReminderText = 'Not forget it';
+
+  @protected
+  List innerHistoryOfReminderTexts = [];
 
   void setReminderText(PreloadedReminderTexts preloaded, {String? customText}) {
     // set custom text
     // set preloaded text
-    _reminderText = preloaded.getValue(customText: customText);
+    innerReminderText = preloaded.getValue(customText: customText);
 
     // delete if exists, set to first position
-    if (_historyOfReminderTexts.contains(_reminderText)) {
-      _historyOfReminderTexts.remove(_reminderText);
+    if (innerHistoryOfReminderTexts.contains(innerReminderText)) {
+      innerHistoryOfReminderTexts.remove(innerReminderText);
     }
-    _historyOfReminderTexts.add(_reminderText);
+    innerHistoryOfReminderTexts.add(innerReminderText);
   }
 
-  void clearHistory(){
-    _historyOfReminderTexts.clear();
+  void clearHistory() {
+    innerHistoryOfReminderTexts.clear();
   }
 
-  get getReminderText => _reminderText;
+  get getReminderText => innerReminderText;
 
-  final List<String> _historyOfReminderTexts = [];
-
-  get getHistoryOfReminderTexsts => _historyOfReminderTexts;
+  get getHistoryOfReminderTexsts => innerHistoryOfReminderTexts;
 
   /// ================================================[CONSTRUCTORS]==========================================================
 

@@ -1,6 +1,7 @@
 // import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
 import 'package:flutter_lucid_bell/presenter/android/background_implementation/background_implementation.dart';
 import 'package:flutter_lucid_bell/presenter/android/config_android_presenter.dart';
@@ -41,6 +42,8 @@ void callbackDispatcher() {
 
       return Future.value(result);
     } catch (e) {
+      await StorageLogger.logBackgroundAsync(
+          'error in background: ${e.toString()}');
       return Future.error(e.toString());
     }
   });
