@@ -1,5 +1,6 @@
 // import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
@@ -16,7 +17,7 @@ void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
     // NESSESARY INITIALIZATION
     await AndroidBell.initServicesAsync();
-    await TextReminderPresenter.initAsync();
+    await PresenterTextReminder.initAsync();
 
     AndroidBell bell =
         await AndroidBell.loadFromStorage(disabledBackgroundWork: true);
@@ -28,8 +29,10 @@ void callbackDispatcher() {
 
       String justNextBell =
           "next 🔔 on ${bell.getNextNotificationOnFormatted()}";
-      String nextBellOnMessage = TextReminderPresenter.reminderText!.getReminderText;
-      print(nextBellOnMessage);
+      String nextBellOnMessage = PresenterTextReminder.reminderText!.getReminderText;
+      if (kDebugMode) {
+        print(nextBellOnMessage);
+      }
       // send notification
       bool result =
           await bell.sendNotification(justNextBell, nextBellOnMessage);

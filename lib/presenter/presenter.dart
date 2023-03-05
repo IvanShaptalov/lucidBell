@@ -74,7 +74,7 @@ class BellPresenter {
   }
 }
 
-class TextReminderPresenter {
+class PresenterTextReminder {
   static AndroidReminderText? reminderText;
   static Future<bool> initAsync() async {
     reminderText = await AndroidReminderText.loadFromStorageAsync();
@@ -86,7 +86,7 @@ class TextReminderPresenter {
 class Presenter {
   static Future<bool> initAsync() async {
     bool bellPresenter = await BellPresenter.initAsync();
-    bool textReminder = await TextReminderPresenter.initAsync();
+    bool textReminder = await PresenterTextReminder.initAsync();
     return bellPresenter && textReminder;
   }
 }

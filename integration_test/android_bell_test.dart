@@ -136,7 +136,7 @@ void main() {
   group('ANDROID reminderText', () {
     test('initialized', () async {
       await Presenter.initAsync();
-      expect(TextReminderPresenter.reminderText != null, true);
+      expect(PresenterTextReminder.reminderText != null, true);
     });
     test('empty reminderText to json and from json ', () {
       AndroidReminderText reminderText = AndroidReminderText();
@@ -150,11 +150,10 @@ void main() {
     test('full reminderText to json and from json ', () {
       AndroidReminderText reminderText = AndroidReminderText()
         ..setReminderText(
-            PreloadedReminderTexts.breathingText) // set reminderText not mock
+            'PreloadedReminderTexts.breathingText') // set reminderText not mock
         ..setReminderText(
-            PreloadedReminderTexts.meditationText) // set reminderText not mock
-        ..setReminderText(PreloadedReminderTexts.customTextEnum,
-            customText: "oaoaoaoao");
+            'PreloadedReminderTexts.meditationText') // set reminderText not mock
+        ..setReminderText("oaoaoaoao");
       String jsonreminderText = reminderText.toJson();
       AndroidReminderText newreminderText =
           AndroidReminderText.fromJson(jsonreminderText);
@@ -165,11 +164,11 @@ void main() {
     test('reminderText IO save load', () async {
       AndroidReminderText reminderText = AndroidReminderText()
         ..setReminderText(
-            PreloadedReminderTexts.breathingText) // set reminderText not mock
+            'PreloadedReminderTexts.breathingText') // set reminderText not mock
         ..setReminderText(
-            PreloadedReminderTexts.meditationText) // set reminderText not mock
-        ..setReminderText(PreloadedReminderTexts.customTextEnum,
-            customText: "oaoaoaoao"); // set reminderText not mock
+            'PreloadedReminderTexts.meditationText') // set reminderText not mock
+        ..setReminderText(
+            'PreloadedReminderTexts.customTextEnum'); // set reminderText not mock
 
       await LocalManager.initAsync();
       // just for test
@@ -206,5 +205,3 @@ void main() {
     });
   });
 }
-
-

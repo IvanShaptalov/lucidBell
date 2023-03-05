@@ -121,35 +121,32 @@ void main() {
 
     test('Reminder text test history', () {
       var rem = ReminderText();
-      rem.setReminderText(PreloadedReminderTexts.breathingText);
-      var remEnum = PreloadedReminderTexts.breathingText;
-      expect(rem.getReminderText, remEnum.getValue());
+      rem.setReminderText('Not forget it');
 
-      expect(rem.getHistoryOfReminderTexsts.last, remEnum.getValue());
-
-      rem.setReminderText(PreloadedReminderTexts.mueingText);
+      rem.setReminderText('PreloadedReminderTexts.mueingText');
       expect(rem.getHistoryOfReminderTexsts.length, 2);
 
-      rem.setReminderText(PreloadedReminderTexts.mueingText);
+      rem.setReminderText('PreloadedReminderTexts.mueingText');
       expect(rem.getHistoryOfReminderTexsts.length, 2);
 
-      rem.setReminderText(PreloadedReminderTexts.breathingText);
-      expect(rem.getHistoryOfReminderTexsts.length, 2);
-
-      expect(rem.getHistoryOfReminderTexsts.last, remEnum.getValue());
-
-      rem.setReminderText(PreloadedReminderTexts.customTextEnum,
-          customText: 'Custom text');
-
+      rem.setReminderText('PreloadedReminderTexts.breathingText');
       expect(rem.getHistoryOfReminderTexsts.length, 3);
+
+      expect(rem.getHistoryOfReminderTexsts.last,
+          'PreloadedReminderTexts.breathingText');
+
+      rem.setReminderText('Custom text');
+
+      expect(rem.getHistoryOfReminderTexsts.length, 4);
 
       expect(rem.getHistoryOfReminderTexsts.last, 'Custom text');
 
-      rem.setReminderText(PreloadedReminderTexts.breathingText);
+      rem.setReminderText('PreloadedReminderTexts.breathingText');
 
-      expect(rem.getHistoryOfReminderTexsts.length, 3);
+      expect(rem.getHistoryOfReminderTexsts.length, 4);
 
-      expect(rem.getHistoryOfReminderTexsts.last, remEnum.getValue());
+      expect(rem.getHistoryOfReminderTexsts.last,
+          'PreloadedReminderTexts.breathingText');
     });
   });
 }
