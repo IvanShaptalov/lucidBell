@@ -52,7 +52,6 @@ class AndroidReminderText extends ReminderText {
             'error in AndroidReminderText.loadFromStorageAsync() ${e.toString()}');
       }
     }
-
     // create new
     return AndroidReminderText();
   }

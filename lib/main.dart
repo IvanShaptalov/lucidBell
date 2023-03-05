@@ -16,11 +16,10 @@ void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
     // NESSESARY INITIALIZATION
     await AndroidBell.initServicesAsync();
+    await TextReminderPresenter.initAsync();
 
     AndroidBell bell =
         await AndroidBell.loadFromStorage(disabledBackgroundWork: true);
-
-    String nextBellOnMessage = 'Reminder';
 
     try {
       // expect that notification updated
@@ -29,9 +28,8 @@ void callbackDispatcher() {
 
       String justNextBell =
           "next 🔔 on ${bell.getNextNotificationOnFormatted()}";
-      nextBellOnMessage +=
-          ', next bell on ${bell.getNextNotificationOnFormatted()}';
-
+      String nextBellOnMessage = TextReminderPresenter.reminderText!.getReminderText;
+      print(nextBellOnMessage);
       // send notification
       bool result =
           await bell.sendNotification(justNextBell, nextBellOnMessage);

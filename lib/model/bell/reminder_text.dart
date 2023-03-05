@@ -24,7 +24,7 @@ class ReminderText {
     innerHistoryOfReminderTexts.clear();
   }
 
-  get getReminderText => innerReminderText;
+  String get getReminderText => innerReminderText;
 
   get getHistoryOfReminderTexsts => innerHistoryOfReminderTexts;
 
