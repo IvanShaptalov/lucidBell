@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // ignore: must_be_immutable
 class ReminderTextScreen extends StatefulWidget {
   const ReminderTextScreen({super.key});
-  static bool isCustomState = false;
+  static bool isEditing = false;
 
   @override
   State<ReminderTextScreen> createState() => _ReminderTextScreenState();
@@ -16,7 +17,7 @@ class _ReminderTextScreenState extends State<ReminderTextScreen> {
   Widget build(BuildContext context) {
     return Center(
         child: SizedBox(
-            width: SizeConfig.getMediaWidth(context) * 0.9, //90 %
+            width: SizeConfig.getMediaWidth(context) * 0.65, //65 %
             child: AnimatedCrossFade(
                 firstChild: ReminderWidget(),
                 secondChild: const SizedBox.shrink(),
@@ -59,30 +60,47 @@ class _ReminderWidgetState extends State<ReminderWidget> {
           IconButton(
               onPressed: () {
                 setState(() {
-                  ReminderTextScreen.isCustomState =
-                      !ReminderTextScreen.isCustomState;
+                  ReminderTextScreen.isEditing = !ReminderTextScreen.isEditing;
                 });
               },
-              icon: const Icon(Icons.flip)),
-          ReminderTextScreen.isCustomState
+              icon: Transform.scale(
+                scale: 0.7,
+                child: const Icon(Icons.edit),
+              )),
+          ReminderTextScreen.isEditing
               ? TextField(
                   controller: widget._textController,
                   maxLines: widget.maxLines,
                   maxLength: widget.maxLength,
                   keyboardType: TextInputType.text,
-                  onSubmitted: (value) {
+                  autofocus: true,
+                  onSubmitted: (value) async {
                     setState(() {
                       widget._textController.text = value;
                       PresenterTextReminder.reminderText!
                           .setReminderText(value);
                     });
-                    PresenterTextReminder.reminderText!.saveToStorageAsync();
+                    await PresenterTextReminder.reminderText!
+                        .saveToStorageAsync();
+
+                    ReminderTextScreen.isEditing = false;
+
+                    FocusManager.instance.primaryFocus?.unfocus();
                   },
                   onChanged: (value) {
                     ReminderWidget.tmpValue = value;
                   },
                 )
-              : Text(PresenterTextReminder.reminderText!.getReminderText),
+              : Text(
+                  PresenterTextReminder.reminderText!.getReminderText,
+                  maxLines: 4,
+                  softWrap: true,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
         ],
       ),
     );
