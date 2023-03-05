@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
+import 'package:flutter_lucid_bell/presenter/android/android_reminder_text.dart';
 import 'package:flutter_lucid_bell/presenter/android/permission_service/permission_service.dart';
 
 /// USE PRESENTER TO IMPLEMENT SOME MODEL LOGIC AND CONNECT IT TO VIEW AND CURRENT PLATFORM
@@ -28,7 +29,7 @@ class BellPresenter {
     await StorageAppStartManager.saveWelcomePageDataAsync(showFeatures);
   }
 
-  static Future<bool> init() async {
+  static Future<bool> initAsync() async {
     // load permissions
     await PermissionService.checkPermissions();
     await PermissionService.checkSpecificPermissions();
@@ -73,6 +74,19 @@ class BellPresenter {
   }
 }
 
-class TextReminderPresenter{
-  
+class TextReminderPresenter {
+  static AndroidReminderText? reminderText;
+  static Future<bool> initAsync() async {
+    reminderText = await AndroidReminderText.loadFromStorageAsync();
+    return true;
+  }
+
+}
+
+class Presenter {
+  static Future<bool> initAsync() async {
+    bool bellPresenter = await BellPresenter.initAsync();
+    bool textReminder = await TextReminderPresenter.initAsync();
+    return bellPresenter && textReminder;
+  }
 }

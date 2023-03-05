@@ -2,6 +2,7 @@ import 'package:flutter_lucid_bell/model/bell/bell.dart';
 import 'package:flutter_lucid_bell/model/bell/reminder_text.dart';
 import 'package:flutter_lucid_bell/model/config_model.dart';
 import 'package:flutter_lucid_bell/model/data_structures/data_structures.dart';
+import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -113,7 +114,7 @@ void main() {
   });
 
   group('Base Reminder text', () {
-    test('Reminder text initialized from enum', () {
+    test('Reminder text initialized from enum', () async {
       var rem = ReminderText();
 
       expect(rem.getReminderText, 'Not forget it');

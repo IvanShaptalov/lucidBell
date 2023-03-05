@@ -54,7 +54,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // init services
-  await BellPresenter.init();
+  await Presenter.initAsync();
 
   Workmanager().initialize(
       callbackDispatcher, // The top level function, aka callbackDispatcher
