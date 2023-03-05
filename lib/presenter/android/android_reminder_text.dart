@@ -24,7 +24,6 @@ class AndroidReminderText extends ReminderText {
 
   static AndroidReminderText fromJson(String json) {
     Map<String, dynamic> map = jsonDecode(json);
-    String? androidReminderText = map['reminderText'];
     return AndroidReminderText.protectedCreating(
         map['reminderText'], map['historyOfReminderTexts']);
   }

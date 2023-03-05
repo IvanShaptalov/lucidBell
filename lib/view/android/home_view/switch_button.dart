@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
-import 'package:flutter_lucid_bell/view/config_view.dart';
 
 // ignore: must_be_immutable
 class SwitchBell extends StatefulWidget {
