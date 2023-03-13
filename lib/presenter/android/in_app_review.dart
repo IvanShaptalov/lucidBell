@@ -5,14 +5,10 @@ class ReviewService {
   // static final String _appStoreId = '';
 
   static Future<void> requestReviewOrOpen() async {
-    if (await _inAppReview.isAvailable()) {
-      _requestReview();
-    } else {
-      _openStoreListing();
-    }
+    await _openStoreListing();
   }
 
-  static Future<void> _requestReview() => _inAppReview.requestReview();
+  // static Future<void> _requestReview() => _inAppReview.requestReview();
 
   static Future<void> _openStoreListing() => _inAppReview.openStoreListing(
       // appStoreId: _appStoreId,
