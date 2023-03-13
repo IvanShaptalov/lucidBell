@@ -15,22 +15,7 @@ class ReminderTextScreen extends StatefulWidget {
 class _ReminderTextScreenState extends State<ReminderTextScreen> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: SizedBox(
-      height: SizeConfig.getMediaHeight(context) * 0.2,
-      width: SizeConfig.getMediaWidth(context) * 0.65, //65 %
-      child: AnimatedCrossFade(
-        firstChild: ReminderWidget(),
-        secondChild: const SizedBox.shrink(),
-        firstCurve: Curves.bounceInOut,
-        secondCurve: Curves.easeInBack,
-        crossFadeState: BellPresenter.isBellRunning()
-            ? CrossFadeState.showFirst
-            : CrossFadeState.showSecond,
-        duration: const Duration(milliseconds: 300),
-        reverseDuration: const Duration(milliseconds: 300),
-      ),
-    ));
+    return ReminderWidget();
   }
 }
 

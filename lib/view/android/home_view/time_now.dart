@@ -5,14 +5,14 @@ import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
 
-class BellInfo extends StatefulWidget {
-  const BellInfo({super.key});
+class TimeNow extends StatefulWidget {
+  const TimeNow({super.key});
 
   @override
-  State<BellInfo> createState() => _BellInfoState();
+  State<TimeNow> createState() => _TimeNowState();
 }
 
-class _BellInfoState extends State<BellInfo> {
+class _TimeNowState extends State<TimeNow> {
   late Timer timer;
   int toNextBellInSeconds = 0;
   int lastLoadedData = 0;
@@ -68,6 +68,11 @@ class _BellInfoState extends State<BellInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return bellCondition(toNextBellInSeconds);
+    return Text(
+      View.formatTime(DateTime.now()),
+      style: const TextStyle(
+          color: Color.fromARGB(255, 255, 255, 255), fontSize: 42),
+      maxLines: 1,
+    );
   }
 }

@@ -170,7 +170,7 @@ class LocalManager {
   /// ==============================[LISTENERS]====================================
   static FileWatcher getFileWatcher(String filePath) {
     assert(File(filePath).existsSync(), true);
-    return FileWatcher(filePath);
+    return FileWatcher(filePath, pollingDelay: const Duration(seconds: 1));
   }
 }
 

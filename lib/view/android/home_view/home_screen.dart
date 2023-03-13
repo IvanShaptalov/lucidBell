@@ -7,6 +7,7 @@ import 'package:flutter_lucid_bell/view/android/home_view/reminder_text_screen.d
 import 'package:flutter_lucid_bell/view/android/home_view/slider_interval_selector.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/switch_button.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/three_cashed_buttons.dart';
+import 'package:flutter_lucid_bell/view/android/home_view/time_now.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -32,17 +33,40 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: EdgeInsets.only(
                     top: SizeConfig.getMediaHeight(context) * 0.1,
                   ), //10%
-                  child: AnimatedOpacity(
-                      // If the widget is visible, animate to 0.0 (invisible).
-                      // If the widget is hidden, animate to 1.0 (fully visible).
+                  child: Center(
+                    child: Column(
+                      children: [
+                        const TimeNow(),
+                        AnimatedOpacity(
+                          // If the widget is visible, animate to 0.0 (invisible).
+                          // If the widget is hidden, animate to 1.0 (fully visible).
 
-                      opacity: BellPresenter.isBellRunning() ? 1 : 0,
-                      duration: const Duration(milliseconds: 300),
-                      child: const Center(child: BellInfo())),
+                          opacity: BellPresenter.isBellRunning() ? 1 : 0,
+                          duration: const Duration(milliseconds: 300),
+                          child: const BellInfo(),
+                        ),
+                      ],
+                    ),
+                  ),
                 )),
 
             // show TimeSelector if bell is running
-            ReminderTextScreen(),
+            Center(
+                child: SizedBox(
+              height: SizeConfig.getMediaHeight(context) * 0.2,
+              width: SizeConfig.getMediaWidth(context) * 0.65, //65 %
+              child: AnimatedCrossFade(
+                firstChild: const ReminderTextScreen(),
+                secondChild: const SizedBox.shrink(),
+                firstCurve: Curves.bounceInOut,
+                secondCurve: Curves.easeInBack,
+                crossFadeState: BellPresenter.isBellRunning()
+                    ? CrossFadeState.showFirst
+                    : CrossFadeState.showSecond,
+                duration: const Duration(milliseconds: 300),
+                reverseDuration: const Duration(milliseconds: 300),
+              ),
+            )),
 
             SizedBox(
               width: SizeConfig.getMediaWidth(context) * 0.75, // 75% width

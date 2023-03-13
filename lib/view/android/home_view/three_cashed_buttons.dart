@@ -55,12 +55,12 @@ class _CashedButtonState extends State<CashedButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: SizeConfig.getMediaHeight(context) * 0.07, //10%
+      height: SizeConfig.getMediaHeight(context) * 0.065, //5%
       width: SizeConfig.getMediaWidth(context) * 0.22, //22%
       margin: EdgeInsets.symmetric(
           horizontal: SizeConfig.getMediaWidth(context) * 0.002), //%0.2
       decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(45)),
+        borderRadius: BorderRadius.all(Radius.circular(15)),
         gradient: LinearGradient(
           begin: Alignment.bottomCenter,
           end: Alignment.topCenter,
