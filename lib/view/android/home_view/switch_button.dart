@@ -21,12 +21,10 @@ class _SwitchBellState extends State<SwitchBell> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Transform.scale(
-                scale: 1.2,
+                scale: 1,
                 child: Switch(
                   activeColor: Colors.greenAccent,
 
-                    
-                    // activeColor: Color.fromARGB(255, 51, 182, 142),
                     value: BellPresenter.isBellRunning(),
                     onChanged: ((value) {
                       setState(() {

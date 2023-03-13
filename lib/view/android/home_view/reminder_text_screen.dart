@@ -24,7 +24,7 @@ class ReminderWidget extends StatefulWidget {
   final _textController = TextEditingController();
   ReminderWidget({super.key});
   int maxLength = 100;
-  int maxLines = 3;
+  int maxLines = 2;
   static String tmpValue = PresenterTextReminder.reminderText!.getReminderText;
 
   @override
@@ -45,11 +45,16 @@ class _ReminderWidgetState extends State<ReminderWidget> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
+              insetPadding: EdgeInsets.only(
+                  top: SizeConfig.getMediaHeight(context) * 0.4),
+              backgroundColor: Colors.transparent,
               content: _setupHistoryDialoadContainer(setState),
               actions: <Widget>[
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text("Cancel"),
+                Center(
+                  child: IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.arrow_back),
+                  ),
                 ),
               ],
             );
@@ -64,8 +69,15 @@ class _ReminderWidgetState extends State<ReminderWidget> {
         .reminderText!.getHistoryOfReminderTexts.reversed
         .toList();
 
-    return SizedBox(
-      height: SizeConfig.getMediaHeight(context) * 0.5, // 50%
+    return Container(
+      decoration: const BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight, // #380036 > #0CBABA
+              colors: [
+            Color.fromARGB(197, 39, 65, 130),
+            Color.fromARGB(180, 15, 4, 11)
+          ])),
       width: SizeConfig.getMediaWidth(context) * 0.6, // 70%
       child: ListView.builder(
         shrinkWrap: true,
@@ -75,6 +87,12 @@ class _ReminderWidgetState extends State<ReminderWidget> {
             title: Text(
               items[index],
               maxLines: 3,
+              softWrap: true,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.poppins(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
             ),
             leading: IconButton(
               icon: const Icon(Icons.close),
