@@ -17,14 +17,20 @@ class _ReminderTextScreenState extends State<ReminderTextScreen> {
   Widget build(BuildContext context) {
     return Center(
         child: SizedBox(
-            width: SizeConfig.getMediaWidth(context) * 0.65, //65 %
-            child: AnimatedCrossFade(
-                firstChild: ReminderWidget(),
-                secondChild: const SizedBox.shrink(),
-                crossFadeState: BellPresenter.isBellRunning()
-                    ? CrossFadeState.showFirst
-                    : CrossFadeState.showSecond,
-                duration: const Duration(milliseconds: 750))));
+      height: SizeConfig.getMediaHeight(context) * 0.2,
+      width: SizeConfig.getMediaWidth(context) * 0.65, //65 %
+      child: AnimatedCrossFade(
+        firstChild: ReminderWidget(),
+        secondChild: const SizedBox.shrink(),
+        firstCurve: Curves.bounceInOut,
+        secondCurve: Curves.easeInBack,
+        crossFadeState: BellPresenter.isBellRunning()
+            ? CrossFadeState.showFirst
+            : CrossFadeState.showSecond,
+        duration: const Duration(milliseconds: 300),
+        reverseDuration: const Duration(milliseconds: 300),
+      ),
+    ));
   }
 }
 
