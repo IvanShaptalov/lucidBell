@@ -26,7 +26,7 @@ class ReminderText {
 
   String get getReminderText => innerReminderText;
 
-  get getHistoryOfReminderTexsts => innerHistoryOfReminderTexts;
+  List get getHistoryOfReminderTexts => innerHistoryOfReminderTexts;
 
   /// ================================================[CONSTRUCTORS]==========================================================
 

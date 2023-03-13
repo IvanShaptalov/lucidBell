@@ -38,6 +38,78 @@ class _ReminderWidgetState extends State<ReminderWidget> {
     widget._textController.text = ReminderWidget.tmpValue;
   }
 
+  Future<void> _showSimpleDialog() async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              content: _setupHistoryDialoadContainer(setState),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text("Cancel"),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _setupHistoryDialoadContainer(Function setStateCallback) {
+    var items = PresenterTextReminder
+        .reminderText!.getHistoryOfReminderTexts.reversed
+        .toList();
+
+    return SizedBox(
+      height: SizeConfig.getMediaHeight(context) * 0.5, // 50%
+      width: SizeConfig.getMediaWidth(context) * 0.6, // 70%
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: items.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            title: Text(
+              items[index],
+              maxLines: 3,
+            ),
+            leading: IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () async {
+                setStateCallback(() {
+                  PresenterTextReminder.reminderText!.getHistoryOfReminderTexts
+                      .remove(items[index]);
+                  items.removeAt(index);
+                });
+                await PresenterTextReminder.reminderText!.saveToStorageAsync();
+              },
+            ),
+            onTap: () async {
+              await textSubmitted(items[index]);
+              Navigator.of(context).pop();
+              setStateCallback(() {});
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  Future<void> textSubmitted(value) async {
+    setState(() {
+      widget._textController.text = value;
+      PresenterTextReminder.reminderText!.setReminderText(value);
+    });
+    await PresenterTextReminder.reminderText!.saveToStorageAsync();
+
+    ReminderTextScreen.isEditing = false;
+
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
+
   @override
   Widget build(BuildContext context) {
     widget._textController.text = ReminderWidget.tmpValue;
@@ -48,16 +120,38 @@ class _ReminderWidgetState extends State<ReminderWidget> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          IconButton(
-              onPressed: () {
-                setState(() {
-                  ReminderTextScreen.isEditing = !ReminderTextScreen.isEditing;
-                });
-              },
-              icon: Transform.scale(
-                scale: 0.7,
-                child: const Icon(Icons.edit),
-              )),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      ReminderTextScreen.isEditing =
+                          !ReminderTextScreen.isEditing;
+                    });
+                  },
+                  icon: Transform.scale(
+                    scale: 0.7,
+                    child: const Icon(Icons.edit),
+                  )),
+              AnimatedCrossFade(
+                firstChild: IconButton(
+                    onPressed: _showSimpleDialog,
+                    icon: Transform.scale(
+                      scale: 0.7,
+                      child: const Icon(Icons.history),
+                    )),
+                secondChild: const SizedBox.shrink(),
+                firstCurve: Curves.bounceInOut,
+                secondCurve: Curves.easeInBack,
+                crossFadeState: ReminderTextScreen.isEditing
+                    ? CrossFadeState.showSecond
+                    : CrossFadeState.showFirst,
+                duration: const Duration(milliseconds: 100),
+                reverseDuration: const Duration(milliseconds: 100),
+              ),
+            ],
+          ),
           ReminderTextScreen.isEditing
               ? TextField(
                   controller: widget._textController,
@@ -65,19 +159,7 @@ class _ReminderWidgetState extends State<ReminderWidget> {
                   maxLength: widget.maxLength,
                   keyboardType: TextInputType.text,
                   autofocus: true,
-                  onSubmitted: (value) async {
-                    setState(() {
-                      widget._textController.text = value;
-                      PresenterTextReminder.reminderText!
-                          .setReminderText(value);
-                    });
-                    await PresenterTextReminder.reminderText!
-                        .saveToStorageAsync();
-
-                    ReminderTextScreen.isEditing = false;
-
-                    FocusManager.instance.primaryFocus?.unfocus();
-                  },
+                  onSubmitted: textSubmitted,
                   onChanged: (value) {
                     ReminderWidget.tmpValue = value;
                   },

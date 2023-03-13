@@ -124,28 +124,28 @@ void main() {
       rem.setReminderText('Not forget it');
 
       rem.setReminderText('PreloadedReminderTexts.mueingText');
-      expect(rem.getHistoryOfReminderTexsts.length, 2);
+      expect(rem.getHistoryOfReminderTexts.length, 2);
 
       rem.setReminderText('PreloadedReminderTexts.mueingText');
-      expect(rem.getHistoryOfReminderTexsts.length, 2);
+      expect(rem.getHistoryOfReminderTexts.length, 2);
 
       rem.setReminderText('PreloadedReminderTexts.breathingText');
-      expect(rem.getHistoryOfReminderTexsts.length, 3);
+      expect(rem.getHistoryOfReminderTexts.length, 3);
 
-      expect(rem.getHistoryOfReminderTexsts.last,
+      expect(rem.getHistoryOfReminderTexts.last,
           'PreloadedReminderTexts.breathingText');
 
       rem.setReminderText('Custom text');
 
-      expect(rem.getHistoryOfReminderTexsts.length, 4);
+      expect(rem.getHistoryOfReminderTexts.length, 4);
 
-      expect(rem.getHistoryOfReminderTexsts.last, 'Custom text');
+      expect(rem.getHistoryOfReminderTexts.last, 'Custom text');
 
       rem.setReminderText('PreloadedReminderTexts.breathingText');
 
-      expect(rem.getHistoryOfReminderTexsts.length, 4);
+      expect(rem.getHistoryOfReminderTexts.length, 4);
 
-      expect(rem.getHistoryOfReminderTexsts.last,
+      expect(rem.getHistoryOfReminderTexts.last,
           'PreloadedReminderTexts.breathingText');
     });
   });
