@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
+import 'package:flutter_lucid_bell/view/view.dart';
 
 // ignore: must_be_immutable
 class SwitchBell extends StatefulWidget {
@@ -21,9 +22,9 @@ class _SwitchBellState extends State<SwitchBell> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Transform.scale(
-                scale: 1,
+                scale: View.currentTheme.switchButtonTheme.switchScale,
                 child: Switch(
-                  activeColor: Colors.greenAccent,
+                  activeColor: View.currentTheme.switchButtonTheme.switchColor,
 
                     value: BellPresenter.isBellRunning(),
                     onChanged: ((value) {

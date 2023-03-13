@@ -9,6 +9,7 @@ import 'package:flutter_lucid_bell/view/android/home_view/switch_button.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/three_cashed_buttons.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/time_now.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
+import 'package:flutter_lucid_bell/view/view.dart';
 
 class HomeScreen extends StatefulWidget {
   Function updateCallback;
@@ -22,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.transparent,
+      backgroundColor: View.currentTheme.homeScreenTheme.backgroundColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

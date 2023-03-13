@@ -9,6 +9,7 @@ import 'package:flutter_lucid_bell/presenter/android/config_android_presenter.da
 import 'package:flutter_lucid_bell/presenter/android/in_app_review.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/app.dart';
+import 'package:flutter_lucid_bell/view/view.dart';
 
 import 'dart:async';
 import 'package:workmanager/workmanager.dart';
@@ -58,6 +59,7 @@ Future<void> main() async {
 
   // init services
   await Presenter.initAsync();
+  await View.initAsync();
 
   Workmanager().initialize(
       callbackDispatcher, // The top level function, aka callbackDispatcher

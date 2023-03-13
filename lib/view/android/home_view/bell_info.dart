@@ -60,8 +60,7 @@ class _BellInfoState extends State<BellInfo> {
         height: SizeConfig.getMediaHeight(context) * 0.1, //10% height
 
         child: Text(dateStringFormat,
-            style: const TextStyle(
-                color: Color.fromARGB(255, 255, 255, 255), fontSize: 36)),
+            style: View.currentTheme.bellInfoTheme.textLeftSecondStyle),
       );
     }
   }

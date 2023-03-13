@@ -48,31 +48,11 @@ class _TimeNowState extends State<TimeNow> {
     super.dispose();
   }
 
-  Widget bellCondition(int seconds) {
-    if (seconds <= 0) {
-      return SizedBox(
-          height: SizeConfig.getMediaHeight(context) * 0.1, //10% height
-
-          child: const Icon(Icons.alarm));
-    } else {
-      String dateStringFormat = View.formatLeftSeconds(seconds);
-      return SizedBox(
-        height: SizeConfig.getMediaHeight(context) * 0.1, //10% height
-
-        child: Text(dateStringFormat,
-            style: const TextStyle(
-                color: Color.fromARGB(255, 255, 255, 255), fontSize: 36)),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Text(
-      View.formatTime(DateTime.now()),
-      style: const TextStyle(
-          color: Color.fromARGB(255, 255, 255, 255), fontSize: 42),
-      maxLines: 1,
-    );
+        maxLines: 1,
+        View.formatTime(DateTime.now()),
+        style: View.currentTheme.bellInfoTheme.textNowTimeStyle);
   }
 }

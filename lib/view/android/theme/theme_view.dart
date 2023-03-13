@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
 
 class CustomThemes extends StatefulWidget {
-  static ThemesEnum themeValue = ThemesEnum.purpledefault;
+  static ThemesEnum themeValue = ThemesEnum.purpleDefault;
 
   const CustomThemes({super.key});
 
   @override
   State<CustomThemes> createState() => _CustomThemesState();
 }
-
-enum ThemesEnum { orange, brown, grey, green, blue, pink, purpledefault, red }
 
 class _CustomThemesState extends State<CustomThemes> {
   @override
@@ -73,13 +72,13 @@ class _CustomThemesState extends State<CustomThemes> {
           },
         ),
         Radio(
-          value: ThemesEnum.purpledefault,
+          value: ThemesEnum.purpleDefault,
           groupValue: CustomThemes.themeValue,
           fillColor: MaterialStateColor.resolveWith((states) => Colors.purple),
           activeColor: Colors.purple,
           onChanged: (value) {
             setState(() {
-              CustomThemes.themeValue = ThemesEnum.purpledefault;
+              CustomThemes.themeValue = ThemesEnum.purpleDefault;
             });
           },
         ),

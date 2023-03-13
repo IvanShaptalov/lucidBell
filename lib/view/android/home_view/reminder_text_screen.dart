@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
+import 'package:flutter_lucid_bell/view/view.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // ignore: must_be_immutable
@@ -47,13 +48,13 @@ class _ReminderWidgetState extends State<ReminderWidget> {
             return AlertDialog(
               insetPadding: EdgeInsets.only(
                   top: SizeConfig.getMediaHeight(context) * 0.4),
-              backgroundColor: Colors.transparent,
+              backgroundColor: View.currentTheme.reminderTextTheme.transparentDialog,
               content: _setupHistoryDialoadContainer(setState),
               actions: <Widget>[
                 Center(
                   child: IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.arrow_back),
+                    icon: const Icon(Icons.arrow_downward),
                   ),
                 ),
               ],
@@ -70,14 +71,8 @@ class _ReminderWidgetState extends State<ReminderWidget> {
         .toList();
 
     return Container(
-      decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight, // #380036 > #0CBABA
-              colors: [
-            Color.fromARGB(197, 39, 65, 130),
-            Color.fromARGB(180, 15, 4, 11)
-          ])),
+      decoration: BoxDecoration(
+          gradient: View.currentTheme.reminderTextTheme.dialogBackgroundGradient),
       width: SizeConfig.getMediaWidth(context) * 0.6, // 70%
       child: ListView.builder(
         shrinkWrap: true,

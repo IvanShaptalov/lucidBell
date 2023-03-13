@@ -1,8 +1,17 @@
+import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
 import 'package:intl/intl.dart';
 
 /// USE VIEW TO CREATE LAST IN ANDROID PLATFORM IN THIS CASE
 class View {
+  static ThemesEnum themesEnum = ThemesEnum.purpleDefault;
+  static CustomTheme currentTheme = CustomTheme.selectTheme();
+
+  static Future<void> initAsync() async{
+    // TODO load theme from storage
+    currentTheme = CustomTheme.selectTheme(theme: themesEnum);
+  }
+
   static String formatLeftSeconds(int seconds) {
     DateTime date =
         DateTime.fromMicrosecondsSinceEpoch(seconds * 1000000, isUtc: true);

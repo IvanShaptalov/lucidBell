@@ -5,6 +5,7 @@ import 'package:flutter_lucid_bell/view/android/home_view/home_screen.dart';
 import 'package:flutter_lucid_bell/view/android/permission_page/permission_page.dart';
 import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
 import 'package:flutter_lucid_bell/view/android/welcome_screen/welcome_screen.dart';
+import 'package:flutter_lucid_bell/view/view.dart';
 import 'package:upgrader/upgrader.dart';
 
 // ignore: must_be_immutable
@@ -46,26 +47,14 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
             title: 'Lucid Bell Simplest',
             debugShowCheckedModeBanner: false,
-            theme: ThemeSetting.loadCalmTheme(),
+            theme: CustomTheme.loadBasicTheme(),
             home: BellPresenter.showFeaturesPage
                 ? WelcomeScreen(updateCallback)
                 : Container(
                     decoration: BoxDecoration(
                         gradient: BellPresenter.isBellRunning() // active
-                            ? const LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight, // #380036 > #0CBABA
-                                colors: [
-                                    Color.fromARGB(197, 66, 119, 253),
-                                    Color.fromARGB(180, 15, 4, 11)
-                                  ])
-                            : const LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight, // #380036 > #0CBABA
-                                colors: [
-                                    Color.fromARGB(199, 88, 37, 147),
-                                    Color.fromARGB(91, 21, 14, 25)
-                                  ])),
+                            ? View.currentTheme.appTheme.activeBellGradient
+                            : View.currentTheme.appTheme.unactiveBellGradient),
                     child: Scaffold(
                       resizeToAvoidBottomInset: false,
                       backgroundColor: Colors.transparent,
@@ -85,8 +74,10 @@ class _MyAppState extends State<MyApp> {
                           currentIndex: currentPage,
                           unselectedItemColor: Colors.grey,
                           fixedColor: BellPresenter.isBellRunning()
-                              ? Colors.green
-                              : Colors.deepPurple,
+                              ? View.currentTheme.appTheme
+                                  .activeBottomNavigationBarColor
+                              : View.currentTheme.appTheme
+                                  .unactiveBottomNavigationBarColor,
                           onTap: (int inIndex) {
                             setState(() {
                               BellPresenter.clearCallbackTriggers();

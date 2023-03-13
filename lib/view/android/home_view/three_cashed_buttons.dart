@@ -59,17 +59,10 @@ class _CashedButtonState extends State<CashedButton> {
       width: SizeConfig.getMediaWidth(context) * 0.22, //22%
       margin: EdgeInsets.symmetric(
           horizontal: SizeConfig.getMediaWidth(context) * 0.002), //%0.2
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(40)),
-        gradient: LinearGradient(
-          begin: Alignment.bottomCenter,
-          end: Alignment.topCenter,
-          colors: [
-            Color.fromARGB(255, 56, 25, 76),
-            Color.fromARGB(255, 75, 53, 147),
-          ],
-        ),
-      ),
+      decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(40)),
+          gradient:
+              View.currentTheme.threeCashedButtonTheme.cashedButtonGradient),
       child: TextButton(
           style: TextButton.styleFrom(
             foregroundColor: Colors.white,
