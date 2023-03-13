@@ -32,7 +32,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: EdgeInsets.only(
                     top: SizeConfig.getMediaHeight(context) * 0.1,
                   ), //10%
-                  child: const Center(child: BellInfo()),
+                  child: AnimatedOpacity(
+                      // If the widget is visible, animate to 0.0 (invisible).
+                      // If the widget is hidden, animate to 1.0 (fully visible).
+
+                      opacity: BellPresenter.isBellRunning() ? 1 : 0,
+                      duration: const Duration(milliseconds: 300),
+                      child: const Center(child: BellInfo())),
                 )),
 
             // show TimeSelector if bell is running
