@@ -1,4 +1,4 @@
-package com.vansimplest.android.flutter_lucid_bell
+package com.vansimplest.android.circle_bell
 
 import io.flutter.embedding.android.FlutterActivity
 
