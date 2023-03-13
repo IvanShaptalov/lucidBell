@@ -122,6 +122,7 @@ class _ReminderWidgetState extends State<ReminderWidget> {
       PresenterTextReminder.reminderText!.setReminderText(value);
     });
     await PresenterTextReminder.reminderText!.saveToStorageAsync();
+    ReminderWidget.tmpValue = value;
 
     ReminderTextScreen.isEditing = false;
 

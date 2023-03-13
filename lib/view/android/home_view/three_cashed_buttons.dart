@@ -60,7 +60,7 @@ class _CashedButtonState extends State<CashedButton> {
       margin: EdgeInsets.symmetric(
           horizontal: SizeConfig.getMediaWidth(context) * 0.002), //%0.2
       decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(15)),
+        borderRadius: BorderRadius.all(Radius.circular(40)),
         gradient: LinearGradient(
           begin: Alignment.bottomCenter,
           end: Alignment.topCenter,
