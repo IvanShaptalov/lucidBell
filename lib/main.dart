@@ -6,8 +6,8 @@ import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provi
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
 import 'package:flutter_lucid_bell/presenter/android/background_implementation/background_implementation.dart';
 import 'package:flutter_lucid_bell/presenter/android/config_android_presenter.dart';
+import 'package:flutter_lucid_bell/presenter/android/in_app_review.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
-import 'package:flutter_lucid_bell/view/app.dart';
 
 import 'dart:async';
 import 'package:workmanager/workmanager.dart';
@@ -64,5 +64,6 @@ Future<void> main() async {
       );
   AndroidBellBackgroundManager.initialized = true;
 
-  runApp(const MyApp());
+  // runApp(const MyApp());
+  runApp(const InAppReviewExampleApp());
 }
