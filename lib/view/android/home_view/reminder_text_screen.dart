@@ -86,9 +86,8 @@ class _ReminderWidgetState extends State<ReminderWidget> {
           return ListTile(
             title: Text(
               items[index],
-              maxLines: 3,
+              maxLines: 2,
               softWrap: true,
-              textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                   color: Colors.white,
                   fontSize: 16,
