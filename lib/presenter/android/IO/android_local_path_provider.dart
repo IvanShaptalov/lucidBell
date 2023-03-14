@@ -28,6 +28,7 @@ class LocalManager {
   static String? logFilePath;
   static String? reminderTextFilePath;
   static String? onStartApplicationFilePath;
+  static String? themeFilePath;
 
   ///============================[FILE NAMES]====================================
   ///
@@ -35,6 +36,7 @@ class LocalManager {
   static String logFileName = 'logFile.txt';
   static String rTextFileName = 'reminderText.txt';
   static String onStartFileName = 'onStart.txt';
+  static String themeFileName = 'currentTheme.txt';
 
   /// ============================[UTIL]=========================================
   static bool dirExists(String? dirPath) {
@@ -67,7 +69,8 @@ class LocalManager {
             fileExists(localBellFilePath) &&
             fileExists(logFilePath) &&
             fileExists(reminderTextFilePath) &&
-            fileExists(onStartApplicationFilePath);
+            fileExists(onStartApplicationFilePath) &&
+            fileExists(themeFilePath);
   }
 
   static Future<String> createAppDirectoryPath() async {
@@ -106,12 +109,14 @@ class LocalManager {
     reminderTextFilePath = p.join(reminderTextDirectoryPath, rTextFileName);
     onStartApplicationFilePath =
         p.join(onStartApplicationDirectoryPath, onStartFileName);
+    themeFilePath = p.join(onStartApplicationDirectoryPath, themeFileName);
 
     for (String filePath in [
       localBellFilePath!,
       logFilePath!,
       reminderTextFilePath!,
-      onStartApplicationFilePath!
+      onStartApplicationFilePath!,
+      themeFilePath!
     ]) {
       createFile(filePath);
     }

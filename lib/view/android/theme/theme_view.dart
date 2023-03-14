@@ -5,14 +5,14 @@ import 'package:flutter_lucid_bell/view/view.dart';
 // ignore: must_be_immutable
 class CustomThemes extends StatefulWidget {
   Function updateCallback;
-  static ThemesEnum _themeValue = View.themeEnum;
+  static ThemesEnum _themeValue = View.currentTheme.themeEnum;
 
   CustomThemes(this.updateCallback, {super.key});
 
   void setTheme(ThemesEnum newTheme) {
     _themeValue = newTheme;
-    View.themeEnum = newTheme;
     View.currentTheme = CustomTheme.selectTheme(theme: newTheme);
+    View.currentTheme.saveToStorageAsync(View.currentTheme.themeEnum);
     updateCallback();
   }
 
@@ -96,7 +96,7 @@ class _CustomThemesState extends State<CustomThemes> {
               activeColor: Colors.deepPurple,
               onChanged: (value) {
                 setState(() {
-                  widget.setTheme(ThemesEnum.purple);
+                  widget.setTheme(ThemesEnum.orange);
                 });
               },
             ),

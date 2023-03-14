@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucid_bell/presenter/android/IO/theme_io.dart';
 
 /// ==============================================[WIDGET SETTINGS]=================================
 class BellInfoTheme {
@@ -57,8 +58,9 @@ class AppTheme {
 
 /// ===============================================[THEME SETTINGS]================================
 
-class CustomTheme {
+class CustomTheme with ThemeIO{
   static loadBasicTheme() {
+    
     return ThemeData(
       // Define the default brightness and colors.
       brightness: Brightness.dark,
@@ -78,6 +80,20 @@ class CustomTheme {
     );
   }
 
+  /// ===============================================[OVERRIDES]=================================
+  @override
+  String toString() {
+    return _themeName.name;
+  }
+
+  @override
+  int get hashCode => _themeName.hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other is CustomTheme && other.hashCode == hashCode;
+  }
+
   /// ===============================================[WIDGET INSTANCES]==========================
   BellInfoTheme bellInfoTheme;
   HomeScreenTheme homeScreenTheme;
@@ -86,6 +102,9 @@ class CustomTheme {
   ThreeCashedButtonTheme threeCashedButtonTheme;
   AppTheme appTheme;
   SliderTheme sliderTheme;
+  ThemesEnum _themeName;
+
+  ThemesEnum get themeEnum => _themeName;
 
   CustomTheme(
       this.bellInfoTheme,
@@ -94,7 +113,8 @@ class CustomTheme {
       this.switchButtonTheme,
       this.threeCashedButtonTheme,
       this.appTheme,
-      this.sliderTheme);
+      this.sliderTheme,
+      this._themeName);
 
   /// ================================================[ORANGE THEME]===============================
   factory CustomTheme.orange() {
@@ -144,7 +164,8 @@ class CustomTheme {
             const Color.fromARGB(255, 240, 255, 114),
             const Color.fromARGB(255, 202, 103, 47)),
         SliderTheme(const Color.fromARGB(255, 205, 216, 97),
-            const Color.fromARGB(255, 132, 140, 62)));
+            const Color.fromARGB(255, 132, 140, 62)),
+            ThemesEnum.orange);
   }
 
   /// ==============================================[BROWN THEME]=======================================
@@ -196,7 +217,8 @@ class CustomTheme {
             Color.fromARGB(255, 202, 168, 47),
             const Color.fromARGB(255, 100, 51, 23)),
         SliderTheme(const Color.fromARGB(255, 102, 52, 24),
-            const Color.fromARGB(255, 59, 31, 14)));
+            const Color.fromARGB(255, 59, 31, 14)),
+            ThemesEnum.brown);
   }
 
   /// ==============================================[GREY THEME]=======================================
@@ -247,7 +269,8 @@ class CustomTheme {
                 ]),
             Colors.blueGrey,
             Colors.grey.shade400),
-        SliderTheme(Colors.grey.shade400, Colors.blueGrey));
+        SliderTheme(Colors.grey.shade400, Colors.blueGrey),
+        ThemesEnum.grey);
   }
 
   /// ==============================================[GREEN THEME]=======================================
@@ -298,7 +321,8 @@ class CustomTheme {
                 ]),
             const Color.fromARGB(255, 76, 167, 175),
             const Color.fromARGB(255, 44, 114, 113)),
-        SliderTheme(Colors.blue, Colors.teal.shade900));
+        SliderTheme(Colors.blue, Colors.teal.shade900),
+        ThemesEnum.green);
   }
 
   /// ==============================================[BLUE THEME]=======================================
@@ -349,7 +373,8 @@ class CustomTheme {
                 ]),
             Colors.green,
             Colors.blue.shade600),
-        SliderTheme(Colors.indigo, Colors.indigo.shade800));
+        SliderTheme(Colors.indigo, Colors.indigo.shade800),
+        ThemesEnum.blueDefault);
   }
 
   /// ==============================================[PURPLE THEME]=======================================
@@ -402,7 +427,8 @@ class CustomTheme {
           Colors.pink.shade900,
         ),
         SliderTheme(const Color.fromARGB(179, 99, 122, 184),
-            const Color.fromARGB(91, 81, 99, 149)));
+            const Color.fromARGB(91, 81, 99, 149)),
+            ThemesEnum.purple);
   }
 
   static CustomTheme selectTheme({ThemesEnum theme = ThemesEnum.purple}) {
@@ -424,4 +450,4 @@ class CustomTheme {
   }
 }
 
-enum ThemesEnum { orange, brown, grey, green, blueDefault, purple }
+enum ThemesEnum { orange, brown, grey, green, blueDefault, purple}

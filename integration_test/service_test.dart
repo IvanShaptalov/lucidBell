@@ -21,6 +21,8 @@ void main() {
       expect(await File(LocalManager.reminderTextFilePath!).exists(), true);
       expect(
           await File(LocalManager.onStartApplicationFilePath!).exists(), true);
+           expect(
+          await File(LocalManager.themeFilePath!).exists(), true);
     });
 
     testWidgets('directories created', (tester) async {

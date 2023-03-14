@@ -4,6 +4,8 @@ import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_reminder_text.dart';
 import 'package:flutter_lucid_bell/presenter/android/notifications/notification_service.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
+import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
+import 'package:flutter_lucid_bell/view/view.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:flutter_lucid_bell/main.dart' as app;
@@ -201,6 +203,32 @@ void main() {
           await AndroidReminderText.loadFromStorageAsync();
 
       expect(newreminderText.hashCode, AndroidReminderText().hashCode);
+    });
+
+    group('THEME', () {
+      test('initialized', () async {
+        expect(await View.initAsync(), true);
+      });
+
+      test('theme loaded from storage', () async {
+        await View.initAsync();
+        View.currentTheme = CustomTheme.selectTheme(theme: ThemesEnum.green);
+        await View.currentTheme.saveToStorageAsync(View.currentTheme.themeEnum);
+        View.currentTheme = CustomTheme.selectTheme(theme: ThemesEnum.grey);
+        await View.initAsync();
+
+        expect(View.currentTheme.themeEnum, ThemesEnum.green);
+      });
+
+      test('set default theme', () async {
+        await LocalManager.initAsync();
+
+        await LocalManager.writeToFile(LocalManager.themeFilePath!, "oaoaoa");
+
+        await View.initAsync();
+
+        expect(View.currentTheme, CustomTheme.blueDefault());
+      });
     });
   });
 }
