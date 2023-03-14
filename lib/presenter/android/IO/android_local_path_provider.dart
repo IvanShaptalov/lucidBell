@@ -74,8 +74,10 @@ class LocalManager {
   }
 
   static Future<String> createAppDirectoryPath() async {
-    var externalDir = await getExternalStorageDirectory();
-    var appDir = externalDir ?? (await getApplicationSupportDirectory());
+    // var externalDir = await getExternalStorageDirectory();
+    var externalDir = await getApplicationSupportDirectory();
+    // var appDir = externalDir ?? (await getApplicationSupportDirectory());
+    var appDir = externalDir;
     var created = createDirectory(appDir.path);
     assert(created, true);
     return appDir.path;

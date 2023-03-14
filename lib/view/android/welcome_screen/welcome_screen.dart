@@ -10,7 +10,7 @@ class WelcomeScreen extends StatefulWidget {
   @override
   WelcomeScreenState createState() => WelcomeScreenState();
 }
-
+/// ==============================[CIRCLES]===============================
 class WelcomeScreenState extends State<WelcomeScreen> {
   List<Widget> indicator() => List<Widget>.generate(
       items.length,
@@ -37,7 +37,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
       });
     });
   }
-
+/// ==============================[SLIDES]================================
   @override
   Widget build(BuildContext context) {
     List<Widget> slides = items
@@ -106,8 +106,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
             Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  margin: EdgeInsets.only(
-                      top: SizeConfig.getMediaHeight(context) * 0.1), //10%
+                 
                   padding: EdgeInsets.symmetric(
                       vertical: SizeConfig.getMediaHeight(context) * 0.02), //4%
                   child: Column(
@@ -121,10 +120,14 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                             // skip tutorial or end
                             widget.updateCallback();
                           },
-                          child: currentPage == 0 || currentPage == items.length-1
-                              ? Text(currentPage == items.length - 1
-                                  ? 'go to Circle Bell'
-                                  : 'skip tutorial', style: const TextStyle(fontSize: 15),)
+                          child: currentPage == 0 ||
+                                  currentPage == items.length - 1
+                              ? Text(
+                                  currentPage == items.length - 1
+                                      ? 'go to Circle Bell'
+                                      : 'skip tutorial',
+                                  style: const TextStyle(fontSize: 15),
+                                )
                               : const SizedBox.shrink()),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

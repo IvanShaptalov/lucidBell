@@ -29,4 +29,16 @@ List items = [
         "toggle switch in home page to run bell, then select notification interval, to disable bell - toggle swich again",
     "image": "assets/images/4.jpg"
   },
+  {
+    "header": "Change Text",
+    "description":
+        "You can edit the reminder text by clicking on the pen or selecting the text in the history",
+    "image": "assets/images/5.jpg"
+  },
+  {
+    "header": "Customize",
+    "description":
+        "Go to setting page and select theme what you like!",
+    "image": "assets/images/6.jpg"
+  },
 ];
