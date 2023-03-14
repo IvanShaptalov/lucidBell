@@ -3,15 +3,48 @@ import 'package:flutter/material.dart';
 class ReminderText {
   /// =================================================[FIELDS, GETTERS and SETTERS]===========================================
   @protected
-  String innerReminderText = 'Not forget it';
+  String innerReminderText = 'Meditation 🧘';
 
   @protected
-  List innerHistoryOfReminderTexts = [];
+  List innerHistoryOfReminderTexts = [
+    'Meditation 🧘',
+    'Eat healty 🥦',
+    'Mewing 😝',
+    'Mindfulness 🌅',
+    'Drink Water 💧',
+    'Practice good posture 🤸‍♀️',
+    'Deep breath 🌬',
+    'Take break on work ☕️',
+    'Train avoiding multitasking and focus on one task at a time 👀',
+    'regular eye training  👓',
+  ];
+
+  List defaultInnerHistoryOfReminderTexts = [
+    'Meditation 🧘',
+    'Eat healty 🥦',
+    'Mewing 😝',
+    'Mindfulness 🌅',
+    'Drink Water 💧',
+    'Practice good posture 🤸‍♀️',
+    'Deep breath 🌬',
+    'Take break on work ☕️',
+    'Train avoiding multitasking and focus on one task at a time 👀',
+    'regular eye training  👓',
+  ];
+
+  void loadDefaults() {
+    var tmpList = List.from(innerHistoryOfReminderTexts)
+      ..addAll(defaultInnerHistoryOfReminderTexts);
+    innerHistoryOfReminderTexts = tmpList.toSet().toList();
+  }
 
   void setReminderText(String customText) {
     // set custom text
     // set preloaded text
     innerReminderText = customText;
+
+    // add defaults
+    loadDefaults();
 
     // delete if exists, set to first position
     if (innerHistoryOfReminderTexts.contains(innerReminderText)) {
@@ -32,4 +65,3 @@ class ReminderText {
 
   ReminderText();
 }
-

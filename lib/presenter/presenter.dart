@@ -78,9 +78,9 @@ class PresenterTextReminder {
   static AndroidReminderText? reminderText;
   static Future<bool> initAsync() async {
     reminderText = await AndroidReminderText.loadFromStorageAsync();
+    reminderText!.loadDefaults();
     return true;
   }
-
 }
 
 class Presenter {
