@@ -59,8 +59,9 @@ class _PermissionPageState extends State<PermissionPage> {
                             : const Text('😔', style: TextStyle(fontSize: 30)),
                       ))),
               SizedBox(
-                height: SizeConfig.getMediaHeight(context) * 0.6,
-                child: Column(
+                height: SizeConfig.getMediaHeight(context) * 0.5,
+                child: ListView(
+                  
                   children: [
                     const InAppReviewTile(),
                     PermissionListTile(PermissionService.notification),

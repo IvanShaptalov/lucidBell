@@ -10,7 +10,7 @@ class InAppReviewTile extends StatelessWidget {
       title: const Text('rate circle bell'),
       leading: const Icon(Icons.star),
       subtitle: const Text(
-          "Enjoying our app? Leave a review to help us make it even better! Your feedback is valuable to us. Thanks for your support!🙌📱👍"),
+          "Enjoying our app? Leave a review to help make it even better! Your feedback is valuable to us. Thank you!"),
       onTap: () async {
         await ReviewService.requestReviewOrOpen();
       },
