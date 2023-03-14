@@ -167,14 +167,14 @@ class CustomTheme {
                 Color.fromARGB(180, 15, 4, 11)
               ]),
         ),
-        SwitchButtonTheme(const Color.fromARGB(255, 146, 202, 47), 1),
+        SwitchButtonTheme(const Color.fromARGB(255, 202, 168, 47), 1),
         ThreeCashedButtonTheme(
           const LinearGradient(
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
             colors: [
-              Color.fromARGB(255, 47, 32, 10),
-              Color.fromARGB(255, 68, 67, 25),
+              Color.fromARGB(197, 46, 32, 11),
+              Color.fromARGB(197, 130, 94, 39),
             ],
           ),
         ),
@@ -193,8 +193,8 @@ class CustomTheme {
                   Color.fromARGB(255, 47, 32, 10),
                   Color.fromARGB(255, 68, 67, 25),
                 ]),
-            const Color.fromARGB(255, 146, 202, 47),
-            Color.fromARGB(255, 100, 51, 23)),
+            Color.fromARGB(255, 202, 168, 47),
+            const Color.fromARGB(255, 100, 51, 23)),
         SliderTheme(const Color.fromARGB(255, 102, 52, 24),
             const Color.fromARGB(255, 59, 31, 14)));
   }
