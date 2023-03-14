@@ -214,7 +214,7 @@ class CustomTheme with ThemeIO{
                   Color.fromARGB(255, 47, 32, 10),
                   Color.fromARGB(255, 68, 67, 25),
                 ]),
-            Color.fromARGB(255, 202, 168, 47),
+            const Color.fromARGB(255, 202, 168, 47),
             const Color.fromARGB(255, 100, 51, 23)),
         SliderTheme(const Color.fromARGB(255, 102, 52, 24),
             const Color.fromARGB(255, 59, 31, 14)),

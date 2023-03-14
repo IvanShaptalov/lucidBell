@@ -31,9 +31,9 @@ class _CustomThemesState extends State<CustomThemes> {
             Radio(
               value: ThemesEnum.orange,
               groupValue: CustomThemes._themeValue,
-              activeColor: Colors.orange,
-              fillColor:
-                  MaterialStateColor.resolveWith((states) => Colors.orange),
+              activeColor: const Color.fromARGB(255, 240, 255, 114),
+              fillColor: MaterialStateColor.resolveWith(
+                  (states) => const Color.fromARGB(255, 240, 255, 114)),
               onChanged: (value) {
                 setState(() {
                   widget.setTheme(ThemesEnum.orange);
@@ -43,9 +43,9 @@ class _CustomThemesState extends State<CustomThemes> {
             Radio(
               value: ThemesEnum.brown,
               groupValue: CustomThemes._themeValue,
-              activeColor: Colors.brown,
-              fillColor:
-                  MaterialStateColor.resolveWith((states) => Colors.brown),
+              activeColor: const Color.fromARGB(255, 202, 168, 47),
+              fillColor: MaterialStateColor.resolveWith(
+                  (states) => const Color.fromARGB(255, 202, 168, 47)),
               onChanged: (value) {
                 setState(() {
                   widget.setTheme(ThemesEnum.brown);
@@ -96,7 +96,7 @@ class _CustomThemesState extends State<CustomThemes> {
               activeColor: Colors.deepPurple,
               onChanged: (value) {
                 setState(() {
-                  widget.setTheme(ThemesEnum.orange);
+                  widget.setTheme(ThemesEnum.purple);
                 });
               },
             ),
