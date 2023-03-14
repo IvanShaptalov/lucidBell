@@ -45,6 +45,8 @@ class _SliderIntervalSelectorState extends State<SliderIntervalSelector> {
           max: BellPresenter.bell!.intervalUpperBound,
           interval: 15,
           stepSize: 5,
+          activeColor: View.currentTheme.sliderTheme.activeSliderColor,
+          inactiveColor: View.currentTheme.sliderTheme.inactiveSliderColor,
           value: localValue,
           onChanged: (value) async {
             setState(() {

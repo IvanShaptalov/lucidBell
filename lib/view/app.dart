@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
     // ignore: invalid_use_of_protected_member
     final List<Widget> pages = [
       HomeScreen(updateCallback),
-      const PermissionPage()
+      PermissionPage(updateCallback)
     ];
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(

@@ -6,8 +6,10 @@ import 'package:flutter_lucid_bell/view/android/permission_page/inapp_review_til
 import 'package:flutter_lucid_bell/view/android/theme/theme_view.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
 
+// ignore: must_be_immutable
 class PermissionPage extends StatefulWidget {
-  const PermissionPage({super.key});
+  Function updateCallback;
+  PermissionPage(this.updateCallback, {super.key});
 
   @override
   State<PermissionPage> createState() => _PermissionPageState();
@@ -19,7 +21,6 @@ class _PermissionPageState extends State<PermissionPage> {
   void initState() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       await PermissionService.checkPermissions();
-      // NOT UPDATE IF SLIDER  CHANGING OR BELL NOT RUN
       setState(() {
         PermissionService.notification;
         PermissionService.batteryOptimization;
@@ -27,8 +28,6 @@ class _PermissionPageState extends State<PermissionPage> {
     });
     super.initState();
   }
-
-  /// return false by default by default
 
   @override
   void dispose() {
@@ -76,7 +75,7 @@ class _PermissionPageState extends State<PermissionPage> {
                   ],
                 ),
               ),
-              const CustomThemes(),
+              CustomThemes(widget.updateCallback),
             ],
           ),
         ],

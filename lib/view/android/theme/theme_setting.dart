@@ -13,6 +13,13 @@ class HomeScreenTheme {
   HomeScreenTheme(this.backgroundColor);
 }
 
+class SliderTheme {
+  Color activeSliderColor;
+  Color inactiveSliderColor;
+
+  SliderTheme(this.activeSliderColor, this.inactiveSliderColor);
+}
+
 class ReminderTextTheme {
   Color transparentDialog;
   LinearGradient dialogBackgroundGradient;
@@ -78,77 +85,225 @@ class CustomTheme {
   SwitchButtonTheme switchButtonTheme;
   ThreeCashedButtonTheme threeCashedButtonTheme;
   AppTheme appTheme;
+  SliderTheme sliderTheme;
 
-  CustomTheme(this.bellInfoTheme, this.homeScreenTheme, this.reminderTextTheme,
-      this.switchButtonTheme, this.threeCashedButtonTheme, this.appTheme);
+  CustomTheme(
+      this.bellInfoTheme,
+      this.homeScreenTheme,
+      this.reminderTextTheme,
+      this.switchButtonTheme,
+      this.threeCashedButtonTheme,
+      this.appTheme,
+      this.sliderTheme);
 
-  // factory CustomTheme.orange() {
-  //   return CustomTheme(
-  //       bellInfoTheme,
-  //       homeScreenTheme,
-  //       reminderTextTheme,
-  //       sliderIntervalTheme,
-  //       switchButtonTheme,
-  //       threeCashedButtonTheme,
-  //       appTheme);
-  // }
+  /// ================================================[ORANGE THEME]===============================
+  factory CustomTheme.orange() {
+    return CustomTheme(
+        BellInfoTheme(
+            const TextStyle(
+                color: Color.fromARGB(255, 255, 255, 255), fontSize: 36),
+            const TextStyle(
+                color: Color.fromARGB(255, 255, 255, 255), fontSize: 42)),
+        HomeScreenTheme(Colors.transparent),
+        ReminderTextTheme(
+          Colors.transparent,
+          const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color.fromARGB(197, 130, 94, 39),
+                Color.fromARGB(180, 15, 4, 11)
+              ]),
+        ),
+        SwitchButtonTheme(const Color.fromARGB(255, 240, 255, 114), 1),
+        ThreeCashedButtonTheme(
+          const LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              Color.fromARGB(197, 255, 200, 114),
+              Color.fromARGB(180, 188, 96, 86)
+            ],
+          ),
+        ),
+        AppTheme(
+            const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight, // #380036 > #0CBABA
+                colors: [
+                  Color.fromARGB(197, 255, 200, 114),
+                  Color.fromARGB(180, 188, 96, 86)
+                ]),
+            const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight, // #380036 > #0CBABA
+                colors: [
+                  Color.fromARGB(180, 188, 145, 86),
+                  Color.fromARGB(180, 15, 4, 11)
+                ]),
+            const Color.fromARGB(255, 240, 255, 114),
+            const Color.fromARGB(255, 202, 103, 47)),
+        SliderTheme(const Color.fromARGB(255, 205, 216, 97),
+            const Color.fromARGB(255, 132, 140, 62)));
+  }
 
-  // factory CustomTheme.brown() {
-  //   return CustomTheme(
-  //       bellInfoTheme,
-  //       homeScreenTheme,
-  //       reminderTextTheme,
-  //       sliderIntervalTheme,
-  //       switchButtonTheme,
-  //       threeCashedButtonTheme,
-  //       appTheme);
-  // }
+  /// ==============================================[BROWN THEME]=======================================
 
-  // factory CustomTheme.grey() {
-  //   return CustomTheme(
-  //       bellInfoTheme,
-  //       homeScreenTheme,
-  //       reminderTextTheme,
-  //       sliderIntervalTheme,
-  //       switchButtonTheme,
-  //       threeCashedButtonTheme,
-  //       appTheme);
-  // }
+  factory CustomTheme.brown() {
+    return CustomTheme(
+        BellInfoTheme(
+            const TextStyle(
+                color: Color.fromARGB(255, 255, 255, 255), fontSize: 36),
+            const TextStyle(
+                color: Color.fromARGB(255, 255, 255, 255), fontSize: 42)),
+        HomeScreenTheme(Colors.transparent),
+        ReminderTextTheme(
+          Colors.transparent,
+          const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color.fromARGB(197, 130, 94, 39),
+                Color.fromARGB(180, 15, 4, 11)
+              ]),
+        ),
+        SwitchButtonTheme(const Color.fromARGB(255, 146, 202, 47), 1),
+        ThreeCashedButtonTheme(
+          const LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              Color.fromARGB(255, 47, 32, 10),
+              Color.fromARGB(255, 68, 67, 25),
+            ],
+          ),
+        ),
+        AppTheme(
+            const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight, // #380036 > #0CBABA
+                colors: [
+                  Color.fromARGB(197, 130, 94, 39),
+                  Color.fromARGB(180, 15, 4, 11)
+                ]),
+            const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight, // #380036 > #0CBABA
+                colors: [
+                  Color.fromARGB(255, 47, 32, 10),
+                  Color.fromARGB(255, 68, 67, 25),
+                ]),
+            const Color.fromARGB(255, 146, 202, 47),
+            Color.fromARGB(255, 100, 51, 23)),
+        SliderTheme(const Color.fromARGB(255, 102, 52, 24),
+            const Color.fromARGB(255, 59, 31, 14)));
+  }
 
-  // factory CustomTheme.green() {
-  //   return CustomTheme(
-  //       bellInfoTheme,
-  //       homeScreenTheme,
-  //       reminderTextTheme,
-  //       sliderIntervalTheme,
-  //       switchButtonTheme,
-  //       threeCashedButtonTheme,
-  //       appTheme);
-  // }
+  /// ==============================================[GREY THEME]=======================================
 
-  // factory CustomTheme.blue() {
-  //   return CustomTheme(
-  //       bellInfoTheme,
-  //       homeScreenTheme,
-  //       reminderTextTheme,
-  //       sliderIntervalTheme,
-  //       switchButtonTheme,
-  //       threeCashedButtonTheme,
-  //       appTheme);
-  // }
+  factory CustomTheme.grey() {
+    return CustomTheme(
+        BellInfoTheme(
+            const TextStyle(
+                color: Color.fromARGB(255, 255, 255, 255), fontSize: 36),
+            const TextStyle(
+                color: Color.fromARGB(255, 255, 255, 255), fontSize: 42)),
+        HomeScreenTheme(Colors.transparent),
+        ReminderTextTheme(
+          Colors.transparent,
+          const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color.fromARGB(197, 47, 50, 52),
+                Color.fromARGB(180, 15, 21, 28)
+              ]),
+        ),
+        SwitchButtonTheme(Colors.blueGrey.shade200, 1),
+        ThreeCashedButtonTheme(
+          const LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              Color.fromARGB(197, 47, 50, 52),
+              Color.fromARGB(180, 28, 37, 48)
+            ],
+          ),
+        ),
+        AppTheme(
+            const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight, // #380036 > #0CBABA
+                colors: [
+                  Color.fromARGB(197, 125, 129, 132),
+                  Color.fromARGB(180, 44, 62, 80)
+                ]),
+            const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight, // #380036 > #0CBABA
+                colors: [
+                  Color.fromARGB(197, 47, 50, 52),
+                  Color.fromARGB(180, 15, 21, 28)
+                ]),
+            Colors.blueGrey,
+            Colors.grey.shade400),
+        SliderTheme(Colors.grey.shade400, Colors.blueGrey));
+  }
 
-  // factory CustomTheme.pink() {
-  //   return CustomTheme(
-  //       bellInfoTheme,
-  //       homeScreenTheme,
-  //       reminderTextTheme,
-  //       sliderIntervalTheme,
-  //       switchButtonTheme,
-  //       threeCashedButtonTheme,
-  //       appTheme);
-  // }
+  /// ==============================================[GREEN THEME]=======================================
 
-  factory CustomTheme.purpledefault() {
+  factory CustomTheme.green() {
+    return CustomTheme(
+        BellInfoTheme(
+            const TextStyle(
+                color: Color.fromARGB(255, 255, 255, 255), fontSize: 36),
+            const TextStyle(
+                color: Color.fromARGB(255, 255, 255, 255), fontSize: 42)),
+        HomeScreenTheme(Colors.transparent),
+        ReminderTextTheme(
+          Colors.transparent,
+          const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color.fromARGB(197, 6, 190, 182),
+                Color.fromARGB(180, 15, 4, 11)
+              ]),
+        ),
+        SwitchButtonTheme(const Color.fromARGB(255, 80, 174, 183), 1),
+        ThreeCashedButtonTheme(
+          const LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              Color.fromARGB(219, 13, 124, 139),
+              Color.fromARGB(255, 10, 84, 145),
+            ],
+          ),
+        ),
+        AppTheme(
+            const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight, // #380036 > #0CBABA
+                colors: [
+                  Color.fromARGB(197, 6, 190, 182),
+                  Color.fromARGB(180, 15, 4, 11)
+                ]),
+            const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight, // #380036 > #0CBABA
+                colors: [
+                  Color.fromARGB(197, 13, 119, 114),
+                  Color.fromARGB(180, 1, 7, 5)
+                ]),
+            const Color.fromARGB(255, 76, 167, 175),
+            const Color.fromARGB(255, 44, 114, 113)),
+        SliderTheme(Colors.blue, Colors.teal.shade900));
+  }
+
+  /// ==============================================[BLUE THEME]=======================================
+
+  factory CustomTheme.blueDefault() {
     return CustomTheme(
         BellInfoTheme(
             const TextStyle(
@@ -193,42 +348,80 @@ class CustomTheme {
                   Color.fromARGB(91, 21, 14, 25)
                 ]),
             Colors.green,
-            Colors.deepPurple));
+            Colors.blue.shade600),
+        SliderTheme(Colors.indigo, Colors.indigo.shade800));
   }
 
-  // factory CustomTheme.red() {
-  //   return CustomTheme(
-  //       bellInfoTheme,
-  //       homeScreenTheme,
-  //       reminderTextTheme,
-  //       sliderIntervalTheme,
-  //       switchButtonTheme,
-  //       threeCashedButtonTheme,
-  //       appTheme);
-  // }
+  /// ==============================================[PURPLE THEME]=======================================
 
-  static CustomTheme selectTheme(
-      {ThemesEnum theme = ThemesEnum.purpleDefault}) {
-    switch (ThemesEnum) {
-      // case ThemesEnum.orange:
-      //   return CustomTheme.orange();
-      // case ThemesEnum.brown:
-      //   return CustomTheme.brown();
-      // case ThemesEnum.grey:
-      //   return CustomTheme.grey();
-      // case ThemesEnum.green:
-      //   return CustomTheme.green();
-      // case ThemesEnum.blue:
-      //   return CustomTheme.blue();
-      // case ThemesEnum.pink:
-      //   return CustomTheme.pink();
-      // case ThemesEnum.red:
-      //   return CustomTheme.red();
+  factory CustomTheme.purple() {
+    return CustomTheme(
+        BellInfoTheme(
+            const TextStyle(
+                color: Color.fromARGB(255, 255, 255, 255), fontSize: 36),
+            const TextStyle(
+                color: Color.fromARGB(255, 255, 255, 255), fontSize: 42)),
+        HomeScreenTheme(Colors.transparent),
+        ReminderTextTheme(
+          Colors.transparent,
+          const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color.fromARGB(198, 59, 41, 81),
+                Color.fromARGB(91, 0, 0, 0)
+              ]),
+        ),
+        SwitchButtonTheme(Colors.deepPurple, 1),
+        ThreeCashedButtonTheme(
+          const LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              Color.fromARGB(199, 97, 67, 133),
+              Color.fromARGB(91, 81, 99, 149)
+            ],
+          ),
+        ),
+        AppTheme(
+          const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight, // #380036 > #0CBABA
+              colors: [
+                Color.fromARGB(199, 97, 67, 133),
+                Color.fromARGB(91, 81, 99, 149)
+              ]),
+          const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight, // #380036 > #0CBABA
+              colors: [
+                Color.fromARGB(198, 59, 41, 81),
+                Color.fromARGB(91, 0, 0, 0)
+              ]),
+          Colors.deepPurple,
+          Colors.pink.shade900,
+        ),
+        SliderTheme(const Color.fromARGB(179, 99, 122, 184),
+            const Color.fromARGB(91, 81, 99, 149)));
+  }
+
+  static CustomTheme selectTheme({ThemesEnum theme = ThemesEnum.purple}) {
+    switch (theme) {
+      case ThemesEnum.orange:
+        return CustomTheme.orange();
+      case ThemesEnum.brown:
+        return CustomTheme.brown();
+      case ThemesEnum.grey:
+        return CustomTheme.grey();
+      case ThemesEnum.green:
+        return CustomTheme.green();
+      case ThemesEnum.purple:
+        return CustomTheme.purple();
 
       default:
-        return CustomTheme.purpledefault();
+        return CustomTheme.blueDefault();
     }
   }
 }
 
-enum ThemesEnum { orange, brown, grey, green, blue, pink, purpleDefault, red }
+enum ThemesEnum { orange, brown, grey, green, blueDefault, purple }

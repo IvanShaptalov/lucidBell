@@ -4,12 +4,12 @@ import 'package:intl/intl.dart';
 
 /// USE VIEW TO CREATE LAST IN ANDROID PLATFORM IN THIS CASE
 class View {
-  static ThemesEnum themesEnum = ThemesEnum.purpleDefault;
+  static ThemesEnum themeEnum = ThemesEnum.blueDefault;
   static CustomTheme currentTheme = CustomTheme.selectTheme();
 
-  static Future<void> initAsync() async{
+  static Future<void> initAsync() async {
     // TODO load theme from storage
-    currentTheme = CustomTheme.selectTheme(theme: themesEnum);
+    currentTheme = CustomTheme.selectTheme(theme: themeEnum);
   }
 
   static String formatLeftSeconds(int seconds) {
@@ -33,16 +33,17 @@ class View {
     return dateStringFormat;
   }
 
-  static String humanLikeDuration(Duration duration, {bool shortLabel= false}) {
+  static String humanLikeDuration(Duration duration,
+      {bool shortLabel = false}) {
     int totalHours = duration.inHours;
     int minutesLeft = duration.inMinutes - (totalHours * 60);
     String? strHours;
     String? strMinutes;
 
-    String hour = shortLabel? "h": "hour";
-    String hours = shortLabel? "h": "hours";
-    String minute = shortLabel? "min": "minute";
-    String minutes = shortLabel? "min": "minutes";
+    String hour = shortLabel ? "h" : "hour";
+    String hours = shortLabel ? "h" : "hours";
+    String minute = shortLabel ? "min" : "minute";
+    String minutes = shortLabel ? "min" : "minutes";
     switch (totalHours) {
       case 0:
         strHours = null;
@@ -76,5 +77,4 @@ class View {
 
     return "$strHours $strMinutes";
   }
-
 }
