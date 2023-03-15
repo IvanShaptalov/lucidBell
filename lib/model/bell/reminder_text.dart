@@ -19,7 +19,7 @@ class ReminderText {
     'regular eye training  👓',
   ];
 
-  List defaultInnerHistoryOfReminderTexts = [
+  static List defaultInnerHistoryOfReminderTexts = [
     'Meditation 🧘',
     'Eat healty 🥦',
     'Mewing 😝',

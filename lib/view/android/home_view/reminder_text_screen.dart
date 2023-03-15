@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucid_bell/model/bell/reminder_text.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
@@ -48,7 +49,8 @@ class _ReminderWidgetState extends State<ReminderWidget> {
             return AlertDialog(
               insetPadding: EdgeInsets.only(
                   top: SizeConfig.getMediaHeight(context) * 0.4),
-              backgroundColor: View.currentTheme.reminderTextTheme.transparentDialog,
+              backgroundColor:
+                  View.currentTheme.reminderTextTheme.transparentDialog,
               content: _setupHistoryDialoadContainer(setState),
               actions: <Widget>[
                 Center(
@@ -72,7 +74,8 @@ class _ReminderWidgetState extends State<ReminderWidget> {
 
     return Container(
       decoration: BoxDecoration(
-          gradient: View.currentTheme.reminderTextTheme.dialogBackgroundGradient),
+          gradient:
+              View.currentTheme.reminderTextTheme.dialogBackgroundGradient),
       width: SizeConfig.getMediaWidth(context) * 0.6, // 70%
       child: ListView.builder(
         shrinkWrap: true,
@@ -88,16 +91,24 @@ class _ReminderWidgetState extends State<ReminderWidget> {
                   fontSize: 16,
                   fontWeight: FontWeight.bold),
             ),
-            leading: IconButton(
-              icon: const Icon(Icons.close),
-              onPressed: () async {
-                setStateCallback(() {
-                  PresenterTextReminder.reminderText!.getHistoryOfReminderTexts
-                      .remove(items[index]);
-                  items.removeAt(index);
-                });
-                await PresenterTextReminder.reminderText!.saveToStorageAsync();
-              },
+            leading: SizedBox(
+              width: SizeConfig.getMediaWidth(context) * 0.1,
+              child: ReminderText.defaultInnerHistoryOfReminderTexts
+                      .contains(items[index])
+                  ? const Icon(Icons.all_inclusive_sharp)
+                  : IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () async {
+                        setStateCallback(() {
+                          PresenterTextReminder
+                              .reminderText!.getHistoryOfReminderTexts
+                              .remove(items[index]);
+                          items.removeAt(index);
+                        });
+                        await PresenterTextReminder.reminderText!
+                            .saveToStorageAsync();
+                      },
+                    ),
             ),
             onTap: () async {
               await textSubmitted(items[index]);
