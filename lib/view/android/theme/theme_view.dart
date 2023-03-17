@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/android/monetization/ad_helper.dart';
-import 'package:flutter_lucid_bell/presenter/android/monetization/rewarded_ad.dart';
 import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -66,7 +65,7 @@ class _CustomThemesState extends State<CustomThemes> {
   }
 
   Future<bool>? waitResult() async {
-    for (var i = 0; i < CustomRewardedAd.loadTimeout.inSeconds; i++) {
+    for (var i = 0; i < AdHelper.loadTimeout.inSeconds; i++) {
       await Future.delayed(const Duration(seconds: 1));
       if (kDebugMode) {
         print("rewarded ad: $_rewardedAd");
@@ -227,7 +226,7 @@ class _CustomThemesState extends State<CustomThemes> {
               fillColor: MaterialStateColor.resolveWith(
                   (states) => const Color.fromARGB(255, 240, 255, 114)),
               onChanged: (value) {
-                if (CustomRewardedAd.showAds) {
+                if (AdHelper.showAds) {
                   changeThemeRewardedAd(context, setTheme, Themes.orange);
                 } else {
                   setTheme(Themes.orange);
@@ -241,7 +240,7 @@ class _CustomThemesState extends State<CustomThemes> {
               fillColor: MaterialStateColor.resolveWith(
                   (states) => const Color.fromARGB(255, 202, 168, 47)),
               onChanged: (value) {
-                if (CustomRewardedAd.showAds) {
+                if (AdHelper.showAds) {
                   changeThemeRewardedAd(context, setTheme, Themes.brown);
                 } else {
                   setTheme(Themes.brown);
@@ -255,7 +254,7 @@ class _CustomThemesState extends State<CustomThemes> {
               fillColor:
                   MaterialStateColor.resolveWith((states) => Colors.grey),
               onChanged: (value) {
-                if (CustomRewardedAd.showAds) {
+                if (AdHelper.showAds) {
                   changeThemeRewardedAd(context, setTheme, Themes.grey);
                 } else {
                   setTheme(Themes.grey);
@@ -269,7 +268,7 @@ class _CustomThemesState extends State<CustomThemes> {
               fillColor: MaterialStateColor.resolveWith(
                   (states) => Colors.teal.shade400),
               onChanged: (value) {
-                if (CustomRewardedAd.showAds) {
+                if (AdHelper.showAds) {
                   changeThemeRewardedAd(context, setTheme, Themes.green);
                 } else {
                   setTheme(Themes.green);
@@ -283,7 +282,7 @@ class _CustomThemesState extends State<CustomThemes> {
                   MaterialStateColor.resolveWith((states) => Colors.blue),
               activeColor: Colors.blue,
               onChanged: (value) {
-                if (CustomRewardedAd.showAds) {
+                if (AdHelper.showAds) {
                   changeThemeRewardedAd(context, setTheme, Themes.blueDefault);
                 } else {
                   setTheme(Themes.blueDefault);
@@ -297,7 +296,7 @@ class _CustomThemesState extends State<CustomThemes> {
                   MaterialStateColor.resolveWith((states) => Colors.deepPurple),
               activeColor: Colors.deepPurple,
               onChanged: (value) {
-                if (CustomRewardedAd.showAds) {
+                if (AdHelper.showAds) {
                   changeThemeRewardedAd(context, setTheme, Themes.purple);
                 } else {
                   setTheme(Themes.purple);

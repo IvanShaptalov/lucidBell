@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:flutter_lucid_bell/presenter/android/monetization/ad_helper.dart';
 
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/bell_info.dart';
@@ -38,7 +39,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Center(
                     child: Column(
                       children: [
-                        const TimeNow(),
+                        AdHelper.showAds
+                            ? const SizedBox.shrink()
+                            : const TimeNow(),
                         AnimatedOpacity(
                           // If the widget is visible, animate to 0.0 (invisible).
                           // If the widget is hidden, animate to 1.0 (fully visible).

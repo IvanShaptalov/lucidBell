@@ -1,11 +1,15 @@
 import 'dart:io';
 
-import 'package:flutter_lucid_bell/presenter/android/config_android_presenter.dart';
+import 'package:flutter_lucid_bell/presenter/android/presenter_config.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class AdHelper {
   static InitializationStatus? status;
-  static bool showAds = ConfigAd.showAds;
+  static Duration loadTimeout = const Duration(seconds: 20);
+
+  static bool get showAds {
+    return ConfigAd.showAds;
+  }
 
   static String get bannerAdUnitId {
     if (Platform.isAndroid) {

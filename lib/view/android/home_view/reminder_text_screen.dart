@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/model/bell/reminder_text.dart';
 import 'package:flutter_lucid_bell/presenter/android/monetization/ad_helper.dart';
-import 'package:flutter_lucid_bell/presenter/android/monetization/rewarded_ad.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
@@ -79,7 +78,7 @@ class _ReminderWidgetState extends State<ReminderWidget> {
   }
 
   Future<bool>? waitResult() async {
-    for (var i = 0; i < CustomRewardedAd.loadTimeout.inSeconds; i++) {
+    for (var i = 0; i < AdHelper.loadTimeout.inSeconds; i++) {
       await Future.delayed(const Duration(seconds: 1));
       if (kDebugMode) {
         print("rewarded ad: $_rewardedAd");
@@ -128,23 +127,27 @@ class _ReminderWidgetState extends State<ReminderWidget> {
                         if (snapshot.hasData) {
                           children = snapshot.data == true
                               ? <Widget>[
-                                  IconButton(
-                                    icon: const Icon(Icons.play_arrow,
-                                        color: Colors.green),
-                                    onPressed: () {
-                                      {
-                                        Navigator.pop(context);
-                                        _rewardedAd?.show(
-                                          onUserEarnedReward: (_, reward) {
-                                            if (arg == null) {
-                                              targetFunction();
-                                            } else {
-                                              targetFunction(arg);
-                                            }
-                                          },
-                                        );
-                                      }
-                                    },
+                                  Transform.scale(
+                                    scale: 2,
+                                    child: IconButton(
+                                      icon: Icon(Icons.play_arrow,
+                                          color: View.currentTheme.appTheme
+                                              .activeBottomNavigationBarColor),
+                                      onPressed: () {
+                                        {
+                                          Navigator.pop(context);
+                                          _rewardedAd?.show(
+                                            onUserEarnedReward: (_, reward) {
+                                              if (arg == null) {
+                                                targetFunction();
+                                              } else {
+                                                targetFunction(arg);
+                                              }
+                                            },
+                                          );
+                                        }
+                                      },
+                                    ),
                                   ),
                                   const Padding(
                                     padding: EdgeInsets.only(top: 16),
@@ -176,8 +179,10 @@ class _ReminderWidgetState extends State<ReminderWidget> {
                           children = <Widget>[
                             SizedBox(
                               child: CircularProgressIndicator(
-                                backgroundColor: View.currentTheme.sliderTheme.inactiveSliderColor,
-                                color: View.currentTheme.sliderTheme.activeSliderColor,
+                                backgroundColor: View.currentTheme.sliderTheme
+                                    .inactiveSliderColor,
+                                color: View
+                                    .currentTheme.sliderTheme.activeSliderColor,
                               ),
                             ),
                             const Padding(
@@ -333,7 +338,7 @@ class _ReminderWidgetState extends State<ReminderWidget> {
             children: [
               IconButton(
                   onPressed: () {
-                    if (CustomRewardedAd.showAds &&
+                    if (AdHelper.showAds &&
                         ReminderTextScreen.isEditing == false) {
                       showEditingRewardedAd(context, updateEditing);
                     } else {

@@ -103,7 +103,7 @@ class _MyAppState extends State<MyApp> {
 
                       /// ===================[Home SCREEN & PERSMISSION PAGE]===================================================
 
-                      body: Stack(children: [
+                      body: Stack(alignment: Alignment.bottomCenter, children: [
                         if (CustomBannerAd.adCondition(widget.bannerAd))
                           CustomBannerAd.showBanner(widget.bannerAd!),
                         pages.elementAt(currentPage)
