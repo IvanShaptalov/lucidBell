@@ -9,12 +9,12 @@ class CustomRewardedAd {
     if (kDebugMode) {
       print('add condition: ${rewardedAd != null}');
     }
-    return rewardedAd != null && ConfigAd.showAds;
+    return ConfigAd.showAds;
   }
 
   static void showRewardedAd(context, RewardedAd? rewardedAd, String header,
       String description, Function targetFunction,
-      {arg = null}) {
+      {arg}) {
     showDialog(
         context: context,
         builder: (context) {
@@ -28,20 +28,23 @@ class CustomRewardedAd {
                     Navigator.pop(context);
                   },
                 ),
-                TextButton(
-                    child: Text('ok'.toUpperCase()),
-                    onPressed: () {
-                      Navigator.pop(context);
-                      rewardedAd?.show(
-                        onUserEarnedReward: (_, reward) {
-                          if (arg == null) {
-                            targetFunction();
-                          } else {
-                            targetFunction(arg);
-                          }
-                        },
-                      );
-                    })
+                rewardedAd == null
+                    ? const Text('ad loading')
+                    : TextButton(
+                        child: Text('watch ad'.toUpperCase()),
+                        onPressed: () {
+                          Navigator.pop(context);
+
+                          rewardedAd.show(
+                            onUserEarnedReward: (_, reward) {
+                              if (arg == null) {
+                                targetFunction();
+                              } else {
+                                targetFunction(arg);
+                              }
+                            },
+                          );
+                        })
               ]);
         });
   }

@@ -1,7 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/model/bell/reminder_text.dart';
 import 'package:flutter_lucid_bell/presenter/android/monetization/ad_helper.dart';
-import 'package:flutter_lucid_bell/presenter/android/monetization/revarded_ad.dart';
+import 'package:flutter_lucid_bell/presenter/android/monetization/rewarded_ad.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
@@ -69,7 +70,9 @@ class _ReminderWidgetState extends State<ReminderWidget> {
           });
         },
         onAdFailedToLoad: (err) {
-          print('Failed to load a rewarded ad: ${err.message}');
+          if (kDebugMode) {
+            print('Failed to load a rewarded ad: ${err.message}');
+          }
         },
       ),
     );
@@ -171,7 +174,9 @@ class _ReminderWidgetState extends State<ReminderWidget> {
   }
 
   void updateEditing() {
-    print('======================UPDATE EDITING');
+    if (kDebugMode) {
+      print('======================UPDATE EDITING');
+    }
     setState(() {
       ReminderTextScreen.isEditing = !ReminderTextScreen.isEditing;
     });
@@ -202,7 +207,9 @@ class _ReminderWidgetState extends State<ReminderWidget> {
                   },
                   icon: Transform.scale(
                     scale: 0.7,
-                    child: const Icon(Icons.edit),
+                    child: ReminderTextScreen.isEditing
+                        ? const Icon(Icons.arrow_back)
+                        : const Icon(Icons.edit),
                   )),
               AnimatedCrossFade(
                 firstChild: IconButton(

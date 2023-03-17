@@ -37,7 +37,9 @@ class _MyAppState extends State<MyApp> {
       listener: BannerAdListener(
         onAdLoaded: (ad) {
           widget.bannerAd = ad as BannerAd;
-          print(" widget on load${widget.bannerAd}");
+          if (kDebugMode) {
+            print(" widget on load${widget.bannerAd}");
+          }
 
           updateCallback();
         },
@@ -49,7 +51,9 @@ class _MyAppState extends State<MyApp> {
         },
       ),
     ).load();
-    print(" widget after load${widget.bannerAd}");
+    if (kDebugMode) {
+      print(" widget after load${widget.bannerAd}");
+    }
     super.initState();
   }
 

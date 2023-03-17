@@ -1,6 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/android/monetization/ad_helper.dart';
-import 'package:flutter_lucid_bell/presenter/android/monetization/revarded_ad.dart';
+import 'package:flutter_lucid_bell/presenter/android/monetization/rewarded_ad.dart';
 import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -54,7 +55,9 @@ class _CustomThemesState extends State<CustomThemes> {
           });
         },
         onAdFailedToLoad: (err) {
-          print('Failed to load a rewarded ad: ${err.message}');
+          if (kDebugMode) {
+            print('Failed to load a rewarded ad: ${err.message}');
+          }
         },
       ),
     );
