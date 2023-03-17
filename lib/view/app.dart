@@ -1,8 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_lucid_bell/presenter/android/monetization/ad_helper.dart';
-import 'package:flutter_lucid_bell/presenter/android/monetization/banner_ad.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/home_screen.dart';
 import 'package:flutter_lucid_bell/view/android/permission_page/permission_page.dart';
@@ -26,42 +23,6 @@ class _MyAppState extends State<MyApp> {
 
   void updateCallback() {
     setState(() {});
-  }
-
-  @override
-  void initState() {
-    BannerAd(
-      adUnitId: AdHelper.bannerAdUnitId,
-      request: const AdRequest(),
-      size: AdSize.banner,
-      listener: BannerAdListener(
-        onAdLoaded: (ad) {
-          widget.bannerAd = ad as BannerAd;
-          if (kDebugMode) {
-            print(" widget on load${widget.bannerAd}");
-          }
-
-          updateCallback();
-        },
-        onAdFailedToLoad: (ad, err) {
-          if (kDebugMode) {
-            print('Failed to load a banner ad: ${err.message}');
-          }
-          ad.dispose();
-        },
-      ),
-    ).load();
-    if (kDebugMode) {
-      print(" widget after load${widget.bannerAd}");
-    }
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    widget.bannerAd?.dispose();
-
-    super.dispose();
   }
 
   // This widget is the root of your application.
@@ -104,8 +65,6 @@ class _MyAppState extends State<MyApp> {
                       /// ===================[Home SCREEN & PERSMISSION PAGE]===================================================
 
                       body: Stack(alignment: Alignment.bottomCenter, children: [
-                        if (CustomBannerAd.adCondition(widget.bannerAd))
-                          CustomBannerAd.showBanner(widget.bannerAd!),
                         pages.elementAt(currentPage)
                       ]),
                       bottomNavigationBar: BottomNavigationBar(

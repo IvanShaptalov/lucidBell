@@ -39,9 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Center(
                     child: Column(
                       children: [
-                        AdHelper.showAds
-                            ? const SizedBox.shrink()
-                            : const TimeNow(),
+                        const TimeNow(),
                         AnimatedOpacity(
                           // If the widget is visible, animate to 0.0 (invisible).
                           // If the widget is hidden, animate to 1.0 (fully visible).
