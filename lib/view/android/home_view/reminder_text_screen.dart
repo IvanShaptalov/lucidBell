@@ -78,6 +78,122 @@ class _ReminderWidgetState extends State<ReminderWidget> {
     );
   }
 
+  Future<bool>? waitResult() async {
+    for (var i = 0; i < CustomRewardedAd.loadTimeout.inSeconds; i++) {
+      await Future.delayed(Duration(seconds: 1));
+      print("rewarded ad: $_rewardedAd");
+      if (_rewardedAd != null) {
+        return true;
+      }
+    }
+    print("timeout");
+    return false;
+  }
+
+  void showRewardedAd(
+      context, String header, String description, Function targetFunction,
+      {arg}) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          Future<bool>? waitBool = waitResult();
+          return AlertDialog(
+              title: Text(header),
+              content: Text(description),
+              actions: [
+                Column(
+                  children: [
+                    FutureBuilder<bool>(
+                        future:
+                            waitBool, // a previously-obtained Future<String> or null
+                        builder: (BuildContext context,
+                            AsyncSnapshot<bool> snapshot) {
+                          List<Widget> children;
+                          if (snapshot.hasData) {
+                            children = snapshot.data == true
+                                ? <Widget>[
+                                    IconButton(
+                                      icon: const Icon(Icons.play_arrow,
+                                          color: Colors.green),
+                                      onPressed: () {
+                                        {
+                                          Navigator.pop(context);
+                                          _rewardedAd?.show(
+                                            onUserEarnedReward: (_, reward) {
+                                              if (arg == null) {
+                                                targetFunction();
+                                              } else {
+                                                targetFunction(arg);
+                                              }
+                                            },
+                                          );
+                                        }
+                                      },
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsets.only(top: 16),
+                                      child: Text('Watch ad'),
+                                    ),
+                                  ]
+                                : <Widget>[
+                                    const Icon(
+                                      Icons.error,
+                                      color: Color.fromARGB(255, 225, 167, 95),
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsets.only(top: 16),
+                                      child: Text('Ad not loaded'),
+                                    ),
+                                  ];
+                          } else if (snapshot.hasError) {
+                            children = <Widget>[
+                              const Icon(
+                                Icons.error,
+                                color: Color.fromARGB(255, 244, 158, 54),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.only(top: 16),
+                                child: Text('Ad not loaded'),
+                              ),
+                            ];
+                          } else {
+                            children = const <Widget>[
+                              SizedBox(
+                                child: CircularProgressIndicator(),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: 16),
+                                child: Text('Ad loading ...'),
+                              ),
+                            ];
+                          }
+
+                          return Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: children,
+                            ),
+                          );
+                        }),
+                    TextButton(
+                      child: Text('cancel'.toUpperCase()),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                )
+              ]);
+        });
+  }
+
+  void showEditingRewardedAd(context, Function targetFunction) {
+    showRewardedAd(
+        context, 'Edit text', 'watch ad to edit reminder text', targetFunction);
+  }
+
+  /// =================================================[END REWARDED AD BLOCK]=========================
+
   Future<void> _showSimpleHistoryDialog() async {
     await showDialog(
       context: context,
@@ -197,10 +313,9 @@ class _ReminderWidgetState extends State<ReminderWidget> {
             children: [
               IconButton(
                   onPressed: () {
-                    if (CustomRewardedAd.adCondition(_rewardedAd) &&
+                    if (CustomRewardedAd.showAds &&
                         ReminderTextScreen.isEditing == false) {
-                      CustomRewardedAd.showEditingRewardedAd(
-                          context, _rewardedAd, updateEditing);
+                      showEditingRewardedAd(context, updateEditing);
                     } else {
                       updateEditing();
                     }

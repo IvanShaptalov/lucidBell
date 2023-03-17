@@ -88,7 +88,7 @@ class Presenter {
   static Future<bool> initAsync() async {
     bool bellPresenter = await BellPresenter.initAsync();
     bool textReminder = await PresenterTextReminder.initAsync();
-    await AdHelper.initAsync();
+    AdHelper.initAsync();
     return bellPresenter && textReminder;
   }
 }
