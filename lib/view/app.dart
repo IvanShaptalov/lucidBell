@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_lucid_bell/presenter/monetization/ad_helper.dart';
+import 'package:flutter_lucid_bell/presenter/monetization/banner_ad.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/home_screen.dart';
 import 'package:flutter_lucid_bell/view/android/permission_page/permission_page.dart';
@@ -13,7 +14,7 @@ import 'package:upgrader/upgrader.dart';
 
 // ignore: must_be_immutable
 class MyApp extends StatefulWidget {
-  BannerAd? _bannerAd;
+  BannerAd? bannerAd;
 
   MyApp({super.key});
   @override
@@ -27,24 +28,6 @@ class _MyAppState extends State<MyApp> {
     setState(() {});
   }
 
-  bool adCondition() {
-    if (kDebugMode) {
-      print('add condition: ${widget._bannerAd != null}');
-    }
-    return widget._bannerAd != null;
-  }
-
-  Widget showBanner() {
-    return Align(
-      alignment: Alignment.topCenter,
-      child: SizedBox(
-        width: widget._bannerAd!.size.width.toDouble(),
-        height: widget._bannerAd!.size.height.toDouble(),
-        child: AdWidget(ad: widget._bannerAd!),
-      ),
-    );
-  }
-
   @override
   void initState() {
     BannerAd(
@@ -53,9 +36,10 @@ class _MyAppState extends State<MyApp> {
       size: AdSize.banner,
       listener: BannerAdListener(
         onAdLoaded: (ad) {
-          setState(() {
-            widget._bannerAd = ad as BannerAd;
-          });
+          widget.bannerAd = ad as BannerAd;
+          print(" widget on load${widget.bannerAd}");
+
+          updateCallback();
         },
         onAdFailedToLoad: (ad, err) {
           if (kDebugMode) {
@@ -65,12 +49,13 @@ class _MyAppState extends State<MyApp> {
         },
       ),
     ).load();
+    print(" widget after load${widget.bannerAd}");
     super.initState();
   }
 
   @override
   void dispose() {
-    widget._bannerAd?.dispose();
+    widget.bannerAd?.dispose();
 
     super.dispose();
   }
@@ -112,10 +97,11 @@ class _MyAppState extends State<MyApp> {
                       resizeToAvoidBottomInset: false,
                       backgroundColor: Colors.transparent,
 
-                      /// [Home SCREEN & PERSMISSION PAGE]===================================================
+                      /// ===================[Home SCREEN & PERSMISSION PAGE]===================================================
 
                       body: Stack(children: [
-                        if (adCondition()) showBanner(),
+                        if (CustomBannerAd.adCondition(widget.bannerAd))
+                          CustomBannerAd.showBanner(widget.bannerAd!),
                         pages.elementAt(currentPage)
                       ]),
                       bottomNavigationBar: BottomNavigationBar(
