@@ -102,9 +102,9 @@ class CustomTheme with ThemeIO{
   ThreeCashedButtonTheme threeCashedButtonTheme;
   AppTheme appTheme;
   SliderTheme sliderTheme;
-  ThemesEnum _themeName;
+  Themes _themeName;
 
-  ThemesEnum get themeEnum => _themeName;
+  Themes get themeEnum => _themeName;
 
   CustomTheme(
       this.bellInfoTheme,
@@ -165,7 +165,7 @@ class CustomTheme with ThemeIO{
             const Color.fromARGB(255, 202, 103, 47)),
         SliderTheme(const Color.fromARGB(255, 205, 216, 97),
             const Color.fromARGB(255, 132, 140, 62)),
-            ThemesEnum.orange);
+            Themes.orange);
   }
 
   /// ==============================================[BROWN THEME]=======================================
@@ -218,7 +218,7 @@ class CustomTheme with ThemeIO{
             const Color.fromARGB(255, 100, 51, 23)),
         SliderTheme(const Color.fromARGB(255, 102, 52, 24),
             const Color.fromARGB(255, 59, 31, 14)),
-            ThemesEnum.brown);
+            Themes.brown);
   }
 
   /// ==============================================[GREY THEME]=======================================
@@ -270,7 +270,7 @@ class CustomTheme with ThemeIO{
             Colors.blueGrey,
             Colors.grey.shade400),
         SliderTheme(Colors.grey.shade400, Colors.blueGrey),
-        ThemesEnum.grey);
+        Themes.grey);
   }
 
   /// ==============================================[GREEN THEME]=======================================
@@ -322,7 +322,7 @@ class CustomTheme with ThemeIO{
             const Color.fromARGB(255, 76, 167, 175),
             const Color.fromARGB(255, 44, 114, 113)),
         SliderTheme(Colors.blue, Colors.teal.shade900),
-        ThemesEnum.green);
+        Themes.green);
   }
 
   /// ==============================================[BLUE THEME]=======================================
@@ -374,7 +374,7 @@ class CustomTheme with ThemeIO{
             Colors.green,
             Colors.blue.shade600),
         SliderTheme(Colors.indigo, Colors.indigo.shade800),
-        ThemesEnum.blueDefault);
+        Themes.blueDefault);
   }
 
   /// ==============================================[PURPLE THEME]=======================================
@@ -428,20 +428,20 @@ class CustomTheme with ThemeIO{
         ),
         SliderTheme(const Color.fromARGB(179, 99, 122, 184),
             const Color.fromARGB(91, 81, 99, 149)),
-            ThemesEnum.purple);
+            Themes.purple);
   }
 
-  static CustomTheme selectTheme({ThemesEnum theme = ThemesEnum.purple}) {
+  static CustomTheme selectTheme({Themes theme = Themes.purple}) {
     switch (theme) {
-      case ThemesEnum.orange:
+      case Themes.orange:
         return CustomTheme.orange();
-      case ThemesEnum.brown:
+      case Themes.brown:
         return CustomTheme.brown();
-      case ThemesEnum.grey:
+      case Themes.grey:
         return CustomTheme.grey();
-      case ThemesEnum.green:
+      case Themes.green:
         return CustomTheme.green();
-      case ThemesEnum.purple:
+      case Themes.purple:
         return CustomTheme.purple();
 
       default:
@@ -450,4 +450,4 @@ class CustomTheme with ThemeIO{
   }
 }
 
-enum ThemesEnum { orange, brown, grey, green, blueDefault, purple}
+enum Themes { orange, brown, grey, green, blueDefault, purple}

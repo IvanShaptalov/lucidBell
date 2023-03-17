@@ -212,12 +212,12 @@ void main() {
 
       test('theme loaded from storage', () async {
         await View.initAsync();
-        View.currentTheme = CustomTheme.selectTheme(theme: ThemesEnum.green);
+        View.currentTheme = CustomTheme.selectTheme(theme: Themes.green);
         await View.currentTheme.saveToStorageAsync(View.currentTheme.themeEnum);
-        View.currentTheme = CustomTheme.selectTheme(theme: ThemesEnum.grey);
+        View.currentTheme = CustomTheme.selectTheme(theme: Themes.grey);
         await View.initAsync();
 
-        expect(View.currentTheme.themeEnum, ThemesEnum.green);
+        expect(View.currentTheme.themeEnum, Themes.green);
       });
 
       test('set default theme', () async {

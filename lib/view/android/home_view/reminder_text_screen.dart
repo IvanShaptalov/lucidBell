@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/model/bell/reminder_text.dart';
+import 'package:flutter_lucid_bell/presenter/android/monetization/ad_helper.dart';
+import 'package:flutter_lucid_bell/presenter/android/monetization/revarded_ad.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 // ignore: must_be_immutable
 class ReminderTextScreen extends StatefulWidget {
@@ -34,13 +37,45 @@ class ReminderWidget extends StatefulWidget {
 }
 
 class _ReminderWidgetState extends State<ReminderWidget> {
+  /// ===========================================[REWARDED AD]=============================================
+  RewardedAd? _rewardedAd;
+
   @override
   void initState() {
+    _loadRewardedAd();
+
     super.initState();
     widget._textController.text = ReminderWidget.tmpValue;
   }
 
-  Future<void> _showSimpleDialog() async {
+  void _loadRewardedAd() {
+    RewardedAd.load(
+      adUnitId: AdHelper.rewardedAdUnitId,
+      request: const AdRequest(),
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+        onAdLoaded: (ad) {
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) {
+              setState(() {
+                ad.dispose();
+                _rewardedAd = null;
+              });
+              _loadRewardedAd();
+            },
+          );
+
+          setState(() {
+            _rewardedAd = ad;
+          });
+        },
+        onAdFailedToLoad: (err) {
+          print('Failed to load a rewarded ad: ${err.message}');
+        },
+      ),
+    );
+  }
+
+  Future<void> _showSimpleHistoryDialog() async {
     await showDialog(
       context: context,
       builder: (context) {
@@ -135,6 +170,13 @@ class _ReminderWidgetState extends State<ReminderWidget> {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
+  void updateEditing() {
+    print('======================UPDATE EDITING');
+    setState(() {
+      ReminderTextScreen.isEditing = !ReminderTextScreen.isEditing;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     widget._textController.text = ReminderWidget.tmpValue;
@@ -150,10 +192,13 @@ class _ReminderWidgetState extends State<ReminderWidget> {
             children: [
               IconButton(
                   onPressed: () {
-                    setState(() {
-                      ReminderTextScreen.isEditing =
-                          !ReminderTextScreen.isEditing;
-                    });
+                    if (CustomRewardedAd.adCondition(_rewardedAd) &&
+                        ReminderTextScreen.isEditing == false) {
+                      CustomRewardedAd.showEditingRewardedAd(
+                          context, _rewardedAd, updateEditing);
+                    } else {
+                      updateEditing();
+                    }
                   },
                   icon: Transform.scale(
                     scale: 0.7,
@@ -161,7 +206,7 @@ class _ReminderWidgetState extends State<ReminderWidget> {
                   )),
               AnimatedCrossFade(
                 firstChild: IconButton(
-                    onPressed: _showSimpleDialog,
+                    onPressed: _showSimpleHistoryDialog,
                     icon: Transform.scale(
                       scale: 0.7,
                       child: const Icon(Icons.history),

@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_lucid_bell/presenter/monetization/ad_helper.dart';
-import 'package:flutter_lucid_bell/presenter/monetization/banner_ad.dart';
+import 'package:flutter_lucid_bell/presenter/android/monetization/ad_helper.dart';
+import 'package:flutter_lucid_bell/presenter/android/monetization/banner_ad.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/home_screen.dart';
 import 'package:flutter_lucid_bell/view/android/permission_page/permission_page.dart';

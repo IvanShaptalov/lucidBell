@@ -2,7 +2,7 @@ import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provi
 import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
 
 mixin ThemeIO{
-  Future<bool> saveToStorageAsync(ThemesEnum themeName) async {
+  Future<bool> saveToStorageAsync(Themes themeName) async {
     await LocalManager.initAsync();
 
     bool result = await LocalManager.writeToFile(
@@ -20,7 +20,7 @@ mixin ThemeIO{
     // load from file
     if (customTheme != null) {
       try {
-        ThemesEnum convertedEnum = ThemesEnum.values.byName(customTheme);
+        Themes convertedEnum = Themes.values.byName(customTheme);
         
         
         return CustomTheme.selectTheme(theme: convertedEnum);

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_lucid_bell/presenter/monetization/ad_helper.dart';
+import 'package:flutter_lucid_bell/presenter/android/monetization/ad_helper.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class CustomBannerAd {
@@ -8,7 +8,7 @@ class CustomBannerAd {
     if (kDebugMode) {
       print('add condition: ${bannerInstance != null}');
     }
-    return bannerInstance != null;
+    return bannerInstance != null && AdHelper.showAds;
   }
 
   static Widget showBanner(BannerAd bannerInstance) {
@@ -21,5 +21,4 @@ class CustomBannerAd {
       ),
     );
   }
-
 }

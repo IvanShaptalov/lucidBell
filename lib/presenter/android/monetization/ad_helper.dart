@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:flutter_lucid_bell/presenter/android/config_android_presenter.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class AdHelper {
   static InitializationStatus? status;
+  static bool showAds = ConfigAd.showAds;
 
   static String get bannerAdUnitId {
     if (Platform.isAndroid) {
@@ -35,7 +37,7 @@ class AdHelper {
     }
   }
 
-  static Future<InitializationStatus> initAsync() async{
+  static Future<InitializationStatus> initAsync() async {
     status = await MobileAds.instance.initialize();
     return await MobileAds.instance.initialize();
   }
