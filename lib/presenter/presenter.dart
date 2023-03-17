@@ -5,6 +5,8 @@ import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provi
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_reminder_text.dart';
 import 'package:flutter_lucid_bell/presenter/android/permission_service/permission_service.dart';
+import 'package:flutter_lucid_bell/presenter/monetization/ad_helper.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 /// USE PRESENTER TO IMPLEMENT SOME MODEL LOGIC AND CONNECT IT TO VIEW AND CURRENT PLATFORM
 // import 'package:flutter_lucid_bell/presenter/android/init_services.dart';
@@ -87,6 +89,7 @@ class Presenter {
   static Future<bool> initAsync() async {
     bool bellPresenter = await BellPresenter.initAsync();
     bool textReminder = await PresenterTextReminder.initAsync();
+    await AdHelper.initAsync();
     return bellPresenter && textReminder;
   }
 }

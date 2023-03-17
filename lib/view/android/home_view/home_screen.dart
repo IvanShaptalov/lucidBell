@@ -1,6 +1,8 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_lucid_bell/presenter/monetization/ad_helper.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/bell_info.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/reminder_text_screen.dart';
@@ -10,6 +12,7 @@ import 'package:flutter_lucid_bell/view/android/home_view/three_cashed_buttons.d
 import 'package:flutter_lucid_bell/view/android/home_view/time_now.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class HomeScreen extends StatefulWidget {
   Function updateCallback;
@@ -19,6 +22,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,6 +115,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  
 
   void callback() {
     setState(() {});

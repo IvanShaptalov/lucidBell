@@ -67,5 +67,5 @@ Future<void> main() async {
       );
   AndroidBellBackgroundManager.initialized = true;
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }

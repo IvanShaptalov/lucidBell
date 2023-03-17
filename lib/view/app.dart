@@ -1,16 +1,21 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_lucid_bell/presenter/monetization/ad_helper.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/home_screen.dart';
 import 'package:flutter_lucid_bell/view/android/permission_page/permission_page.dart';
 import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
 import 'package:flutter_lucid_bell/view/android/welcome_screen/welcome_screen.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:upgrader/upgrader.dart';
 
 // ignore: must_be_immutable
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  BannerAd? _bannerAd;
+
+  MyApp({super.key});
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -20,6 +25,54 @@ class _MyAppState extends State<MyApp> {
 
   void updateCallback() {
     setState(() {});
+  }
+
+  bool adCondition() {
+    if (kDebugMode) {
+      print('add condition: ${widget._bannerAd != null}');
+    }
+    return widget._bannerAd != null;
+  }
+
+  Widget showBanner() {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: SizedBox(
+        width: widget._bannerAd!.size.width.toDouble(),
+        height: widget._bannerAd!.size.height.toDouble(),
+        child: AdWidget(ad: widget._bannerAd!),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            widget._bannerAd = ad as BannerAd;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          if (kDebugMode) {
+            print('Failed to load a banner ad: ${err.message}');
+          }
+          ad.dispose();
+        },
+      ),
+    ).load();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    widget._bannerAd?.dispose();
+
+    super.dispose();
   }
 
   // This widget is the root of your application.
@@ -58,7 +111,13 @@ class _MyAppState extends State<MyApp> {
                     child: Scaffold(
                       resizeToAvoidBottomInset: false,
                       backgroundColor: Colors.transparent,
-                      body: pages.elementAt(currentPage),
+
+                      /// [Home SCREEN & PERSMISSION PAGE]===================================================
+
+                      body: Stack(children: [
+                        if (adCondition()) showBanner(),
+                        pages.elementAt(currentPage)
+                      ]),
                       bottomNavigationBar: BottomNavigationBar(
                           backgroundColor: Colors.transparent,
                           items: const [

@@ -110,8 +110,9 @@ class _ReminderWidgetState extends State<ReminderWidget> {
                       },
                     ),
             ),
-            onTap: () async {
-              await textSubmitted(items[index]);
+            onTap: () {
+              // todo Changed
+              textSubmitted(items[index]);
               Navigator.of(context).pop();
               setStateCallback(() {});
             },
