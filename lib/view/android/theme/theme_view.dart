@@ -4,6 +4,7 @@ import 'package:flutter_lucid_bell/presenter/android/monetization/ad_helper.dart
 import 'package:flutter_lucid_bell/presenter/android/monetization/rewarded_ad.dart';
 import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 // ignore: must_be_immutable
@@ -66,41 +67,60 @@ class _CustomThemesState extends State<CustomThemes> {
 
   Future<bool>? waitResult() async {
     for (var i = 0; i < CustomRewardedAd.loadTimeout.inSeconds; i++) {
-      await Future.delayed(Duration(seconds: 1));
-      print("rewarded ad: $_rewardedAd");
+      await Future.delayed(const Duration(seconds: 1));
+      if (kDebugMode) {
+        print("rewarded ad: $_rewardedAd");
+      }
       if (_rewardedAd != null) {
         return true;
       }
     }
-    print("timeout");
+    if (kDebugMode) {
+      print("timeout");
+    }
     return false;
   }
 
   void showRewardedAd(
       context, String header, String description, Function targetFunction,
       {arg}) {
-    Future<bool>? waitBool = waitResult();
     showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-              title: Text(header),
-              content: Text(description),
-              actions: [
-                Column(
-                  children: [
-                    FutureBuilder<bool>(
-                        future:
-                            waitBool, // a previously-obtained Future<String> or null
-                        builder: (BuildContext context,
-                            AsyncSnapshot<bool> snapshot) {
-                          List<Widget> children;
-                          if (snapshot.hasData) {
-                            children = snapshot.data == true
-                                ? <Widget>[
-                                    IconButton(
-                                      icon: const Icon(Icons.play_arrow,
-                                          color: Colors.green),
+          Future<bool>? waitBool = waitResult();
+          return AlertDialog(backgroundColor: Colors.transparent, actions: [
+            Container(
+              decoration: BoxDecoration(
+                  gradient: View
+                      .currentTheme.reminderTextTheme.dialogBackgroundGradient),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Text(
+                      description,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  FutureBuilder<bool>(
+                      future:
+                          waitBool, // a previously-obtained Future<String> or null
+                      builder:
+                          (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                        List<Widget> children;
+                        if (snapshot.hasData) {
+                          children = snapshot.data == true
+                              ? <Widget>[
+                                  Transform.scale(
+                                    scale: 2,
+                                    child: IconButton(
+                                      icon: Icon(Icons.play_arrow,
+                                          color: View.currentTheme.appTheme
+                                              .activeBottomNavigationBarColor),
                                       onPressed: () {
                                         {
                                           Navigator.pop(context);
@@ -116,60 +136,67 @@ class _CustomThemesState extends State<CustomThemes> {
                                         }
                                       },
                                     ),
-                                    const Padding(
-                                      padding: EdgeInsets.only(top: 16),
-                                      child: Text('Watch ad'),
-                                    ),
-                                  ]
-                                : <Widget>[
-                                    const Icon(
-                                      Icons.error,
-                                      color: Color.fromARGB(255, 225, 167, 95),
-                                    ),
-                                    const Padding(
-                                      padding: EdgeInsets.only(top: 16),
-                                      child: Text('Ad not loaded'),
-                                    ),
-                                  ];
-                          } else if (snapshot.hasError) {
-                            children = <Widget>[
-                              const Icon(
-                                Icons.error,
-                                color: Color.fromARGB(255, 244, 158, 54),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(top: 16),
-                                child: Text('Ad not loaded'),
-                              ),
-                            ];
-                          } else {
-                            children = const <Widget>[
-                              SizedBox(
-                                child: CircularProgressIndicator(),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 16),
-                                child: Text('Ad loading ...'),
-                              ),
-                            ];
-                          }
-
-                          return Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: children,
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.only(top: 16),
+                                    child: Text('Watch ad'),
+                                  ),
+                                ]
+                              : <Widget>[
+                                  const Icon(
+                                    Icons.error,
+                                    color: Color.fromARGB(255, 225, 167, 95),
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.only(top: 16),
+                                    child: Text('Ad not loaded'),
+                                  ),
+                                ];
+                        } else if (snapshot.hasError) {
+                          children = <Widget>[
+                            const Icon(
+                              Icons.error,
+                              color: Color.fromARGB(255, 244, 158, 54),
                             ),
-                          );
-                        }),
-                    TextButton(
-                      child: Text('cancel'.toUpperCase()),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                )
-              ]);
+                            const Padding(
+                              padding: EdgeInsets.only(top: 16),
+                              child: Text('Ad not loaded'),
+                            ),
+                          ];
+                        } else {
+                          children = <Widget>[
+                            SizedBox(
+                              child: CircularProgressIndicator(
+                                backgroundColor: View.currentTheme.sliderTheme
+                                    .inactiveSliderColor,
+                                color: View
+                                    .currentTheme.sliderTheme.activeSliderColor,
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 16),
+                              child: Text('Ad loading ...'),
+                            ),
+                          ];
+                        }
+
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: children,
+                          ),
+                        );
+                      }),
+                  IconButton(
+                    icon: const Icon(Icons.arrow_downward),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ),
+            )
+          ]);
         });
   }
 

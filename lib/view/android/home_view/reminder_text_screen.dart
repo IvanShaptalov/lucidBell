@@ -80,13 +80,17 @@ class _ReminderWidgetState extends State<ReminderWidget> {
 
   Future<bool>? waitResult() async {
     for (var i = 0; i < CustomRewardedAd.loadTimeout.inSeconds; i++) {
-      await Future.delayed(Duration(seconds: 1));
-      print("rewarded ad: $_rewardedAd");
+      await Future.delayed(const Duration(seconds: 1));
+      if (kDebugMode) {
+        print("rewarded ad: $_rewardedAd");
+      }
       if (_rewardedAd != null) {
         return true;
       }
     }
-    print("timeout");
+    if (kDebugMode) {
+      print("timeout");
+    }
     return false;
   }
 
@@ -97,93 +101,109 @@ class _ReminderWidgetState extends State<ReminderWidget> {
         context: context,
         builder: (context) {
           Future<bool>? waitBool = waitResult();
-          return AlertDialog(
-              title: Text(header),
-              content: Text(description),
-              actions: [
-                Column(
-                  children: [
-                    FutureBuilder<bool>(
-                        future:
-                            waitBool, // a previously-obtained Future<String> or null
-                        builder: (BuildContext context,
-                            AsyncSnapshot<bool> snapshot) {
-                          List<Widget> children;
-                          if (snapshot.hasData) {
-                            children = snapshot.data == true
-                                ? <Widget>[
-                                    IconButton(
-                                      icon: const Icon(Icons.play_arrow,
-                                          color: Colors.green),
-                                      onPressed: () {
-                                        {
-                                          Navigator.pop(context);
-                                          _rewardedAd?.show(
-                                            onUserEarnedReward: (_, reward) {
-                                              if (arg == null) {
-                                                targetFunction();
-                                              } else {
-                                                targetFunction(arg);
-                                              }
-                                            },
-                                          );
-                                        }
-                                      },
-                                    ),
-                                    const Padding(
-                                      padding: EdgeInsets.only(top: 16),
-                                      child: Text('Watch ad'),
-                                    ),
-                                  ]
-                                : <Widget>[
-                                    const Icon(
-                                      Icons.error,
-                                      color: Color.fromARGB(255, 225, 167, 95),
-                                    ),
-                                    const Padding(
-                                      padding: EdgeInsets.only(top: 16),
-                                      child: Text('Ad not loaded'),
-                                    ),
-                                  ];
-                          } else if (snapshot.hasError) {
-                            children = <Widget>[
-                              const Icon(
-                                Icons.error,
-                                color: Color.fromARGB(255, 244, 158, 54),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(top: 16),
-                                child: Text('Ad not loaded'),
-                              ),
-                            ];
-                          } else {
-                            children = const <Widget>[
-                              SizedBox(
-                                child: CircularProgressIndicator(),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 16),
-                                child: Text('Ad loading ...'),
-                              ),
-                            ];
-                          }
-
-                          return Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: children,
-                            ),
-                          );
-                        }),
-                    TextButton(
-                      child: Text('cancel'.toUpperCase()),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+          return AlertDialog(backgroundColor: Colors.transparent, actions: [
+            Container(
+              decoration: BoxDecoration(
+                  gradient: View
+                      .currentTheme.reminderTextTheme.dialogBackgroundGradient),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Text(
+                      description,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold),
                     ),
-                  ],
-                )
-              ]);
+                  ),
+                  FutureBuilder<bool>(
+                      future:
+                          waitBool, // a previously-obtained Future<String> or null
+                      builder:
+                          (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                        List<Widget> children;
+                        if (snapshot.hasData) {
+                          children = snapshot.data == true
+                              ? <Widget>[
+                                  IconButton(
+                                    icon: const Icon(Icons.play_arrow,
+                                        color: Colors.green),
+                                    onPressed: () {
+                                      {
+                                        Navigator.pop(context);
+                                        _rewardedAd?.show(
+                                          onUserEarnedReward: (_, reward) {
+                                            if (arg == null) {
+                                              targetFunction();
+                                            } else {
+                                              targetFunction(arg);
+                                            }
+                                          },
+                                        );
+                                      }
+                                    },
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.only(top: 16),
+                                    child: Text('Watch ad'),
+                                  ),
+                                ]
+                              : <Widget>[
+                                  const Icon(
+                                    Icons.error,
+                                    color: Color.fromARGB(255, 225, 167, 95),
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.only(top: 16),
+                                    child: Text('Ad not loaded'),
+                                  ),
+                                ];
+                        } else if (snapshot.hasError) {
+                          children = <Widget>[
+                            const Icon(
+                              Icons.error,
+                              color: Color.fromARGB(255, 244, 158, 54),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 16),
+                              child: Text('Ad not loaded'),
+                            ),
+                          ];
+                        } else {
+                          children = <Widget>[
+                            SizedBox(
+                              child: CircularProgressIndicator(
+                                backgroundColor: View.currentTheme.sliderTheme.inactiveSliderColor,
+                                color: View.currentTheme.sliderTheme.activeSliderColor,
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 16),
+                              child: Text('Ad loading ...'),
+                            ),
+                          ];
+                        }
+
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: children,
+                          ),
+                        );
+                      }),
+                  IconButton(
+                    icon: const Icon(Icons.arrow_downward),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ),
+            )
+          ]);
         });
   }
 
