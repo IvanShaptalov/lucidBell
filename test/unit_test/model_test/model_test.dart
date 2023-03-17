@@ -116,7 +116,7 @@ void main() {
     test('Reminder text initialized from enum', () async {
       var rem = ReminderText();
 
-      expect(rem.getReminderText, 'Not forget it');
+      expect(rem.getReminderText, ReminderText.defaultInnerHistoryOfReminderTexts.first);
     });
 
     test('Reminder text test history', () {
@@ -124,26 +124,26 @@ void main() {
       rem.setReminderText('Not forget it');
 
       rem.setReminderText('PreloadedReminderTexts.mueingText');
-      expect(rem.getHistoryOfReminderTexts.length, 2);
+      expect(rem.getHistoryOfReminderTexts.length, 12);
 
       rem.setReminderText('PreloadedReminderTexts.mueingText');
-      expect(rem.getHistoryOfReminderTexts.length, 2);
+      expect(rem.getHistoryOfReminderTexts.length, 12);
 
       rem.setReminderText('PreloadedReminderTexts.breathingText');
-      expect(rem.getHistoryOfReminderTexts.length, 3);
+      expect(rem.getHistoryOfReminderTexts.length, 13);
 
       expect(rem.getHistoryOfReminderTexts.last,
           'PreloadedReminderTexts.breathingText');
 
       rem.setReminderText('Custom text');
 
-      expect(rem.getHistoryOfReminderTexts.length, 4);
+      expect(rem.getHistoryOfReminderTexts.length, 14);
 
       expect(rem.getHistoryOfReminderTexts.last, 'Custom text');
 
       rem.setReminderText('PreloadedReminderTexts.breathingText');
 
-      expect(rem.getHistoryOfReminderTexts.length, 4);
+      expect(rem.getHistoryOfReminderTexts.length, 14);
 
       expect(rem.getHistoryOfReminderTexts.last,
           'PreloadedReminderTexts.breathingText');
