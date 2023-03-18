@@ -29,7 +29,6 @@ mixin RewardedAdDialog{
           _rewardedAd = ad;
         },
         onAdFailedToLoad: (err) {
-          _rewardedAd = null;
           if (kDebugMode) {
             print('Failed to load a rewarded ad: ${err.message}');
           }
@@ -129,7 +128,7 @@ mixin RewardedAdDialog{
                               : <Widget>[
                                   const Icon(
                                     Icons.error,
-                                    color: Color.fromARGB(255, 225, 167, 95),
+                                    color: Color.fromARGB(255, 225, 143, 95),
                                   ),
                                   const Padding(
                                     padding: EdgeInsets.only(top: 16),
@@ -140,7 +139,7 @@ mixin RewardedAdDialog{
                           children = <Widget>[
                             const Icon(
                               Icons.error,
-                              color: Color.fromARGB(255, 244, 158, 54),
+                              color: Color.fromARGB(255, 54, 244, 114),
                             ),
                             const Padding(
                               padding: EdgeInsets.only(top: 16),
