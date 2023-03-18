@@ -2,13 +2,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/android/monetization/ad_helper.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/reminder_text_screen.dart';
+import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-/// ====================================[ADS ON TEXT EDITING]=======================================
-// ignore: must_be_immutable
-class RewardedAdDialog {
+
+/// =========================================[BASE REWARD AD DIALOG]=======
+mixin RewardedAdDialog{
   static RewardedAd? _rewardedAd;
 
   static void _loadRewardedAd() {
@@ -52,7 +53,7 @@ class RewardedAdDialog {
         return false;
       }
     }
-
+    
     cancelWait = false;
     return false;
   }
@@ -183,9 +184,12 @@ class RewardedAdDialog {
           ]);
         });
   }
+}
 
+
+class RewardedAdDialogTextEdit with RewardedAdDialog{
   static void showEditingRewardedAd(context, Function targetFunction) {
-    showRewardedAd(
+    RewardedAdDialog.showRewardedAd(
         context, 'Edit text', 'watch ad to edit reminder text', targetFunction);
   }
 
@@ -204,5 +208,15 @@ class RewardedAdDialog {
               ? const Icon(Icons.arrow_back)
               : const Icon(Icons.edit),
         ));
+  }
+}
+
+
+class RewardedAdThemeDialog with RewardedAdDialog{
+  static void changeThemeRewardedAd(
+      context, Function targetFunction, Themes themeName) {
+    RewardedAdDialog.showRewardedAd(
+        context, 'Change theme', 'watch ad to change theme', targetFunction,
+        arg: themeName);
   }
 }

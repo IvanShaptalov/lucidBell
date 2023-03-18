@@ -1,11 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/android/monetization/ad_helper.dart';
-import 'package:flutter_lucid_bell/view/android/home_view/ad_widgets.dart/rewarder_ad_theme.dart';
+import 'package:flutter_lucid_bell/view/android/home_view/ad_widgets.dart/rewarded_ad.dart';
 import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 // ignore: must_be_immutable
 class CustomThemes extends StatefulWidget {
