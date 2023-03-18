@@ -30,7 +30,7 @@ class RewardedAdDialogState extends State<RewardedAdDialog> {
                 ad.dispose();
                 widget._rewardedAd = null;
               });
-              // _loadRewardedAd();
+              _loadRewardedAd();
             },
           );
 
@@ -39,6 +39,7 @@ class RewardedAdDialogState extends State<RewardedAdDialog> {
           });
         },
         onAdFailedToLoad: (err) {
+          widget._rewardedAd = null;
           if (kDebugMode) {
             print('Failed to load a rewarded ad: ${err.message}');
           }
@@ -49,24 +50,20 @@ class RewardedAdDialogState extends State<RewardedAdDialog> {
 
   Future<bool>? waitResult() async {
     for (var i = 0; i < AdHelper.loadTimeout.inSeconds; i++) {
-      if (kDebugMode) {
-        print("rewarded ad: ${widget._rewardedAd}");
-      }
+      await Future.delayed(const Duration(seconds: 1));
+
       if (widget._rewardedAd != null) {
-        print('return true');
         cancelWait = false;
         return true;
       }
+
+      // cancel waiting
       if (cancelWait) {
-        print('cancel wait');
         cancelWait = false;
         return false;
       }
-      await Future.delayed(const Duration(seconds: 1));
     }
-    if (kDebugMode) {
-      print("timeout");
-    }
+
     cancelWait = false;
     return false;
   }

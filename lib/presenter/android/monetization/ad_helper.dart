@@ -5,7 +5,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class AdHelper {
   static InitializationStatus? status;
-  static Duration loadTimeout = const Duration(seconds: 20);
+  static Duration loadTimeout = const Duration(seconds: 10);
 
   static bool get showAds {
     return ConfigAd.showAds;

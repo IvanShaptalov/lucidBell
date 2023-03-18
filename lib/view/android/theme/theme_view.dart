@@ -10,6 +10,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 class CustomThemes extends StatefulWidget {
   Function updateCallback;
   static Themes _themeValue = View.currentTheme.themeEnum;
+  bool cancelWait = false;
 
   CustomThemes(this.updateCallback, {super.key});
 
@@ -30,8 +31,6 @@ class _CustomThemesState extends State<CustomThemes> {
 
   @override
   void initState() {
-    _loadRewardedAd();
-
     super.initState();
   }
 
@@ -56,6 +55,8 @@ class _CustomThemesState extends State<CustomThemes> {
           });
         },
         onAdFailedToLoad: (err) {
+          _rewardedAd = null;
+
           if (kDebugMode) {
             print('Failed to load a rewarded ad: ${err.message}');
           }
@@ -67,16 +68,20 @@ class _CustomThemesState extends State<CustomThemes> {
   Future<bool>? waitResult() async {
     for (var i = 0; i < AdHelper.loadTimeout.inSeconds; i++) {
       await Future.delayed(const Duration(seconds: 1));
-      if (kDebugMode) {
-        print("rewarded ad: $_rewardedAd");
-      }
       if (_rewardedAd != null) {
+        widget.cancelWait = false;
         return true;
       }
+
+      // cancel waiting
+      if (widget.cancelWait) {
+        widget.cancelWait = false;
+        return false;
+      }
+
     }
-    if (kDebugMode) {
-      print("timeout");
-    }
+
+    widget.cancelWait = false;
     return false;
   }
 
@@ -86,6 +91,9 @@ class _CustomThemesState extends State<CustomThemes> {
     showDialog(
         context: context,
         builder: (context) {
+          // load
+          _loadRewardedAd();
+          // wait 
           Future<bool>? waitBool = waitResult();
           return AlertDialog(backgroundColor: Colors.transparent, actions: [
             Container(
