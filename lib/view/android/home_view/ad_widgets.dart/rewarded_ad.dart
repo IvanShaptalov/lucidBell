@@ -7,9 +7,8 @@ import 'package:flutter_lucid_bell/view/view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-
 /// =========================================[BASE REWARD AD DIALOG]=======
-mixin RewardedAdDialog{
+mixin RewardedAdDialog {
   static RewardedAd? _rewardedAd;
 
   static void _loadRewardedAd() {
@@ -42,22 +41,13 @@ mixin RewardedAdDialog{
       await Future.delayed(const Duration(seconds: 1));
 
       if (_rewardedAd != null) {
-        cancelWait = false;
         return true;
       }
 
       // cancel waiting
-      if (cancelWait) {
-        cancelWait = false;
-        return false;
-      }
     }
-    
-    cancelWait = false;
     return false;
   }
-
-  static bool cancelWait = false;
 
   static void showRewardedAd(
       context, String header, String description, Function targetFunction,
@@ -173,7 +163,6 @@ mixin RewardedAdDialog{
                   IconButton(
                     icon: const Icon(Icons.arrow_downward),
                     onPressed: () {
-                      cancelWait = true;
                       Navigator.pop(context);
                     },
                   ),
@@ -185,8 +174,7 @@ mixin RewardedAdDialog{
   }
 }
 
-
-class RewardedAdDialogTextEdit with RewardedAdDialog{
+class RewardedAdDialogTextEdit with RewardedAdDialog {
   static void showEditingRewardedAd(context, Function targetFunction) {
     RewardedAdDialog.showRewardedAd(
         context, 'Edit text', 'watch ad to edit reminder text', targetFunction);
@@ -210,8 +198,7 @@ class RewardedAdDialogTextEdit with RewardedAdDialog{
   }
 }
 
-
-class RewardedAdThemeDialog with RewardedAdDialog{
+class RewardedAdThemeDialog with RewardedAdDialog {
   static void changeThemeRewardedAd(
       context, Function targetFunction, Themes themeName) {
     RewardedAdDialog.showRewardedAd(
