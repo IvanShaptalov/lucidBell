@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/model/bell/reminder_text.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
-import 'package:flutter_lucid_bell/view/android/home_view/rewarded_ad_reminder_text.dart';
+import 'package:flutter_lucid_bell/view/android/home_view/ad_widgets.dart/rewarded_ad_reminder_text.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
 import 'package:google_fonts/google_fonts.dart';
