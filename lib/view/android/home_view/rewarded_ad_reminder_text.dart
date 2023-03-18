@@ -6,6 +6,7 @@ import 'package:flutter_lucid_bell/view/view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+/// ====================================[ADS ON TEXT EDITING]=======================================
 // ignore: must_be_immutable
 class RewardedAdDialog extends StatefulWidget {
   RewardedAdDialog(this.targetFunction, {super.key});
@@ -17,11 +18,6 @@ class RewardedAdDialog extends StatefulWidget {
 }
 
 class RewardedAdDialogState extends State<RewardedAdDialog> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   void _loadRewardedAd() {
     RewardedAd.load(
       adUnitId: AdHelper.rewardedAdUnitId,
