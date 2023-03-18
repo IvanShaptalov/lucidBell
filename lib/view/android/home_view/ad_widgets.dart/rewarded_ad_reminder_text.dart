@@ -8,17 +8,10 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 /// ====================================[ADS ON TEXT EDITING]=======================================
 // ignore: must_be_immutable
-class RewardedAdDialog extends StatefulWidget {
-  RewardedAdDialog(this.targetFunction, {super.key});
-  RewardedAd? _rewardedAd;
-  Function targetFunction;
+class RewardedAdDialog {
+  static RewardedAd? _rewardedAd;
 
-  @override
-  State<RewardedAdDialog> createState() => RewardedAdDialogState();
-}
-
-class RewardedAdDialogState extends State<RewardedAdDialog> {
-  void _loadRewardedAd() {
+  static void _loadRewardedAd() {
     RewardedAd.load(
       adUnitId: AdHelper.rewardedAdUnitId,
       request: const AdRequest(),
@@ -26,20 +19,16 @@ class RewardedAdDialogState extends State<RewardedAdDialog> {
         onAdLoaded: (ad) {
           ad.fullScreenContentCallback = FullScreenContentCallback(
             onAdDismissedFullScreenContent: (ad) {
-              setState(() {
-                ad.dispose();
-                widget._rewardedAd = null;
-              });
+              ad.dispose();
+              _rewardedAd = null;
               _loadRewardedAd();
             },
           );
 
-          setState(() {
-            widget._rewardedAd = ad;
-          });
+          _rewardedAd = ad;
         },
         onAdFailedToLoad: (err) {
-          widget._rewardedAd = null;
+          _rewardedAd = null;
           if (kDebugMode) {
             print('Failed to load a rewarded ad: ${err.message}');
           }
@@ -48,11 +37,11 @@ class RewardedAdDialogState extends State<RewardedAdDialog> {
     );
   }
 
-  Future<bool>? waitResult() async {
+  static Future<bool>? waitResult() async {
     for (var i = 0; i < AdHelper.loadTimeout.inSeconds; i++) {
       await Future.delayed(const Duration(seconds: 1));
 
-      if (widget._rewardedAd != null) {
+      if (_rewardedAd != null) {
         cancelWait = false;
         return true;
       }
@@ -68,9 +57,9 @@ class RewardedAdDialogState extends State<RewardedAdDialog> {
     return false;
   }
 
-  bool cancelWait = false;
+  static bool cancelWait = false;
 
-  void showRewardedAd(
+  static void showRewardedAd(
       context, String header, String description, Function targetFunction,
       {arg}) {
     showDialog(
@@ -118,7 +107,7 @@ class RewardedAdDialogState extends State<RewardedAdDialog> {
                                       onPressed: () {
                                         {
                                           Navigator.pop(context);
-                                          widget._rewardedAd?.show(
+                                          _rewardedAd?.show(
                                             onUserEarnedReward: (_, reward) {
                                               if (arg == null) {
                                                 targetFunction();
@@ -195,12 +184,12 @@ class RewardedAdDialogState extends State<RewardedAdDialog> {
         });
   }
 
-  void showEditingRewardedAd(context, Function targetFunction) {
+  static void showEditingRewardedAd(context, Function targetFunction) {
     showRewardedAd(
         context, 'Edit text', 'watch ad to edit reminder text', targetFunction);
   }
 
-  IconButton rewardedAdWithIconButton(Function targetFunction) {
+  static IconButton rewardedAdWithIconButton(Function targetFunction, context) {
     return IconButton(
         onPressed: () {
           if (AdHelper.showAds && ReminderTextScreen.isEditing == false) {
@@ -215,10 +204,5 @@ class RewardedAdDialogState extends State<RewardedAdDialog> {
               ? const Icon(Icons.arrow_back)
               : const Icon(Icons.edit),
         ));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return rewardedAdWithIconButton(widget.targetFunction);
   }
 }

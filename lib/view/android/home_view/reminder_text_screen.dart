@@ -160,7 +160,7 @@ class _ReminderWidgetState extends State<ReminderWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               /// ===========================================[REWARDED AD]==============================
-              RewardedAdDialog(updateEditing),
+              RewardedAdDialog.rewardedAdWithIconButton(updateEditing, context),
               AnimatedCrossFade(
                 firstChild: IconButton(
                     onPressed: _showSimpleHistoryDialog,

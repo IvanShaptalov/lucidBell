@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
 
+
 /// ====================================[ADS ON TEXT EDITING]=======================================
 // ignore: must_be_immutable
 class RewardedAdThemeDialog {
