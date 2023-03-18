@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/model/bell/reminder_text.dart';
+import 'package:flutter_lucid_bell/presenter/android/monetization/ad_helper.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/ad_widgets.dart/rewarded_ad.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
@@ -41,6 +42,8 @@ class _ReminderWidgetState extends State<ReminderWidget> {
     super.initState();
     widget._textController.text = ReminderWidget.tmpValue;
   }
+
+  /// ================================================[HISTORY DIALOG]================================
 
   Future<void> _showSimpleHistoryDialog() async {
     await showDialog(
@@ -124,6 +127,8 @@ class _ReminderWidgetState extends State<ReminderWidget> {
     );
   }
 
+  /// =================================================[END HISTORY DIALOG]===========================
+
   Future<void> textSubmitted(value) async {
     setState(() {
       widget._textController.text = value;
@@ -132,8 +137,6 @@ class _ReminderWidgetState extends State<ReminderWidget> {
     await PresenterTextReminder.reminderText!.saveToStorageAsync();
     ReminderWidget.tmpValue = value;
 
-    ReminderTextScreen.isEditing = false;
-
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
@@ -141,6 +144,9 @@ class _ReminderWidgetState extends State<ReminderWidget> {
     if (kDebugMode) {
       print('======================UPDATE EDITING');
     }
+
+    /// update text when click back button or pan
+    textSubmitted(ReminderWidget.tmpValue);
     setState(() {
       ReminderTextScreen.isEditing = !ReminderTextScreen.isEditing;
     });
@@ -160,7 +166,22 @@ class _ReminderWidgetState extends State<ReminderWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               /// ===========================================[REWARDED AD]==============================
-              RewardedAdDialogTextEdit.rewardedAdWithIconButton(updateEditing, context),
+              IconButton(
+                  onPressed: () {
+                    if (AdHelper.showAds &&
+                        ReminderTextScreen.isEditing == false) {
+                      RewardedAdDialogTextEdit.showEditingRewardedAd(
+                          context, updateEditing);
+                    } else {
+                      updateEditing();
+                    }
+                  },
+                  icon: Transform.scale(
+                    scale: 0.7,
+                    child: ReminderTextScreen.isEditing
+                        ? const Icon(Icons.save)
+                        : const Icon(Icons.edit),
+                  )),
               AnimatedCrossFade(
                 firstChild: IconButton(
                     onPressed: _showSimpleHistoryDialog,

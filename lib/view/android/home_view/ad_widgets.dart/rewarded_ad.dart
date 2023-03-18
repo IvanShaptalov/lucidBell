@@ -180,22 +180,6 @@ class RewardedAdDialogTextEdit with RewardedAdDialog {
         context, 'Edit text', 'watch ad to edit reminder text', targetFunction);
   }
 
-  static IconButton rewardedAdWithIconButton(Function targetFunction, context) {
-    return IconButton(
-        onPressed: () {
-          if (AdHelper.showAds && ReminderTextScreen.isEditing == false) {
-            showEditingRewardedAd(context, targetFunction);
-          } else {
-            targetFunction();
-          }
-        },
-        icon: Transform.scale(
-          scale: 0.7,
-          child: ReminderTextScreen.isEditing
-              ? const Icon(Icons.arrow_back)
-              : const Icon(Icons.edit),
-        ));
-  }
 }
 
 class RewardedAdThemeDialog with RewardedAdDialog {

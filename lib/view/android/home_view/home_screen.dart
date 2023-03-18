@@ -45,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                           opacity: BellPresenter.isBellRunning() ? 1 : 0,
                           duration: const Duration(milliseconds: 300),
+                          /// ================================================================[BELL INFO]
                           child: const BellInfo(),
                         ),
                       ],
@@ -58,6 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: SizeConfig.getMediaHeight(context) * 0.25,
               width: SizeConfig.getMediaWidth(context) * 0.65, //65 %
               child: AnimatedCrossFade(
+                /// ============================================================================[REMINDER TEXT SCREEN]
                 firstChild: const ReminderTextScreen(),
                 secondChild: const SizedBox.shrink(),
                 firstCurve: Curves.bounceInOut,
@@ -81,6 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     opacity: BellPresenter.isBellRunning() ? 0.65 : 0.4,
                     duration: const Duration(milliseconds: 600),
                     // The green box must be a child of the AnimatedOpacity widget.
+                    /// ================================================================================[SWITCH BELL]
                     child: SwitchBell(callback: callback),
                   ),
                 ],
@@ -91,6 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: AnimatedOpacity(
                 opacity: BellPresenter.isBellRunning() ? 1 : 0,
                 duration: const Duration(milliseconds: 300),
+                /// ====================================================================================[SLIDER]
                 child: const SliderIntervalSelector(),
               ),
             ),
@@ -103,6 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: AnimatedOpacity(
                   opacity: BellPresenter.isBellRunning() ? 1 : 0,
                   duration: const Duration(milliseconds: 300),
+                  /// =======================================================================================[CASHED BUTTONS]
                   child: const CashedButtons(),
                 ),
               ),
