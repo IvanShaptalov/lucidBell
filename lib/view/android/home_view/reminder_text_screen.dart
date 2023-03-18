@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/model/bell/reminder_text.dart';
 import 'package:flutter_lucid_bell/presenter/android/monetization/ad_helper.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
+import 'package:flutter_lucid_bell/view/android/home_view/rewarded_ad.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -37,187 +38,11 @@ class ReminderWidget extends StatefulWidget {
 }
 
 class _ReminderWidgetState extends State<ReminderWidget> {
-  /// ===========================================[REWARDED AD]=============================================
-  RewardedAd? _rewardedAd;
-
   @override
   void initState() {
-    _loadRewardedAd();
-
     super.initState();
     widget._textController.text = ReminderWidget.tmpValue;
   }
-
-  void _loadRewardedAd() {
-    RewardedAd.load(
-      adUnitId: AdHelper.rewardedAdUnitId,
-      request: const AdRequest(),
-      rewardedAdLoadCallback: RewardedAdLoadCallback(
-        onAdLoaded: (ad) {
-          ad.fullScreenContentCallback = FullScreenContentCallback(
-            onAdDismissedFullScreenContent: (ad) {
-              setState(() {
-                ad.dispose();
-                _rewardedAd = null;
-              });
-              _loadRewardedAd();
-            },
-          );
-
-          setState(() {
-            _rewardedAd = ad;
-          });
-        },
-        onAdFailedToLoad: (err) {
-          if (kDebugMode) {
-            print('Failed to load a rewarded ad: ${err.message}');
-          }
-        },
-      ),
-    );
-  }
-
-  Future<bool>? waitResult() async {
-    for (var i = 0; i < AdHelper.loadTimeout.inSeconds; i++) {
-      await Future.delayed(const Duration(seconds: 1));
-      if (kDebugMode) {
-        print("rewarded ad: $_rewardedAd");
-      }
-      if (_rewardedAd != null) {
-        return true;
-      }
-    }
-    if (kDebugMode) {
-      print("timeout");
-    }
-    return false;
-  }
-
-  void showRewardedAd(
-      context, String header, String description, Function targetFunction,
-      {arg}) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          Future<bool>? waitBool = waitResult();
-          return AlertDialog(backgroundColor: Colors.transparent, actions: [
-            Container(
-              decoration: BoxDecoration(
-                  gradient: View
-                      .currentTheme.reminderTextTheme.dialogBackgroundGradient),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Text(
-                      description,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  FutureBuilder<bool>(
-                      future:
-                          waitBool, // a previously-obtained Future<String> or null
-                      builder:
-                          (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                        List<Widget> children;
-                        if (snapshot.hasData) {
-                          children = snapshot.data == true
-                              ? <Widget>[
-                                  Transform.scale(
-                                    scale: 2,
-                                    child: IconButton(
-                                      icon: Icon(Icons.play_arrow,
-                                          color: View.currentTheme.appTheme
-                                              .activeBottomNavigationBarColor),
-                                      onPressed: () {
-                                        {
-                                          Navigator.pop(context);
-                                          _rewardedAd?.show(
-                                            onUserEarnedReward: (_, reward) {
-                                              if (arg == null) {
-                                                targetFunction();
-                                              } else {
-                                                targetFunction(arg);
-                                              }
-                                            },
-                                          );
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(top: 16),
-                                    child: Text('Watch ad'),
-                                  ),
-                                ]
-                              : <Widget>[
-                                  const Icon(
-                                    Icons.error,
-                                    color: Color.fromARGB(255, 225, 167, 95),
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(top: 16),
-                                    child: Text('Ad not loaded'),
-                                  ),
-                                ];
-                        } else if (snapshot.hasError) {
-                          children = <Widget>[
-                            const Icon(
-                              Icons.error,
-                              color: Color.fromARGB(255, 244, 158, 54),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 16),
-                              child: Text('Ad not loaded'),
-                            ),
-                          ];
-                        } else {
-                          children = <Widget>[
-                            SizedBox(
-                              child: CircularProgressIndicator(
-                                backgroundColor: View.currentTheme.sliderTheme
-                                    .inactiveSliderColor,
-                                color: View
-                                    .currentTheme.sliderTheme.activeSliderColor,
-                              ),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 16),
-                              child: Text('Ad loading ...'),
-                            ),
-                          ];
-                        }
-
-                        return Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: children,
-                          ),
-                        );
-                      }),
-                  IconButton(
-                    icon: const Icon(Icons.arrow_downward),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
-              ),
-            )
-          ]);
-        });
-  }
-
-  void showEditingRewardedAd(context, Function targetFunction) {
-    showRewardedAd(
-        context, 'Edit text', 'watch ad to edit reminder text', targetFunction);
-  }
-
-  /// =================================================[END REWARDED AD BLOCK]=========================
 
   Future<void> _showSimpleHistoryDialog() async {
     await showDialog(
@@ -336,21 +161,8 @@ class _ReminderWidgetState extends State<ReminderWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
-                  onPressed: () {
-                    if (AdHelper.showAds &&
-                        ReminderTextScreen.isEditing == false) {
-                      showEditingRewardedAd(context, updateEditing);
-                    } else {
-                      updateEditing();
-                    }
-                  },
-                  icon: Transform.scale(
-                    scale: 0.7,
-                    child: ReminderTextScreen.isEditing
-                        ? const Icon(Icons.arrow_back)
-                        : const Icon(Icons.edit),
-                  )),
+              /// ===========================================[REWARDED AD]==============================
+              RewardedAdDialog(updateEditing),
               AnimatedCrossFade(
                 firstChild: IconButton(
                     onPressed: _showSimpleHistoryDialog,
