@@ -73,7 +73,7 @@ mixin RewardedAdDialog {
                     child: Text(
                       description,
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.roboto(
                           color: Colors.white,
                           fontSize: 24,
                           fontWeight: FontWeight.bold),

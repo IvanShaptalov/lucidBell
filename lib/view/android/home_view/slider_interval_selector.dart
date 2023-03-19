@@ -35,7 +35,7 @@ class _SliderIntervalSelectorState extends State<SliderIntervalSelector> {
           View.humanLikeDuration(
             Duration(minutes: localValue.toInt()),
           ),
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.roboto(
               color: const Color.fromARGB(255, 225, 223, 223),
               fontSize: 18,
               fontWeight: FontWeight.bold),
