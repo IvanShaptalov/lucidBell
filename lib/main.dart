@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
 import 'package:flutter_lucid_bell/presenter/android/background_implementation/background_implementation.dart';
-import 'package:flutter_lucid_bell/presenter/android/presenter_config.dart';
+import 'package:flutter_lucid_bell/presenter/android/config_presenter.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/app.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
