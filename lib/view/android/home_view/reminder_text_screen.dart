@@ -206,7 +206,7 @@ class _ReminderWidgetState extends State<ReminderWidget> {
                   maxLines: widget.maxLines,
                   maxLength: widget.maxLength,
                   keyboardType: TextInputType.text,
-                  autofocus: true,
+                  autofocus: false,
                   onSubmitted: textSubmitted,
                   onChanged: (value) {
                     ReminderWidget.tmpValue = value;
