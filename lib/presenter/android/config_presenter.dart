@@ -3,5 +3,6 @@ class ConfigBackgroundManager {
 }
 
 class ConfigAd {
-  static bool showAds = true;
+  static bool showAds = false;
+  // static bool showAds = true;
 }

@@ -91,7 +91,7 @@ class _ReminderWidgetState extends State<ReminderWidget> {
               items[index],
               maxLines: 2,
               softWrap: true,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.roboto(
                   color: Colors.white,
                   fontSize: 16,
                   fontWeight: FontWeight.bold),
@@ -217,7 +217,7 @@ class _ReminderWidgetState extends State<ReminderWidget> {
                   maxLines: 4,
                   softWrap: true,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.roboto(
                       color: Colors.white,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
