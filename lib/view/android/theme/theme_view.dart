@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/android/monetization/ad_helper.dart';
-import 'package:flutter_lucid_bell/view/android/home_view/ad_widgets.dart/rewarded_ad.dart';
+import 'package:flutter_lucid_bell/view/android/home_view/ad_widgets/rewarded_ad.dart';
 import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
 
