@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/android/monetization/ad_helper.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -22,7 +23,9 @@ class CustomBannerAd {
             updateCallback();
           },
           onAdFailedToLoad: (ad, err) {
-            print('Failed to load a banner ad: ${err.message}');
+            if (kDebugMode) {
+              print('Failed to load a banner ad: ${err.message}');
+            }
             ad.dispose();
           },
         ),
@@ -33,7 +36,7 @@ class CustomBannerAd {
   static Widget showBanner() {
     return exists()
         ? Align(
-            alignment: Alignment.topCenter,
+            alignment: Alignment.bottomCenter,
             child: SizedBox(
               width: CustomBannerAd.bannerAd!.size.width.toDouble(),
               height: CustomBannerAd.bannerAd!.size.height.toDouble(),

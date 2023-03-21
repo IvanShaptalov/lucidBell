@@ -48,10 +48,10 @@ class _PermissionPageState extends State<PermissionPage> {
           Column(
             children: [
               Container(
-                  margin: EdgeInsets.symmetric(
-                      vertical: SizeConfig.getMediaHeight(context) * 0.1), //10%
+                  margin: EdgeInsets.only(
+                      top: SizeConfig.getMediaHeight(context) * 0.1), //10%
                   child: Transform.scale(
-                      scale: 4,
+                      scale: 3,
                       child: Container(
                         child: PermissionService.allGranted
                             ? const Text(
