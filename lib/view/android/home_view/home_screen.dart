@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
+import 'package:flutter_lucid_bell/view/android/home_view/ad_widgets.dart/banner_ad.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/bell_info.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/reminder_text_screen.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/review_dialog.dart';
@@ -21,6 +22,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    CustomBannerAd.loadBannerAd(callback);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     ReviewDialog.showReviewDialog(context);
@@ -118,6 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
+            CustomBannerAd.showBanner(),
           ],
         ),
       ),

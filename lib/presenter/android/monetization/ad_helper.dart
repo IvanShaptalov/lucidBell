@@ -24,6 +24,18 @@ class AdHelper {
     }
   }
 
+  static String get bannerAdUnitId {
+    
+    if (Platform.isAndroid) {
+      // return "ca-app-pub-4618505570484622/9034746675";
+      return "ca-app-pub-3940256099942544/6300978111";  // test ad
+    } /* else if (Platform.isIOS) {
+      return "ca-app-pub-3940256099942544/1712485313";
+    } */ else {
+      throw UnsupportedError("Unsupported platform");
+    }
+  }
+
   static Future<InitializationStatus> initAsync() async {
     status = await MobileAds.instance.initialize();
     return await MobileAds.instance.initialize();

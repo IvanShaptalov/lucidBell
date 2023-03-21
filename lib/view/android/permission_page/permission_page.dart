@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/android/permission_service/permission_service.dart';
+import 'package:flutter_lucid_bell/view/android/home_view/ad_widgets.dart/banner_ad.dart';
 import 'package:flutter_lucid_bell/view/android/permission_page/inapp_review_tile.dart';
 import 'package:flutter_lucid_bell/view/android/theme/theme_view.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
@@ -19,6 +20,7 @@ class _PermissionPageState extends State<PermissionPage> {
   Timer? timer;
   @override
   void initState() {
+    CustomBannerAd.loadBannerAd(widget.updateCallback);
     timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       await PermissionService.checkPermissions();
       setState(() {
@@ -61,7 +63,6 @@ class _PermissionPageState extends State<PermissionPage> {
               SizedBox(
                 height: SizeConfig.getMediaHeight(context) * 0.5,
                 child: ListView(
-                  
                   children: [
                     const InAppReviewTile(),
                     PermissionListTile(PermissionService.notification),
@@ -77,6 +78,7 @@ class _PermissionPageState extends State<PermissionPage> {
                 ),
               ),
               CustomThemes(widget.updateCallback),
+              CustomBannerAd.showBanner()
             ],
           ),
         ],
