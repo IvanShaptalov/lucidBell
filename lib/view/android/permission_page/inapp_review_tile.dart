@@ -12,7 +12,7 @@ class InAppReviewTile extends StatelessWidget {
       subtitle: const Text(
           "Enjoying our app? Leave a review to help make it even better! Your feedback is valuable to us. Thank you!"),
       onTap: () async {
-        await ReviewService.requestReviewOrOpen();
+        await ReviewService.openStoreListing();
       },
     );
   }

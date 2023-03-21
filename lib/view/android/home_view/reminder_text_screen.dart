@@ -46,6 +46,7 @@ class _ReminderWidgetState extends State<ReminderWidget> {
   /// ================================================[HISTORY DIALOG]================================
 
   Future<void> _showSimpleHistoryDialog() async {
+    
     await showDialog(
       context: context,
       builder: (context) {
