@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_lucid_bell/model/singletons_data.dart';
-import 'package:flutter_lucid_bell/presenter/android/monetization/constant.dart';
-import 'package:flutter_lucid_bell/presenter/android/monetization/subscription.dart';
+import 'package:flutter_lucid_bell/model/data_structures/singletons_data.dart';
+import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.dart';
+import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';

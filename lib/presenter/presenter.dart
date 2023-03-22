@@ -4,9 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_reminder_text.dart';
-import 'package:flutter_lucid_bell/presenter/android/monetization/store_config.dart';
+import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.dart';
 import 'package:flutter_lucid_bell/presenter/android/permission_service/permission_service.dart';
-import 'package:flutter_lucid_bell/presenter/android/monetization/ad_helper.dart';
+import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.dart';
 
 /// USE PRESENTER TO IMPLEMENT SOME MODEL LOGIC AND CONNECT IT TO VIEW AND CURRENT PLATFORM
 // import 'package:flutter_lucid_bell/presenter/android/init_services.dart';

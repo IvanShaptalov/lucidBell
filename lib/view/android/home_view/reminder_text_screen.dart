@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/model/bell/reminder_text.dart';
-import 'package:flutter_lucid_bell/presenter/android/monetization/ad_helper.dart';
+import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/ad_widgets/rewarded_ad.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';

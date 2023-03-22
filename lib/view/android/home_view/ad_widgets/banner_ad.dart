@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_lucid_bell/presenter/android/monetization/ad_helper.dart';
+import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class CustomBannerAd {
