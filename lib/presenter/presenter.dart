@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_reminder_text.dart';
+import 'package:flutter_lucid_bell/presenter/android/monetization/store_config.dart';
 import 'package:flutter_lucid_bell/presenter/android/permission_service/permission_service.dart';
 import 'package:flutter_lucid_bell/presenter/android/monetization/ad_helper.dart';
 
@@ -88,7 +89,9 @@ class Presenter {
   static Future<bool> initAsync() async {
     bool bellPresenter = await BellPresenter.initAsync();
     bool textReminder = await PresenterTextReminder.initAsync();
+    bool storeInited = await StoreConfig.initStoreAsync();
+    
     AdHelper.initAsync();
-    return bellPresenter && textReminder;
+    return bellPresenter && textReminder && storeInited;
   }
 }

@@ -197,6 +197,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  freezed_annotation:
+    dependency: transitive
+    description:
+      name: freezed_annotation
+      sha256: aeac15850ef1b38ee368d4c53ba9a847e900bb2c53a4db3f6881cbb3cb684338
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
   fuchsia_remote_debug_protocol:
     dependency: transitive
     description: flutter
@@ -242,38 +250,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
-  in_app_purchase:
-    dependency: "direct main"
-    description:
-      name: in_app_purchase
-      sha256: af00db44f0314eda24f5e7ff18a6b445ab95e11fcf49c53e4b7c6bef005eeecf
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.1.5"
-  in_app_purchase_android:
-    dependency: transitive
-    description:
-      name: in_app_purchase_android
-      sha256: "7c4a99a1d44c0ba7514ae4490654405931afb221466677bb63f6bac51e5f4f61"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.4+3"
-  in_app_purchase_platform_interface:
-    dependency: transitive
-    description:
-      name: in_app_purchase_platform_interface
-      sha256: ba5d4d7059ba512907382dce363eabab53c0826ecb23cfb40c58cec6141ea105
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.3.3"
-  in_app_purchase_storekit:
-    dependency: transitive
-    description:
-      name: in_app_purchase_storekit
-      sha256: b639ff9482ba43a0c6d9b3f4a741c174034a052779a41c0cbc6e485e13ac2a9a
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.6+2"
   in_app_review:
     dependency: "direct main"
     description:
@@ -503,6 +479,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.4"
+  purchases_flutter:
+    dependency: "direct main"
+    description:
+      name: purchases_flutter
+      sha256: c0cbdb0545c8e56e27a753d4f7fd30eecafd294253fc8e88556fbaeda02df27d
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.11.0"
   rxdart:
     dependency: transitive
     description:

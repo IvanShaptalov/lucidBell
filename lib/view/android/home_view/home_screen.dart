@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // show TimeSelector if bell is running
             Center(
                 child: SizedBox(
-              height: SizeConfig.getMediaHeight(context) * 0.15,
+              height: SizeConfig.getMediaHeight(context) * 0.2,
               width: SizeConfig.getMediaWidth(context) * 0.65, //65 %
               child: AnimatedCrossFade(
                 /// ============================================================================[REMINDER TEXT SCREEN]

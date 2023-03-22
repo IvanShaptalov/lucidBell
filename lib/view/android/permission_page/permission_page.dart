@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_lucid_bell/presenter/android/monetization/subscription.dart';
 import 'package:flutter_lucid_bell/presenter/android/permission_service/permission_service.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/ad_widgets/banner_ad.dart';
 import 'package:flutter_lucid_bell/view/android/permission_page/inapp_review_tile.dart';
@@ -78,6 +79,11 @@ class _PermissionPageState extends State<PermissionPage> {
                 ),
               ),
               CustomThemes(widget.updateCallback),
+              TextButton(
+                  onPressed: () async {
+                    await Subscription.showStore(context);
+                  },
+                  child: const Text('get premium')),
               CustomBannerAd.showBanner()
             ],
           ),
