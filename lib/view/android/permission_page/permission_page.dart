@@ -49,7 +49,7 @@ class _PermissionPageState extends State<PermissionPage> {
       resizeToAvoidBottomInset: false,
       body: Center(
           child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Column(
             children: [
@@ -72,25 +72,21 @@ class _PermissionPageState extends State<PermissionPage> {
                             : const Text('😔', style: TextStyle(fontSize: 30)),
                       ))),
               SizedBox(
-                height: SizeConfig.getMediaHeight(context) * 0.5,
+                height: SizeConfig.getMediaHeight(context) * 0.4,
                 child: ListView(
                   children: [
                     const InAppReviewTile(),
                     PermissionListTile(PermissionService.notification),
                     PermissionListTile(PermissionService.batteryOptimization),
-                    Container(
-                      padding: EdgeInsets.only(
-                          top: SizeConfig.getMediaHeight(context) * 0.1), //10%
-                      child: SpecificCustomPermission.implemented
-                          ? const SpecificPermissionTile()
-                          : const SizedBox.shrink(),
-                    ),
+                    SpecificCustomPermission.implemented
+                        ? const SpecificPermissionTile()
+                        : const SizedBox.shrink(),
                   ],
                 ),
               ),
               CustomThemes(widget.updateCallback),
               premiumButton(),
-              CustomBannerAd.showBanner()
+              CustomBannerAd.showBanner(context),
             ],
           ),
         ],

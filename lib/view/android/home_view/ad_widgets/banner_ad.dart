@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.dart';
+import 'package:flutter_lucid_bell/view/config_view.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class CustomBannerAd {
@@ -33,16 +34,19 @@ class CustomBannerAd {
     }
   }
 
-  static Widget showBanner() {
+  static Widget showBanner(context) {
     return exists()
         ? Align(
             alignment: Alignment.bottomCenter,
             child: SizedBox(
               width: CustomBannerAd.bannerAd!.size.width.toDouble(),
-              height: CustomBannerAd.bannerAd!.size.height.toDouble(),
+              height: SizeConfig.getMediaHeight(context) * 0.1,
               child: AdWidget(ad: CustomBannerAd.bannerAd!),
             ),
           )
-        : const SizedBox.shrink();
+        : SizedBox(
+            height: SizeConfig.getMediaHeight(context) * 0.1,
+            child: const SizedBox.expand(),
+          );
   }
 }

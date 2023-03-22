@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
+import 'package:flutter_lucid_bell/view/config_view.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
 
 class TimeNow extends StatefulWidget {
@@ -49,9 +50,11 @@ class _TimeNowState extends State<TimeNow> {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-        maxLines: 1,
-        View.formatTime(DateTime.now()),
-        style: View.currentTheme.bellInfoTheme.textNowTimeStyle);
+    return SizeConfig.getMediaHeight(context) > 700
+        ? Text(
+            maxLines: 1,
+            View.formatTime(DateTime.now()),
+            style: View.currentTheme.bellInfoTheme.textNowTimeStyle)
+        : const SizedBox.shrink();
   }
 }

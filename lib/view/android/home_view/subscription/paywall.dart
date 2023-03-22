@@ -6,8 +6,27 @@ import 'package:flutter_lucid_bell/view/config_view.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
+class MockOffering {
+  get availablePackages {
+    return [
+      const MockStoreProduct('description', 'title', '1 UAH'),
+      const MockStoreProduct('description', 'title', '1 UAH'),
+      const MockStoreProduct('description', 'title', '1 UAH')
+    ];
+  }
+}
+
+class MockStoreProduct {
+  final String description;
+  final String title;
+  final String priceString;
+
+  const MockStoreProduct(this.description, this.title, this.priceString);
+}
+
 class Paywall extends StatefulWidget {
   final Offering offering;
+  // final MockOffering offering;
   const Paywall({required this.offering, super.key});
 
   @override
@@ -34,8 +53,7 @@ class _PaywallState extends State<Paywall> {
             const Padding(
                 padding:
                     EdgeInsets.only(top: 32, bottom: 16, left: 16, right: 16),
-                child: SizedBox.shrink()
-                ),
+                child: SizedBox.shrink()),
             SizedBox(
               height: SizeConfig.getMediaHeight(context) * 0.3,
               width: SizeConfig.getMediaWidth(context) * 1,
@@ -44,43 +62,45 @@ class _PaywallState extends State<Paywall> {
                   itemBuilder: (BuildContext context, int index) {
                     var myProductList = widget.offering.availablePackages;
                     return Card(
-                        color: View.currentTheme.storeTheme.tileColor,
-                        child: ListTile(
-                          onTap: () async {
-                            try {
-                              CustomerInfo customerInfo =
-                                  await Purchases.purchasePackage(
-                                      myProductList[index]);
-                              appData.subscriptionIsActive = customerInfo
-                                  .entitlements.all[entitlementId]!.isActive;
-                              Subscription.checkSubscriptionAsync();
-                              print('active');
-                            } catch (e) {
-                              if (kDebugMode) {
-                                print(e);
-                              }
+                      color: View.currentTheme.storeTheme.tileColor,
+                      child: ListTile(
+                        onTap: () async {
+                          try {
+                            CustomerInfo customerInfo =
+                                await Purchases.purchasePackage(
+                                    myProductList[index]);
+                            appData.subscriptionIsActive = customerInfo
+                                .entitlements.all[entitlementId]!.isActive;
+                            Subscription.checkSubscriptionAsync();
+                            print('active');
+                          } catch (e) {
+                            if (kDebugMode) {
+                              print(e);
                             }
-                          },
-                          title: Text(
-                            myProductList[index].storeProduct.title,
-                            style: const TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255),
-                                fontSize: 18),
-                          ),
-                          subtitle: Text(
-                            myProductList[index].storeProduct.description,
-                            style: const TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255),
-                                fontSize: 14),
-                          ),
-                          trailing: Text(
-                            myProductList[index].storeProduct.priceString,
-                            style: const TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255),
-                                fontSize: 14),
-                          ),
+                          }
+                        },
+                        title: Text(
+                          // myProductList[index]/* .storeProduct */.title,  // mock
+                          myProductList[index].storeProduct.title,
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 18),
                         ),
-                      
+                        subtitle: Text(
+                          // myProductList[index]/* .storeProduct */.description,  // mock
+                          myProductList[index].storeProduct.description,
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 14),
+                        ),
+                        trailing: Text(
+                          // myProductList[index]/* .storeProduct */.priceString,  //mock
+                          myProductList[index].storeProduct.priceString,
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 14),
+                        ),
+                      ),
                     );
                   }),
             ),
@@ -98,5 +118,3 @@ class _PaywallState extends State<Paywall> {
     );
   }
 }
-
-

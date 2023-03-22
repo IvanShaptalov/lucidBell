@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            CustomBannerAd.showBanner(),
+            CustomBannerAd.showBanner(context),
           ],
         ),
       ),

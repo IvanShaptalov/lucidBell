@@ -12,7 +12,8 @@ import 'package:flutter_lucid_bell/view/view.dart';
 /// ===========================================[Subscription]=======================================
 const entitlementId = 'premium';
 
-const footerText = "Access to AdBlock, text editing, theme changing, bell count and night mode selecting";
+const footerText =
+    "Access to AdBlock, text editing, theme changing, bell count and night mode selecting";
 
 const googleApiKey = 'goog_oQDYaSqLtKfNSzSoUdVdHQModcQ';
 
@@ -46,7 +47,7 @@ class StoreConfig {
     if (Platform.isAndroid) {
       StoreConfig(store: Store.googlePlay, apiKey: googleApiKey);
       var configuration = PurchasesConfiguration(StoreConfig.instance.apiKey);
-      await Purchases.configure(configuration);
+      Purchases.configure(configuration);
       await Subscription.checkSubscriptionAsync();
       return true;
     }
@@ -105,7 +106,8 @@ class Subscription {
             context: context,
             builder: (BuildContext context) {
               return StatefulBuilder(builder: (BuildContext context, setState) {
-                return Paywall(offering: offerings!.current!);
+                return Paywall(
+                    offering: offerings!.current! /* MockOffering() */);
               });
             });
       }
