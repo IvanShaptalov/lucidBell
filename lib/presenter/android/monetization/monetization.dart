@@ -12,7 +12,7 @@ import 'package:flutter_lucid_bell/view/view.dart';
 /// ===========================================[Subscription]=======================================
 const entitlementId = 'premium';
 
-const footerText = "premium access to all circle bell features";
+const footerText = "Access to AdBlock, text editing, theme changing, bell count and night mode selecting";
 
 const googleApiKey = 'goog_oQDYaSqLtKfNSzSoUdVdHQModcQ';
 
@@ -55,26 +55,19 @@ class StoreConfig {
 }
 
 class Subscription {
-  static Future<bool> offerConditionAsync() async {
-    CustomerInfo customerInfo = await Purchases.getCustomerInfo();
-    if (customerInfo.entitlements.all[entitlementId] != null &&
-        customerInfo.entitlements.all[entitlementId]!.isActive == true) {
-      return true;
-    }
-
-    return false;
-  }
+  /// returns true if premium not activated
+  static Future<bool> premiumNotActivated() async =>
+      (await Purchases.getCustomerInfo()).entitlements.active.isEmpty;
 
   static Future<void> checkSubscriptionAsync() async {
     CustomerInfo customerInfo = await Purchases.getCustomerInfo();
     bool entitlementActive = customerInfo.entitlements.active.isNotEmpty;
-    if (kDebugMode)
-      print('entitlement active: $entitlementActive =======================');
+    if (kDebugMode) print('entitlement active: $entitlementActive');
     appData.subscriptionIsActive = entitlementActive;
   }
 
   static Future<void> showStore(context) async {
-    if (!await Subscription.offerConditionAsync()) {
+    if (await Subscription.premiumNotActivated()) {
       Offerings? offerings;
       try {
         offerings = await Purchases.getOfferings();
@@ -83,12 +76,18 @@ class Subscription {
         await showDialog(
             context: context,
             builder: (BuildContext context) => AlertDialog(
-                  title: const Text("Error"),
-                  content: Text(e.message.toString()),
+                  backgroundColor:
+                      View.currentTheme.storeTheme.bottomSheetBackgroundColor,
+                  content: const Text("Check your internet connection 🤔"),
                   actions: [
-                    TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text('OK'))
+                    Center(
+                      child: TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text(
+                            'ok',
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          )),
+                    )
                   ],
                 ));
       }

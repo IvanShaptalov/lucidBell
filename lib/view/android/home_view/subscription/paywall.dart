@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/model/data_structures/singletons_data.dart';
 import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.dart';
-import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
@@ -32,6 +31,11 @@ class _PaywallState extends State<Paywall> {
                     color: Color.fromARGB(255, 255, 255, 255), fontSize: 24),
               ),
             ),
+            const Padding(
+                padding:
+                    EdgeInsets.only(top: 32, bottom: 16, left: 16, right: 16),
+                child: SizedBox.shrink()
+                ),
             SizedBox(
               height: SizeConfig.getMediaHeight(context) * 0.3,
               width: SizeConfig.getMediaWidth(context) * 1,
@@ -94,3 +98,5 @@ class _PaywallState extends State<Paywall> {
     );
   }
 }
+
+

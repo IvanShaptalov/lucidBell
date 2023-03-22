@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_lucid_bell/model/data_structures/singletons_data.dart';
 import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.dart';
 import 'package:flutter_lucid_bell/presenter/android/permission_service/permission_service.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/ad_widgets/banner_ad.dart';
 import 'package:flutter_lucid_bell/view/android/permission_page/inapp_review_tile.dart';
 import 'package:flutter_lucid_bell/view/android/theme/theme_view.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
+import 'package:flutter_lucid_bell/view/view.dart';
 
 // ignore: must_be_immutable
 class PermissionPage extends StatefulWidget {
@@ -58,10 +60,15 @@ class _PermissionPageState extends State<PermissionPage> {
                       scale: 3,
                       child: Container(
                         child: PermissionService.allGranted
-                            ? const Text(
-                                '😊',
-                                style: TextStyle(fontSize: 30),
-                              )
+                            ? appData.subscriptionIsActive
+                                ? const Text(
+                                    '😎',
+                                    style: TextStyle(fontSize: 30),
+                                  )
+                                : const Text(
+                                    '😊',
+                                    style: TextStyle(fontSize: 30),
+                                  )
                             : const Text('😔', style: TextStyle(fontSize: 30)),
                       ))),
               SizedBox(
@@ -82,17 +89,41 @@ class _PermissionPageState extends State<PermissionPage> {
                 ),
               ),
               CustomThemes(widget.updateCallback),
-              TextButton(
-                  onPressed: () async {
-                    await Subscription.showStore(context);
-                  },
-                  child: const Text('get premium')),
+              premiumButton(),
               CustomBannerAd.showBanner()
             ],
           ),
         ],
       )),
       backgroundColor: Colors.transparent,
+    );
+  }
+
+  Widget premiumButton() {
+    return Container(
+      height: SizeConfig.getMediaHeight(context) * 0.065, //5%
+      width: SizeConfig.getMediaWidth(context) * 0.7, //22%
+      margin: EdgeInsets.symmetric(
+          horizontal: SizeConfig.getMediaWidth(context) * 0.002), //%0.2
+      decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(40)),
+          gradient:
+              View.currentTheme.threeCashedButtonTheme.cashedButtonGradient),
+      child: TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Colors.white,
+            // Text Color
+          ),
+          onPressed: () async {
+            await Subscription.showStore(context);
+
+            setState(() {});
+          },
+          child: Text(
+            appData.subscriptionIsActive ? 'premium activated' : 'get premium',
+            maxLines: 1,
+            textAlign: TextAlign.center,
+          )),
     );
   }
 }
