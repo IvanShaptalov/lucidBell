@@ -444,7 +444,7 @@ class CustomTheme with ThemeIO {
         SliderTheme(const Color.fromARGB(179, 99, 122, 184),
             const Color.fromARGB(91, 81, 99, 149)),
         SubscriptionStoreTheme(
-            Colors.deepPurple.shade900, Colors.deepPurple.shade800),
+            Colors.purple.shade900, const Color.fromARGB(199, 97, 67, 133)),
         Themes.purple);
   }
 
