@@ -43,6 +43,13 @@ class ThreeCashedButtonTheme {
   ThreeCashedButtonTheme(this.cashedButtonGradient);
 }
 
+class SubscriptionStoreTheme {
+  Color bottomSheetBackgroundColor;
+  Color tileColor;
+
+  SubscriptionStoreTheme(this.bottomSheetBackgroundColor, this.tileColor);
+}
+
 class AppTheme {
   LinearGradient activeBellGradient;
   LinearGradient unactiveBellGradient;
@@ -58,9 +65,8 @@ class AppTheme {
 
 /// ===============================================[THEME SETTINGS]================================
 
-class CustomTheme with ThemeIO{
+class CustomTheme with ThemeIO {
   static loadBasicTheme() {
-    
     return ThemeData(
       // Define the default brightness and colors.
       brightness: Brightness.dark,
@@ -102,6 +108,7 @@ class CustomTheme with ThemeIO{
   ThreeCashedButtonTheme threeCashedButtonTheme;
   AppTheme appTheme;
   SliderTheme sliderTheme;
+  SubscriptionStoreTheme storeTheme;
   Themes _themeName;
 
   Themes get themeEnum => _themeName;
@@ -114,6 +121,7 @@ class CustomTheme with ThemeIO{
       this.threeCashedButtonTheme,
       this.appTheme,
       this.sliderTheme,
+      this.storeTheme,
       this._themeName);
 
   /// ================================================[ORANGE THEME]===============================
@@ -165,7 +173,9 @@ class CustomTheme with ThemeIO{
             const Color.fromARGB(255, 202, 103, 47)),
         SliderTheme(const Color.fromARGB(255, 205, 216, 97),
             const Color.fromARGB(255, 132, 140, 62)),
-            Themes.orange);
+        SubscriptionStoreTheme(Colors.brown.shade400,
+            Colors.brown.shade300),
+        Themes.orange);
   }
 
   /// ==============================================[BROWN THEME]=======================================
@@ -218,7 +228,8 @@ class CustomTheme with ThemeIO{
             const Color.fromARGB(255, 100, 51, 23)),
         SliderTheme(const Color.fromARGB(255, 102, 52, 24),
             const Color.fromARGB(255, 59, 31, 14)),
-            Themes.brown);
+        SubscriptionStoreTheme(Colors.brown.shade900, Colors.brown.shade700),
+        Themes.brown);
   }
 
   /// ==============================================[GREY THEME]=======================================
@@ -270,6 +281,8 @@ class CustomTheme with ThemeIO{
             Colors.blueGrey,
             Colors.grey.shade400),
         SliderTheme(Colors.grey.shade400, Colors.blueGrey),
+        SubscriptionStoreTheme(
+            Colors.blueGrey.shade900, Colors.blueGrey.shade700),
         Themes.grey);
   }
 
@@ -322,6 +335,7 @@ class CustomTheme with ThemeIO{
             const Color.fromARGB(255, 76, 167, 175),
             const Color.fromARGB(255, 44, 114, 113)),
         SliderTheme(Colors.blue, Colors.teal.shade900),
+        SubscriptionStoreTheme(Colors.teal.shade900, Colors.teal.shade700),
         Themes.green);
   }
 
@@ -374,6 +388,7 @@ class CustomTheme with ThemeIO{
             Colors.green,
             Colors.blue.shade600),
         SliderTheme(Colors.indigo, Colors.indigo.shade800),
+        SubscriptionStoreTheme(Colors.indigo.shade900, Colors.indigo.shade700),
         Themes.blueDefault);
   }
 
@@ -428,7 +443,9 @@ class CustomTheme with ThemeIO{
         ),
         SliderTheme(const Color.fromARGB(179, 99, 122, 184),
             const Color.fromARGB(91, 81, 99, 149)),
-            Themes.purple);
+        SubscriptionStoreTheme(
+            Colors.deepPurple.shade900, Colors.deepPurple.shade800),
+        Themes.purple);
   }
 
   static CustomTheme selectTheme({Themes theme = Themes.purple}) {
@@ -450,4 +467,4 @@ class CustomTheme with ThemeIO{
   }
 }
 
-enum Themes { orange, brown, grey, green, blueDefault, purple}
+enum Themes { orange, brown, grey, green, blueDefault, purple }

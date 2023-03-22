@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:flutter_lucid_bell/presenter/android/monetization/subscription.dart';
 
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/ad_widgets/banner_ad.dart';
@@ -24,6 +25,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
+    Subscription.checkSubscriptionAsync();
     CustomBannerAd.loadBannerAd(callback);
     super.initState();
   }

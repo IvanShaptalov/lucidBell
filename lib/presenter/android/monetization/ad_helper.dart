@@ -9,7 +9,7 @@ class AdHelper {
 
   static bool get showAds {
     // if not active - show ads, else not show
-    return !appData.subscriptionIsActive;
+    return !(appData.subscriptionIsActive);
   }
 
   static String get rewardedAdUnitId {

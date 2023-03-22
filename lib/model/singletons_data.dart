@@ -1,5 +1,3 @@
-import 'package:flutter_lucid_bell/presenter/android/monetization/subscription.dart';
-
 class AppData {
   static final AppData _appData = AppData._internal();
 
@@ -9,7 +7,6 @@ class AppData {
 
   bool get subscriptionIsActive {
     // check that subscription exists
-    Subscription.checkSubscriptionAsync();
     print('check for subscription');
     return _subscriptionIsActive;
   }

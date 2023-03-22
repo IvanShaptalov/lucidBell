@@ -19,8 +19,11 @@ class PermissionPage extends StatefulWidget {
 
 class _PermissionPageState extends State<PermissionPage> {
   Timer? timer;
+
   @override
   void initState() {
+    Subscription.checkSubscriptionAsync();
+
     CustomBannerAd.loadBannerAd(widget.updateCallback);
     timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       await PermissionService.checkPermissions();

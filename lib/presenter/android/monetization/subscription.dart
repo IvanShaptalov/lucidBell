@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_lucid_bell/model/singletons_data.dart';
 import 'package:flutter_lucid_bell/presenter/android/monetization/constant.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/subscription/paywall.dart';
+import 'package:flutter_lucid_bell/view/view.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 class Subscription {
@@ -23,7 +24,6 @@ class Subscription {
     if (kDebugMode) print('entitlement active: $entitlementActive =======================');
     appData.subscriptionIsActive = entitlementActive;
   }
-
 
   static Future<void> showStore(context) async {
     if (!await Subscription.offerConditionAsync()) {
@@ -51,7 +51,8 @@ class Subscription {
         showModalBottomSheet(
             isDismissible: true,
             isScrollControlled: true,
-            backgroundColor: Colors.grey,
+            backgroundColor:
+                View.currentTheme.storeTheme.bottomSheetBackgroundColor,
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(25))),
             context: context,

@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter_lucid_bell/model/singletons_data.dart';
 import 'package:flutter_lucid_bell/presenter/android/monetization/constant.dart';
 import 'package:flutter_lucid_bell/presenter/android/monetization/subscription.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
