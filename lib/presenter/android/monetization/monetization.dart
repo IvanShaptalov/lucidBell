@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:purchases_flutter/purchases_flutter.dart';
-import 'package:flutter_lucid_bell/model/data_structures/singletons_data.dart';
+import 'package:flutter_lucid_bell/model/data_structures/app_data.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +48,7 @@ class StoreConfig {
       StoreConfig(store: Store.googlePlay, apiKey: googleApiKey);
       var configuration = PurchasesConfiguration(StoreConfig.instance.apiKey);
       Purchases.configure(configuration);
-      await Subscription.checkSubscriptionAsync();
+      await Subscription.premiumActivatedAsync();
       return true;
     }
     throw UnsupportedError('unsupported platform');
@@ -57,23 +57,25 @@ class StoreConfig {
 
 class Subscription {
   /// returns true if premium not activated
-  static Future<bool> premiumNotActivated() async =>
-      (await Purchases.getCustomerInfo()).entitlements.active.isEmpty;
 
-  static Future<void> checkSubscriptionAsync() async {
+  static Future<bool> premiumActivatedAsync() async {
     CustomerInfo customerInfo = await Purchases.getCustomerInfo();
     bool entitlementActive = customerInfo.entitlements.active.isNotEmpty;
     if (kDebugMode) print('entitlement active: $entitlementActive');
     appData.subscriptionIsActive = entitlementActive;
+    return entitlementActive;
   }
 
   static Future<void> showStore(context) async {
-    if (await Subscription.premiumNotActivated()) {
+    if (!await Subscription.premiumActivatedAsync()) {
       Offerings? offerings;
       try {
         offerings = await Purchases.getOfferings();
       } on PlatformException catch (e) {
         // ignore: use_build_context_synchronously
+        if (kDebugMode) {
+          print(e.toString());
+        }
         await showDialog(
             context: context,
             builder: (BuildContext context) => AlertDialog(

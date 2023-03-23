@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_lucid_bell/model/data_structures/singletons_data.dart';
+import 'package:flutter_lucid_bell/model/data_structures/app_data.dart';
 import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.dart';
 import 'package:flutter_lucid_bell/presenter/android/permission_service/permission_service.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/ad_widgets/banner_ad.dart';
@@ -24,7 +24,7 @@ class _PermissionPageState extends State<PermissionPage> {
 
   @override
   void initState() {
-    Subscription.checkSubscriptionAsync();
+    Subscription.premiumActivatedAsync();
 
     CustomBannerAd.loadBannerAd(widget.updateCallback);
     timer = Timer.periodic(const Duration(seconds: 1), (timer) async {

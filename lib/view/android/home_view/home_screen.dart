@@ -25,7 +25,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    Subscription.checkSubscriptionAsync();
+    Subscription.premiumActivatedAsync();
     CustomBannerAd.loadBannerAd(callback);
     super.initState();
   }

@@ -1,6 +1,7 @@
 class AppData {
   static final AppData _appData = AppData._internal();
 
+  // if subscription active - delete ads
   bool subscriptionIsActive = false; 
 
   String appUserId = '';

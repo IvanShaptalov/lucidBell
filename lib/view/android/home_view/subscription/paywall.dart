@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_lucid_bell/model/data_structures/singletons_data.dart';
+import 'package:flutter_lucid_bell/model/data_structures/app_data.dart';
 import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
@@ -36,8 +36,10 @@ class Paywall extends StatefulWidget {
 class _PaywallState extends State<Paywall> {
   @override
   Widget build(BuildContext context) {
-    print(
+    if (kDebugMode) {
+      print(
         '${widget.offering.availablePackages.length} ===================== available');
+    }
     return SizedBox(
       child: SingleChildScrollView(
         child: SafeArea(
@@ -65,19 +67,49 @@ class _PaywallState extends State<Paywall> {
                       color: View.currentTheme.storeTheme.tileColor,
                       child: ListTile(
                         onTap: () async {
-                          try {
-                            CustomerInfo customerInfo =
-                                await Purchases.purchasePackage(
-                                    myProductList[index]);
-                            appData.subscriptionIsActive = customerInfo
-                                .entitlements.all[entitlementId]!.isActive;
-                            Subscription.checkSubscriptionAsync();
-                            print('active');
-                          } catch (e) {
-                            if (kDebugMode) {
-                              print(e);
+                          // if subscribed you can't subscribe again
+                          if (await Subscription.premiumActivatedAsync()) {
+                            // ignore: use_build_context_synchronously
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Center(
+                                    child: Container(
+                                      height: SizeConfig.getMediaHeight(context) * 0.2,
+                                      width: SizeConfig.getMediaWidth(context) * 0.8,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(25),
+                                          gradient: View.currentTheme.appTheme
+                                              .activeBellGradient),
+                                      child: const AlertDialog(
+                                          backgroundColor: Colors.transparent,
+                                          title: Text(
+                                            'you already got premium',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16)),
+                                          content: null),
+                                    ),
+                                  );
+                                });
+                          } else {
+                            try {
+                              CustomerInfo customerInfo =
+                                  await Purchases.purchasePackage(
+                                      myProductList[index]);
+                              appData.subscriptionIsActive = customerInfo
+                                  .entitlements.all[entitlementId]!.isActive;
+                              Subscription.premiumActivatedAsync();
+                              if (kDebugMode) {
+                                print('active');
+                              }
+                            } catch (e) {
+                              if (kDebugMode) {
+                                print(e);
+                              }
                             }
                           }
+                          setState(() {});
                         },
                         title: Text(
                           // myProductList[index]/* .storeProduct */.title,  // mock
