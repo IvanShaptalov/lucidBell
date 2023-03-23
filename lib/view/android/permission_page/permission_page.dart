@@ -116,7 +116,7 @@ class _PermissionPageState extends State<PermissionPage> {
             setState(() {});
           },
           child: Text(
-            appData.subscriptionIsActive ? 'premium activated' : 'get premium',
+            appData.subscriptionIsActive ? 'Premium Version 👑' : 'Upgrade Circle Bell',
             maxLines: 1,
             textAlign: TextAlign.center,
           )),

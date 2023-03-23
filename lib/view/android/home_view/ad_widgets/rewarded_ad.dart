@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.dart';
 import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
+import 'package:flutter_lucid_bell/view/config_view.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -109,10 +110,6 @@ mixin RewardedAdDialog {
                                       },
                                     ),
                                   ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(top: 16),
-                                    child: Text('Watch ad'),
-                                  ),
                                 ]
                               : <Widget>[
                                   const Icon(
@@ -159,6 +156,21 @@ mixin RewardedAdDialog {
                           ),
                         );
                       }),
+                  const Padding(padding: EdgeInsets.all(10)),
+                  const Divider(),
+                  Center(
+                    child: TextButton(
+                        onPressed: () async {
+                          Navigator.pop(context);
+                          await Subscription.showStore(context);
+                        },
+                        child: const Text(
+                          'upgrade 👑',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        )),
+                  ),
+                  const Padding(padding: EdgeInsets.all(10)),
+                  const Divider(),
                   IconButton(
                     icon: const Icon(Icons.arrow_downward),
                     onPressed: () {
@@ -176,9 +188,8 @@ mixin RewardedAdDialog {
 class RewardedAdDialogTextEdit with RewardedAdDialog {
   static void showEditingRewardedAd(context, Function targetFunction) {
     RewardedAdDialog.showRewardedAd(
-        context, 'Edit text', 'watch ad to edit reminder text', targetFunction);
+        context, 'Edit text', 'upgrade Circle Bell\nor watch ad \nto edit reminder text ', targetFunction);
   }
-
 }
 
 class RewardedAdThemeDialog with RewardedAdDialog {
