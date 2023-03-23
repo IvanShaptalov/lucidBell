@@ -129,8 +129,8 @@ class AdHelper {
 
   static String get rewardedAdUnitId {
     if (Platform.isAndroid) {
-      // return "ca-app-pub-4618505570484622/7719749288";
-      return "ca-app-pub-3940256099942544/5224354917"; // test ad
+      return "ca-app-pub-4618505570484622/7719749288";
+      // return "ca-app-pub-3940256099942544/5224354917"; // test ad
     } /* else if (Platform.isIOS) {
       return "ca-app-pub-3940256099942544/1712485313";
     } */
@@ -141,8 +141,8 @@ class AdHelper {
 
   static String get bannerAdUnitId {
     if (Platform.isAndroid) {
-      // return "ca-app-pub-4618505570484622/9034746675";
-      return "ca-app-pub-3940256099942544/6300978111"; // test ad
+      return "ca-app-pub-4618505570484622/9034746675";
+      // return "ca-app-pub-3940256099942544/6300978111"; // test ad
     } /* else if (Platform.isIOS) {
       return "ca-app-pub-3940256099942544/1712485313";
     } */
