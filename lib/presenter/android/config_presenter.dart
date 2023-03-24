@@ -1,3 +1,4 @@
 class ConfigBackgroundManager {
-  static const bool debugMode = false;
+  // TODO switch to false
+  static const bool debugMode = true;
 }

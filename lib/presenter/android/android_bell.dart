@@ -18,7 +18,13 @@ class AndroidBell extends Bell
   static const Duration notificationTimeout =
       AndroidBellNotificationService.notificationTimeout;
 
-  ReminderSoundEnum reminderSoundEnum;
+  ReminderSoundEnum _reminderSoundEnum;
+
+  get reminderSoundEnum => _reminderSoundEnum;
+  setReminderSoundEnum(ReminderSoundEnum value) async {
+    _reminderSoundEnum = value;
+    await saveToStorageAsync();
+  }
 
   int getSecondsToNextNotification() {
     int seconds = innerNextNotificationOn!.difference(DateTime.now()).inSeconds;
@@ -71,7 +77,7 @@ class AndroidBell extends Bell
   }
 
 //=====================================================CONSTRUCTORS==================================================
-  AndroidBell(running, interval, threeCashedIntervals, this.reminderSoundEnum)
+  AndroidBell(running, interval, threeCashedIntervals, this._reminderSoundEnum)
       : super(running, interval, threeCashedIntervals);
 
   static AndroidBell mockBell() {
@@ -96,14 +102,14 @@ class AndroidBell extends Bell
       Duration interval,
       CashedIntervals threeCashedIntervals,
       DateTime? nextNotificationOn,
-      this.reminderSoundEnum)
+      this._reminderSoundEnum)
       : super.protectedCreating(
             running, interval, threeCashedIntervals, nextNotificationOn);
 
   @override
   AndroidBell clone() {
     return AndroidBell.protectedCreating(innerRunning, innerInterval,
-        innerThreeCashedIntervals, innerNextNotificationOn, reminderSoundEnum);
+        innerThreeCashedIntervals, innerNextNotificationOn, _reminderSoundEnum);
   }
 
   @override
@@ -116,7 +122,7 @@ class AndroidBell extends Bell
           : null,
       'threeCashedIntervalsInSeconds':
           innerThreeCashedIntervals.toListOfSeconds(),
-      'reminderSoundEnum': reminderSoundEnum.name
+      'reminderSoundEnum': _reminderSoundEnum.name
     };
     return jsonEncode(map);
   }
@@ -172,21 +178,12 @@ class AndroidBell extends Bell
   }
 
   CustomReminderSound getReminderSound() {
-    switch (reminderSoundEnum) {
+    switch (_reminderSoundEnum) {
       case ReminderSoundEnum.defaultReminder:
         return defaultReminder;
 
-      case ReminderSoundEnum.cricket:
-        return cricketReminder;
-
       case ReminderSoundEnum.drip:
         return dripReminder;
-
-      case ReminderSoundEnum.glass:
-        return glassReminder;
-
-      case ReminderSoundEnum.iphone:
-        return iphoneReminder;
 
       case ReminderSoundEnum.uwu:
         return uwuReminder;

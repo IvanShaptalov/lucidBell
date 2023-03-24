@@ -2,6 +2,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_lucid_bell/constant.dart';
 import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
 import 'package:flutter_lucid_bell/presenter/android/background_implementation/background_implementation.dart';
@@ -22,7 +23,7 @@ void callbackDispatcher() {
 
     AndroidBell bell =
         await AndroidBell.loadFromStorage(disabledBackgroundWork: true);
-
+    AndroidBell rollbackBell = bell.clone();
     try {
       // expect that notification updated
 
@@ -35,9 +36,15 @@ void callbackDispatcher() {
       if (kDebugMode) {
         print(nextBellOnMessage);
       }
+      bool result;
+      try {
+        result = await bell.sendNotification(
+            justNextBell, nextBellOnMessage, bell.getReminderSound());
+      } catch (e) {
+        result = await bell.sendNotification(
+            justNextBell, nextBellOnMessage, defaultReminder);
+      }
       // send notification
-      bool result =
-          await bell.sendNotification(justNextBell, nextBellOnMessage, bell.getReminderSound());
 
       // WAIT FOR NOTIFICATION
 
@@ -45,6 +52,8 @@ void callbackDispatcher() {
 
       return Future.value(result);
     } catch (e) {
+      await rollbackBell.saveToStorageAsync();
+
       await StorageLogger.logBackgroundAsync(
           'error in background: ${e.toString()}');
       return Future.error(e.toString());

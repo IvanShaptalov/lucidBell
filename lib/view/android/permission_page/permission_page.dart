@@ -6,6 +6,7 @@ import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.d
 import 'package:flutter_lucid_bell/presenter/android/permission_service/permission_service.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/ad_widgets/banner_ad.dart';
 import 'package:flutter_lucid_bell/view/android/permission_page/inapp_review_tile.dart';
+import 'package:flutter_lucid_bell/view/android/permission_page/sound_selector.dart';
 import 'package:flutter_lucid_bell/view/android/theme/theme_view.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
 import 'package:flutter_lucid_bell/view/view.dart';
@@ -81,6 +82,8 @@ class _PermissionPageState extends State<PermissionPage> {
                     SpecificCustomPermission.implemented
                         ? const SpecificPermissionTile()
                         : const SizedBox.shrink(),
+                    const Divider(),
+                    SoundSelector(widget.updateCallback),
                   ],
                 ),
               ),
@@ -116,7 +119,9 @@ class _PermissionPageState extends State<PermissionPage> {
             setState(() {});
           },
           child: Text(
-            appData.subscriptionIsActive ? 'Premium Version 👑' : 'Upgrade Circle Bell',
+            appData.subscriptionIsActive
+                ? 'Premium Version 👑'
+                : 'Upgrade Circle Bell',
             maxLines: 1,
             textAlign: TextAlign.center,
           )),
