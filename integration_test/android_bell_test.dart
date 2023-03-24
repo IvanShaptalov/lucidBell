@@ -1,3 +1,4 @@
+import 'package:flutter_lucid_bell/constant.dart';
 import 'package:flutter_lucid_bell/model/config_model.dart';
 import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
@@ -123,7 +124,7 @@ void main() {
       await AndroidBell.initServicesAsync();
       var bell = AndroidBell.mockBell();
 
-      bell.sendNotification('reminder', 'reminder');
+      bell.sendNotification('reminder', 'reminder', defaultReminder);
 
       expect(await CustomNotificationService.isNotificationSent(), false);
 

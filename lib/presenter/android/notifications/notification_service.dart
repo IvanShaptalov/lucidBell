@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_lucid_bell/constant.dart';
 import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz_data;
@@ -51,7 +52,7 @@ class CustomNotificationService {
     title,
     body,
     endTime,
-    channel,
+    CustomReminderSound crSound,
   ) async {
     // #1
 
@@ -60,10 +61,26 @@ class CustomNotificationService {
         tz.TZDateTime.fromMillisecondsSinceEpoch(tz.local, endTime);
 
 // #2
-    final androidDetail = AndroidNotificationDetails(
-        channel, // channel Id
-        channel // channel Name
-        );
+    var androidDetail = AndroidNotificationDetails(
+      crSound.channel, // channel Id
+      crSound.channel, // channel Name
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+ 
+    if (crSound.rawPath != null){
+      androidDetail = AndroidNotificationDetails(
+      crSound.channel,
+      crSound.channel,
+      playSound: crSound.playSound,
+      sound: crSound.rawPath != null
+          ? RawResourceAndroidNotificationSound(crSound.rawPath)
+          : null,
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    }
+
 
     final noticeDetail = NotificationDetails(
       android: androidDetail,
@@ -93,12 +110,12 @@ mixin AndroidBellNotificationService {
     return await CustomNotificationService.cancelNotification();
   }
 
-  static Future<bool> playNotification(
-      String title, String body, Duration timeout) async {
+  static Future<bool> playNotification(String title, String body,
+      Duration timeout, CustomReminderSound sound) async {
     try {
       // register notification to play
-      await CustomNotificationService.registerNotification(title, body,
-          DateTime.now().millisecondsSinceEpoch + 1000, 'reminder');
+      await CustomNotificationService.registerNotification(
+          title, body, DateTime.now().millisecondsSinceEpoch + 1000, sound);
 
       Future.delayed(timeout)
           .then((value) => throw Exception('notification timeout'));

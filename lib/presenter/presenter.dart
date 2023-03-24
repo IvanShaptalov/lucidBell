@@ -88,8 +88,13 @@ class Presenter {
   static Future<bool> initAsync() async {
     bool bellPresenter = await BellPresenter.initAsync();
     bool textReminder = await PresenterTextReminder.initAsync();
-    bool storeInited = await StoreConfig.initStoreAsync();
-    
+    bool storeInited = false;
+    try {
+      storeInited = await StoreConfig.initStoreAsync();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+
     AdHelper.initAsync();
     return bellPresenter && textReminder && storeInited;
   }

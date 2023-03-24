@@ -37,7 +37,7 @@ void callbackDispatcher() {
       }
       // send notification
       bool result =
-          await bell.sendNotification(justNextBell, nextBellOnMessage);
+          await bell.sendNotification(justNextBell, nextBellOnMessage, bell.getReminderSound());
 
       // WAIT FOR NOTIFICATION
 

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_lucid_bell/constant.dart';
 import 'package:flutter_lucid_bell/model/bell/bell.dart';
 import 'package:flutter_lucid_bell/model/data_structures/data_structures.dart';
 import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
@@ -16,6 +17,8 @@ class AndroidBell extends Bell
 //======================================================FIELDS GETTERS, SETTERS=======================================
   static const Duration notificationTimeout =
       AndroidBellNotificationService.notificationTimeout;
+
+  ReminderSoundEnum reminderSoundEnum;
 
   int getSecondsToNextNotification() {
     int seconds = innerNextNotificationOn!.difference(DateTime.now()).inSeconds;
@@ -68,11 +71,12 @@ class AndroidBell extends Bell
   }
 
 //=====================================================CONSTRUCTORS==================================================
-  AndroidBell(running, interval, threeCashedIntervals)
+  AndroidBell(running, interval, threeCashedIntervals, this.reminderSoundEnum)
       : super(running, interval, threeCashedIntervals);
 
   static AndroidBell mockBell() {
-    return AndroidBell(false, const Duration(minutes: 15), CashedIntervals());
+    return AndroidBell(false, const Duration(minutes: 15), CashedIntervals(),
+        ReminderSoundEnum.defaultReminder);
   }
 
   static Future<bool> initServicesAsync() async {
@@ -87,31 +91,50 @@ class AndroidBell extends Bell
   }
 
   @protected
-  AndroidBell.protectedCreating(bool running, Duration interval,
-      CashedIntervals threeCashedIntervals, DateTime? nextNotificationOn)
+  AndroidBell.protectedCreating(
+      bool running,
+      Duration interval,
+      CashedIntervals threeCashedIntervals,
+      DateTime? nextNotificationOn,
+      this.reminderSoundEnum)
       : super.protectedCreating(
             running, interval, threeCashedIntervals, nextNotificationOn);
 
   @override
   AndroidBell clone() {
     return AndroidBell.protectedCreating(innerRunning, innerInterval,
-        innerThreeCashedIntervals, innerNextNotificationOn);
+        innerThreeCashedIntervals, innerNextNotificationOn, reminderSoundEnum);
+  }
+
+  @override
+  String toJson() {
+    Map<String, dynamic> map = <String, dynamic>{
+      'running': innerRunning,
+      'intervalInSeconds': innerInterval.inSeconds,
+      'nextNotificationOn': innerNextNotificationOn != null
+          ? innerNextNotificationOn!.toString()
+          : null,
+      'threeCashedIntervalsInSeconds':
+          innerThreeCashedIntervals.toListOfSeconds(),
+      'reminderSoundEnum': reminderSoundEnum.name
+    };
+    return jsonEncode(map);
   }
 
   static AndroidBell fromJson(String json) {
     Map<String, dynamic> map = jsonDecode(json);
     String? nextNotificationOn = map['nextNotificationOn'];
     return AndroidBell.protectedCreating(
-      map['running'],
-      Duration(seconds: map['intervalInSeconds']),
-      CashedIntervals.fromListOfSeconds(map['threeCashedIntervalsInSeconds']),
-      nextNotificationOn != null ? DateTime.parse(nextNotificationOn) : null,
-    );
+        map['running'],
+        Duration(seconds: map['intervalInSeconds']),
+        CashedIntervals.fromListOfSeconds(map['threeCashedIntervalsInSeconds']),
+        nextNotificationOn != null ? DateTime.parse(nextNotificationOn) : null,
+        ReminderSoundEnum.values.byName(map['reminderSoundEnum']));
   }
 
   factory AndroidBell.mockBellWithoutBackground() =>
-      AndroidBell.protectedCreating(
-          false, const Duration(minutes: 15), CashedIntervals(), DateTime.now());
+      AndroidBell.protectedCreating(false, const Duration(minutes: 15),
+          CashedIntervals(), DateTime.now(), ReminderSoundEnum.defaultReminder);
 //======================================================IO===============================================================
   static Future<AndroidBell> loadFromStorage(
       {bool disabledBackgroundWork = false}) async {
@@ -138,10 +161,41 @@ class AndroidBell extends Bell
 
 //===================================================NOTIFICATION SERVICE================================================
 
-  Future<bool> sendNotification(String title, String body,
-      {Duration timeout = notificationTimeout}) async {
+  Future<bool> sendNotification(
+    String title,
+    String body,
+    CustomReminderSound crSound, {
+    Duration timeout = notificationTimeout,
+  }) async {
     return await AndroidBellNotificationService.playNotification(
-        title, body, timeout);
+        title, body, timeout, crSound);
+  }
+
+  CustomReminderSound getReminderSound() {
+    switch (reminderSoundEnum) {
+      case ReminderSoundEnum.defaultReminder:
+        return defaultReminder;
+
+      case ReminderSoundEnum.cricket:
+        return cricketReminder;
+
+      case ReminderSoundEnum.drip:
+        return dripReminder;
+
+      case ReminderSoundEnum.glass:
+        return glassReminder;
+
+      case ReminderSoundEnum.iphone:
+        return iphoneReminder;
+
+      case ReminderSoundEnum.uwu:
+        return uwuReminder;
+
+      case ReminderSoundEnum.kpk:
+        return kpkReminder;
+      default:
+        return defaultReminder;
+    }
   }
 //====================================================PERMISSIONS SERVICE================================================
 }
