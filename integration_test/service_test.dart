@@ -5,7 +5,6 @@ import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provi
 import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
 import 'package:flutter_lucid_bell/presenter/android/background_implementation/background_implementation.dart';
 import 'package:flutter_lucid_bell/presenter/android/notifications/notification_service.dart';
-import 'package:flutter_lucid_bell/presenter/presenter.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:flutter_lucid_bell/main.dart' as app;

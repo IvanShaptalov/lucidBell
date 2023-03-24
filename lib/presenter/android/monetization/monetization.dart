@@ -123,8 +123,6 @@ class AdHelper {
   static Duration loadTimeout = const Duration(seconds: 10);
 
   static bool get showAds {
-    // TODO delete true
-    return true;
     // if not active - show ads, else not show
     return !(appData.subscriptionIsActive);
   }
