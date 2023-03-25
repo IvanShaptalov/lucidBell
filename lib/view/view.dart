@@ -1,7 +1,7 @@
-import 'package:flutter_lucid_bell/presenter/android/IO/theme_io.dart';
-import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
-import 'package:flutter_lucid_bell/view/config_view.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_lucid_bell/presenter/android/IO/theme_io.dart' show ThemeIO;
+import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart' show CustomTheme;
+import 'package:flutter_lucid_bell/view/config_view.dart' show ViewConfig;
+import 'package:intl/intl.dart' show DateFormat;
 
 /// USE VIEW TO CREATE LAST IN ANDROID PLATFORM IN THIS CASE
 class View {

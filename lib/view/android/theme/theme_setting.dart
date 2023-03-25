@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_lucid_bell/presenter/android/IO/theme_io.dart';
+import 'package:flutter/material.dart' show Alignment, BottomAppBarTheme, Brightness, Color, Colors, FontStyle, FontWeight, LinearGradient, TextStyle, TextTheme, ThemeData;
+import 'package:flutter_lucid_bell/presenter/android/IO/theme_io.dart' show ThemeIO;
 
 /// ==============================================[WIDGET SETTINGS]=================================
 class BellInfoTheme {

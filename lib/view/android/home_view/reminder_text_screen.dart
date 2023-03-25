@@ -1,12 +1,12 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_lucid_bell/model/bell/reminder_text.dart';
-import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.dart';
-import 'package:flutter_lucid_bell/presenter/presenter.dart';
-import 'package:flutter_lucid_bell/view/android/home_view/ad_widgets/rewarded_ad.dart';
-import 'package:flutter_lucid_bell/view/config_view.dart';
-import 'package:flutter_lucid_bell/view/view.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:flutter/material.dart' show AlertDialog, AnimatedCrossFade, BoxDecoration, BuildContext, Center, Colors, Column, Container, CrossFadeState, Curves, EdgeInsets, FocusManager, FontWeight, Icon, IconButton, Icons, ListTile, ListView, MainAxisAlignment, Navigator, Row, SizedBox, State, StatefulBuilder, StatefulWidget, Text, TextAlign, TextEditingController, TextField, TextInputType, TextPosition, TextSelection, Transform, Widget, showDialog;
+import 'package:flutter_lucid_bell/model/bell/reminder_text.dart' show ReminderText;
+import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.dart' show AdHelper;
+import 'package:flutter_lucid_bell/presenter/presenter.dart' show PresenterTextReminder;
+import 'package:flutter_lucid_bell/view/android/home_view/ad_widgets/rewarded_ad.dart' show RewardedAdDialogTextEdit;
+import 'package:flutter_lucid_bell/view/config_view.dart' show SizeConfig;
+import 'package:flutter_lucid_bell/view/view.dart' show View;
+import 'package:google_fonts/google_fonts.dart' show GoogleFonts;
 
 // ignore: must_be_immutable
 class ReminderTextScreen extends StatefulWidget {

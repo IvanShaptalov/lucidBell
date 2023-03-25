@@ -1,4 +1,4 @@
-import 'package:flutter_lucid_bell/model/config_model.dart';
+import 'package:flutter_lucid_bell/model/config_model.dart' show BellConfig;
 
 class CashedIntervals {
   //===================================================FIELDS=================================================================

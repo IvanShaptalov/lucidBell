@@ -1,9 +1,9 @@
-import 'dart:async';
+import 'dart:async' show Timer;
 
-import 'package:flutter/material.dart';
-import 'package:flutter_lucid_bell/presenter/presenter.dart';
-import 'package:flutter_lucid_bell/view/config_view.dart';
-import 'package:flutter_lucid_bell/view/view.dart';
+import 'package:flutter/material.dart' show BuildContext, SizedBox, State, StatefulWidget, Text, Widget;
+import 'package:flutter_lucid_bell/presenter/presenter.dart' show BellPresenter;
+import 'package:flutter_lucid_bell/view/config_view.dart' show SizeConfig;
+import 'package:flutter_lucid_bell/view/view.dart' show View;
 
 class TimeNow extends StatefulWidget {
   const TimeNow({super.key});

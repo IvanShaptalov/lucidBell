@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_lucid_bell/presenter/android/in_app_review.dart';
+import 'package:flutter/material.dart' show BuildContext, Icon, Icons, ListTile, StatelessWidget, Text, Widget;
+import 'package:flutter_lucid_bell/presenter/android/in_app_review.dart' show ReviewService;
 
 class InAppReviewTile extends StatelessWidget {
   const InAppReviewTile({super.key});

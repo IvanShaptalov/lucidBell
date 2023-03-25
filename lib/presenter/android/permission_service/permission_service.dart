@@ -1,5 +1,5 @@
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
+import 'package:device_info_plus/device_info_plus.dart' show AndroidDeviceInfo, DeviceInfoPlugin;
+import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart' show StorageLogger;
 import 'package:permission_handler/permission_handler.dart';
 
 class CustomPermission {

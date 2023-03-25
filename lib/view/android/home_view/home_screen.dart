@@ -1,18 +1,18 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:flutter/material.dart';
-import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.dart';
+import 'package:flutter/material.dart' show AnimatedCrossFade, AnimatedOpacity, BuildContext, Center, Column, Container, CrossFadeState, Curves, EdgeInsets, MainAxisAlignment, Padding, Row, Scaffold, SizedBox, State, StatefulWidget, Widget;
+import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.dart' show Subscription;
 
-import 'package:flutter_lucid_bell/presenter/presenter.dart';
-import 'package:flutter_lucid_bell/view/android/home_view/bell_info.dart';
-import 'package:flutter_lucid_bell/view/android/home_view/reminder_text_screen.dart';
-import 'package:flutter_lucid_bell/view/android/home_view/review_dialog.dart';
-import 'package:flutter_lucid_bell/view/android/home_view/slider_interval_selector.dart';
-import 'package:flutter_lucid_bell/view/android/home_view/switch_button.dart';
-import 'package:flutter_lucid_bell/view/android/home_view/three_cashed_buttons.dart';
-import 'package:flutter_lucid_bell/view/android/home_view/time_now.dart';
-import 'package:flutter_lucid_bell/view/config_view.dart';
-import 'package:flutter_lucid_bell/view/view.dart';
+import 'package:flutter_lucid_bell/presenter/presenter.dart' show BellPresenter;
+import 'package:flutter_lucid_bell/view/android/home_view/bell_info.dart' show BellInfo;
+import 'package:flutter_lucid_bell/view/android/home_view/reminder_text_screen.dart' show ReminderTextScreen;
+import 'package:flutter_lucid_bell/view/android/home_view/review_dialog.dart' show ReviewDialog;
+import 'package:flutter_lucid_bell/view/android/home_view/slider_interval_selector.dart' show SliderIntervalSelector;
+import 'package:flutter_lucid_bell/view/android/home_view/switch_button.dart' show SwitchBell;
+import 'package:flutter_lucid_bell/view/android/home_view/three_cashed_buttons.dart' show CashedButtons;
+import 'package:flutter_lucid_bell/view/android/home_view/time_now.dart' show TimeNow;
+import 'package:flutter_lucid_bell/view/config_view.dart' show SizeConfig;
+import 'package:flutter_lucid_bell/view/view.dart' show View;
 
 class HomeScreen extends StatefulWidget {
   Function updateCallback;

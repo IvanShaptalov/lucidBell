@@ -1,11 +1,11 @@
-import 'dart:convert';
+import 'dart:convert' show jsonDecode;
 
-import 'package:flutter/material.dart';
-import 'package:flutter_lucid_bell/model/bell/bell.dart';
-import 'package:flutter_lucid_bell/model/data_structures/data_structures.dart';
-import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
-import 'package:flutter_lucid_bell/presenter/android/background_implementation/background_implementation.dart';
-import 'package:flutter_lucid_bell/presenter/android/notifications/notification_service.dart';
+import 'package:flutter/material.dart' show protected;
+import 'package:flutter_lucid_bell/model/bell/bell.dart' show Bell;
+import 'package:flutter_lucid_bell/model/data_structures/data_structures.dart' show CashedIntervals;
+import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart' show AndroidBellStorageManager, LocalManager;
+import 'package:flutter_lucid_bell/presenter/android/background_implementation/background_implementation.dart' show AndroidBellBackgroundManager;
+import 'package:flutter_lucid_bell/presenter/android/notifications/notification_service.dart' show AndroidBellNotificationService;
 
 ///Implement android platform dependencies, Cashing, work in background, notification service
 class AndroidBell extends Bell

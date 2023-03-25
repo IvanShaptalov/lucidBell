@@ -1,14 +1,12 @@
-// import 'dart:async';
-
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
-import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
-import 'package:flutter_lucid_bell/presenter/android/background_implementation/background_implementation.dart';
-import 'package:flutter_lucid_bell/presenter/android/config_presenter.dart';
-import 'package:flutter_lucid_bell/presenter/presenter.dart';
-import 'package:flutter_lucid_bell/view/app.dart';
-import 'package:flutter_lucid_bell/view/view.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:flutter/material.dart' show WidgetsFlutterBinding, runApp;
+import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart' show StorageLogger;
+import 'package:flutter_lucid_bell/presenter/android/android_bell.dart' show AndroidBell;
+import 'package:flutter_lucid_bell/presenter/android/background_implementation/background_implementation.dart' show AndroidBellBackgroundManager;
+import 'package:flutter_lucid_bell/presenter/android/config_presenter.dart' show ConfigBackgroundManager;
+import 'package:flutter_lucid_bell/presenter/presenter.dart' show Presenter, PresenterTextReminder;
+import 'package:flutter_lucid_bell/view/app.dart' show MyApp;
+import 'package:flutter_lucid_bell/view/view.dart' show View;
 
 import 'dart:async';
 import 'package:workmanager/workmanager.dart';

@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_lucid_bell/model/config_model.dart';
-import 'package:flutter_lucid_bell/model/data_structures/data_structures.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter/material.dart' show protected;
+import 'package:flutter_lucid_bell/model/config_model.dart' show BellConfig;
+import 'package:flutter_lucid_bell/model/data_structures/data_structures.dart' show CashedIntervals;
+import 'package:intl/intl.dart' show DateFormat;
 
 abstract class BaseBell {
   // ======================================FIELDS, GETTERS AND SETTERS====================================================

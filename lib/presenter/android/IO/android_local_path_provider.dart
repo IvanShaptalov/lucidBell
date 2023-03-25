@@ -1,14 +1,14 @@
-import 'dart:convert';
-import 'dart:io';
+import 'dart:convert' show jsonDecode, jsonEncode;
+import 'dart:io' show Directory, File, FileMode;
 // ignore: depend_on_referenced_packages
-import 'package:flutter/foundation.dart';
-import 'package:flutter_lucid_bell/presenter/android/android_bell.dart';
-import 'package:flutter_lucid_bell/presenter/presenter.dart';
-import 'package:flutter_lucid_bell/view/view.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:flutter_lucid_bell/presenter/android/android_bell.dart' show AndroidBell;
+import 'package:flutter_lucid_bell/presenter/presenter.dart' show BellPresenter;
+import 'package:flutter_lucid_bell/view/view.dart' show View;
 // ignore: depend_on_referenced_packages
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
-import 'package:watcher/watcher.dart';
+import 'package:path/path.dart' show join;
+import 'package:path_provider/path_provider.dart' show getApplicationSupportDirectory;
+import 'package:watcher/watcher.dart' show FileWatcher;
 
 class LocalManager {
   /// ===========================[ROOT]=========================================
@@ -88,12 +88,12 @@ class LocalManager {
     assert(storageDirectoryPath != null);
 //=========================MOUNT DIRECTORIES=============================================
     localBellDirectoryPath =
-        p.join(storageDirectoryPath!, localBellDirectoryPath);
-    logDirectoryPath = p.join(storageDirectoryPath!, logDirectoryPath);
+        join(storageDirectoryPath!, localBellDirectoryPath);
+    logDirectoryPath = join(storageDirectoryPath!, logDirectoryPath);
     reminderTextDirectoryPath =
-        p.join(storageDirectoryPath!, reminderTextDirectoryPath);
+        join(storageDirectoryPath!, reminderTextDirectoryPath);
     onStartApplicationDirectoryPath =
-        p.join(storageDirectoryPath!, onStartApplicationDirectoryPath);
+        join(storageDirectoryPath!, onStartApplicationDirectoryPath);
 
     for (String dirPath in [
       localBellDirectoryPath,
@@ -106,12 +106,12 @@ class LocalManager {
 
 //========================MOUNT FILES====================================================
 
-    localBellFilePath = p.join(localBellDirectoryPath, localBellFileName);
-    logFilePath = p.join(logDirectoryPath, logFileName);
-    reminderTextFilePath = p.join(reminderTextDirectoryPath, rTextFileName);
+    localBellFilePath = join(localBellDirectoryPath, localBellFileName);
+    logFilePath = join(logDirectoryPath, logFileName);
+    reminderTextFilePath = join(reminderTextDirectoryPath, rTextFileName);
     onStartApplicationFilePath =
-        p.join(onStartApplicationDirectoryPath, onStartFileName);
-    themeFilePath = p.join(onStartApplicationDirectoryPath, themeFileName);
+        join(onStartApplicationDirectoryPath, onStartFileName);
+    themeFilePath = join(onStartApplicationDirectoryPath, themeFileName);
 
     for (String filePath in [
       localBellFilePath!,

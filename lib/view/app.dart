@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_lucid_bell/presenter/presenter.dart';
-import 'package:flutter_lucid_bell/view/android/home_view/home_screen.dart';
-import 'package:flutter_lucid_bell/view/android/permission_page/permission_page.dart';
-import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
-import 'package:flutter_lucid_bell/view/android/welcome_screen/welcome_screen.dart';
-import 'package:flutter_lucid_bell/view/view.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:upgrader/upgrader.dart';
+import 'package:flutter/material.dart' show Alignment, AnnotatedRegion, BottomNavigationBar, BottomNavigationBarItem, BoxDecoration, Brightness, BuildContext, Colors, Container, Icon, Icons, MaterialApp, Scaffold, Stack, State, StatefulWidget, Widget;
+import 'package:flutter/services.dart' show Brightness, DeviceOrientation, SystemChrome, SystemUiOverlayStyle;
+import 'package:flutter_lucid_bell/presenter/presenter.dart' show BellPresenter;
+import 'package:flutter_lucid_bell/view/android/home_view/home_screen.dart' show HomeScreen;
+import 'package:flutter_lucid_bell/view/android/permission_page/permission_page.dart' show PermissionPage;
+import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart' show CustomTheme;
+import 'package:flutter_lucid_bell/view/android/welcome_screen/welcome_screen.dart' show WelcomeScreen;
+import 'package:flutter_lucid_bell/view/view.dart' show View;
+import 'package:google_mobile_ads/google_mobile_ads.dart' show BannerAd;
+import 'package:upgrader/upgrader.dart' show UpgradeAlert;
 
 // ignore: must_be_immutable
 class MyApp extends StatefulWidget {

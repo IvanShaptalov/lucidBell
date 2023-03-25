@@ -1,10 +1,19 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:flutter/material.dart';
-import 'package:flutter_lucid_bell/presenter/presenter.dart';
-import 'package:flutter_lucid_bell/view/view.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
+import 'package:flutter/material.dart'
+    show
+        BuildContext,
+        Color,
+        Column,
+        FontWeight,
+        State,
+        StatefulWidget,
+        Text,
+        Widget;
+import 'package:flutter_lucid_bell/presenter/presenter.dart' show BellPresenter;
+import 'package:flutter_lucid_bell/view/view.dart' show View;
+import 'package:google_fonts/google_fonts.dart' show GoogleFonts;
+import 'package:syncfusion_flutter_sliders/sliders.dart' show SfSlider;
 
 class SliderIntervalSelector extends StatefulWidget {
   const SliderIntervalSelector({super.key});

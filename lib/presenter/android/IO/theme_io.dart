@@ -1,5 +1,5 @@
-import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
-import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart';
+import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart' show LocalManager, StorageLogger;
+import 'package:flutter_lucid_bell/view/android/theme/theme_setting.dart' show CustomTheme, Themes;
 
 mixin ThemeIO{
   Future<bool> saveToStorageAsync(Themes themeName) async {

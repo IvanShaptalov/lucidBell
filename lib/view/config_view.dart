@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show MediaQuery;
 
 class SizeConfig {
   static double getMediaHeight(context) {

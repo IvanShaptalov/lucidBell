@@ -1,10 +1,10 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_lucid_bell/model/data_structures/app_data.dart';
-import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.dart';
-import 'package:flutter_lucid_bell/view/config_view.dart';
-import 'package:flutter_lucid_bell/view/view.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:flutter/material.dart' show AlertDialog, BorderRadius, BoxDecoration, BuildContext, Card, Center, Color, Colors, Container, EdgeInsets, ListTile, ListView, Padding, SafeArea, SingleChildScrollView, SizedBox, State, StatefulWidget, Text, TextStyle, Widget, Wrap, showDialog;
+import 'package:flutter_lucid_bell/model/data_structures/app_data.dart' show appData;
+import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.dart' show Subscription, entitlementId, footerText;
+import 'package:flutter_lucid_bell/view/config_view.dart' show SizeConfig;
+import 'package:flutter_lucid_bell/view/view.dart' show View;
+import 'package:purchases_flutter/purchases_flutter.dart' show CustomerInfo, Offering, Purchases;
 
 class MockOffering {
   get availablePackages {

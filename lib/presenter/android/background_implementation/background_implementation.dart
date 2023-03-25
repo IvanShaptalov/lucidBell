@@ -1,4 +1,4 @@
-import 'package:workmanager/workmanager.dart';
+import 'package:workmanager/workmanager.dart' show Workmanager;
 
 mixin AndroidBellBackgroundManager {
   static bool initialized = false;

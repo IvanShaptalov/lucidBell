@@ -1,13 +1,13 @@
-import 'dart:io';
+import 'dart:io' show Platform;
 
-import 'package:purchases_flutter/purchases_flutter.dart';
-import 'package:flutter_lucid_bell/model/data_structures/app_data.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_lucid_bell/view/android/home_view/subscription/paywall.dart';
-import 'package:flutter_lucid_bell/view/view.dart';
+import 'package:purchases_flutter/purchases_flutter.dart' show CustomerInfo, Offerings, Purchases, PurchasesConfiguration;
+import 'package:flutter_lucid_bell/model/data_structures/app_data.dart' show appData;
+import 'package:google_mobile_ads/google_mobile_ads.dart' show InitializationStatus, MobileAds;
+import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:flutter/material.dart' show AlertDialog, BorderRadius, BuildContext, Center, Colors, Navigator, Radius, RoundedRectangleBorder, StatefulBuilder, Text, TextButton, TextStyle, showDialog, showModalBottomSheet;
+import 'package:flutter/services.dart' show PlatformException;
+import 'package:flutter_lucid_bell/view/android/home_view/subscription/paywall.dart' show Paywall;
+import 'package:flutter_lucid_bell/view/view.dart' show View;
 
 /// ===========================================[Subscription]=======================================
 const entitlementId = 'premium';
@@ -131,18 +131,6 @@ class AdHelper {
     if (Platform.isAndroid) {
       return "ca-app-pub-4618505570484622/7719749288";
       // return "ca-app-pub-3940256099942544/5224354917"; // test ad
-    } /* else if (Platform.isIOS) {
-      return "ca-app-pub-3940256099942544/1712485313";
-    } */
-    else {
-      throw UnsupportedError("Unsupported platform");
-    }
-  }
-
-  static String get bannerAdUnitId {
-    if (Platform.isAndroid) {
-      return "ca-app-pub-4618505570484622/9034746675";
-      // return "ca-app-pub-3940256099942544/6300978111"; // test ad
     } /* else if (Platform.isIOS) {
       return "ca-app-pub-3940256099942544/1712485313";
     } */

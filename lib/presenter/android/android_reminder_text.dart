@@ -1,8 +1,8 @@
-import 'dart:convert';
+import 'dart:convert' show jsonDecode, jsonEncode;
 
-import 'package:flutter/material.dart';
-import 'package:flutter_lucid_bell/model/bell/reminder_text.dart';
-import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart';
+import 'package:flutter/material.dart' show protected;
+import 'package:flutter_lucid_bell/model/bell/reminder_text.dart' show ReminderText;
+import 'package:flutter_lucid_bell/presenter/android/IO/android_local_path_provider.dart' show LocalManager, StorageLogger;
 
 class AndroidReminderText extends ReminderText {
   AndroidReminderText() : super();

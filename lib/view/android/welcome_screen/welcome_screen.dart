@@ -1,7 +1,38 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_lucid_bell/presenter/presenter.dart';
-import 'package:flutter_lucid_bell/view/android/welcome_screen/features.dart';
-import 'package:flutter_lucid_bell/view/config_view.dart';
+import 'package:flutter/material.dart'
+    show
+        Align,
+        Alignment,
+        BorderRadius,
+        BoxDecoration,
+        BoxFit,
+        BuildContext,
+        Color,
+        Colors,
+        Column,
+        Container,
+        EdgeInsets,
+        FlexFit,
+        Flexible,
+        FontWeight,
+        Image,
+        MainAxisAlignment,
+        PageController,
+        PageView,
+        Row,
+        Scaffold,
+        SizedBox,
+        Stack,
+        State,
+        StatefulWidget,
+        Text,
+        TextAlign,
+        TextButton,
+        TextStyle,
+        Widget;
+import 'package:flutter_lucid_bell/presenter/presenter.dart' show BellPresenter;
+import 'package:flutter_lucid_bell/view/android/welcome_screen/features.dart'
+    show items;
+import 'package:flutter_lucid_bell/view/config_view.dart' show SizeConfig;
 
 class WelcomeScreen extends StatefulWidget {
   final Function updateCallback;
@@ -10,6 +41,7 @@ class WelcomeScreen extends StatefulWidget {
   @override
   WelcomeScreenState createState() => WelcomeScreenState();
 }
+
 /// ==============================[CIRCLES]===============================
 class WelcomeScreenState extends State<WelcomeScreen> {
   List<Widget> indicator() => List<Widget>.generate(
@@ -37,7 +69,8 @@ class WelcomeScreenState extends State<WelcomeScreen> {
       });
     });
   }
-/// ==============================[SLIDES]================================
+
+  /// ==============================[SLIDES]================================
   @override
   Widget build(BuildContext context) {
     List<Widget> slides = items
@@ -106,7 +139,6 @@ class WelcomeScreenState extends State<WelcomeScreen> {
             Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                 
                   padding: EdgeInsets.symmetric(
                       vertical: SizeConfig.getMediaHeight(context) * 0.02), //4%
                   child: Column(

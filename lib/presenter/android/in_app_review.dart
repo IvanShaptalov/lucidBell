@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
-import 'package:in_app_review/in_app_review.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:in_app_review/in_app_review.dart' show InAppReview;
 
 class ReviewService {
   static final InAppReview _inAppReview = InAppReview.instance;

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show protected;
 
 class ReminderText {
   /// =================================================[FIELDS, GETTERS and SETTERS]===========================================
