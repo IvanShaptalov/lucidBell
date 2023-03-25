@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.dart';
 
 import 'package:flutter_lucid_bell/presenter/presenter.dart';
-import 'package:flutter_lucid_bell/view/android/home_view/ad_widgets/banner_ad.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/bell_info.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/reminder_text_screen.dart';
 import 'package:flutter_lucid_bell/view/android/home_view/review_dialog.dart';
@@ -26,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     Subscription.premiumActivatedAsync();
-    CustomBannerAd.loadBannerAd(callback);
     super.initState();
   }
 
@@ -127,7 +125,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            CustomBannerAd.showBanner(context),
           ],
         ),
       ),

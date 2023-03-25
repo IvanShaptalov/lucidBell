@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_lucid_bell/model/data_structures/app_data.dart';
 import 'package:flutter_lucid_bell/presenter/android/monetization/monetization.dart';
 import 'package:flutter_lucid_bell/presenter/android/permission_service/permission_service.dart';
-import 'package:flutter_lucid_bell/view/android/home_view/ad_widgets/banner_ad.dart';
 import 'package:flutter_lucid_bell/view/android/permission_page/inapp_review_tile.dart';
 import 'package:flutter_lucid_bell/view/android/theme/theme_view.dart';
 import 'package:flutter_lucid_bell/view/config_view.dart';
@@ -26,7 +25,6 @@ class _PermissionPageState extends State<PermissionPage> {
   void initState() {
     Subscription.premiumActivatedAsync();
 
-    CustomBannerAd.loadBannerAd(widget.updateCallback);
     timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       await PermissionService.checkPermissions();
       setState(() {
@@ -86,7 +84,6 @@ class _PermissionPageState extends State<PermissionPage> {
               ),
               CustomThemes(widget.updateCallback),
               premiumButton(),
-              CustomBannerAd.showBanner(context),
             ],
           ),
         ],
