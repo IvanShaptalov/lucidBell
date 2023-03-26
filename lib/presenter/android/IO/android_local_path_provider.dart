@@ -201,8 +201,6 @@ class AndroidBellStorageManager {
       } catch (e) {
         await StorageLogger.logBackgroundAsync(
             'error while loading bell: ${e.toString()}');
-
-        return AndroidBell.mockBell();
       }
     }
     // return mock bell
@@ -216,6 +214,8 @@ class AndroidBellStorageManager {
       return AndroidBell.mockBell();
     }
   }
+
+  
 
   static Future<bool> saveBellToStorageAsync(AndroidBell bell) async {
     await LocalManager.initAsync();
